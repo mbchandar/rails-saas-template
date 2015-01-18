@@ -47,10 +47,12 @@ class Settings::CardsController < Settings::ApplicationController
     if @account.update_attributes(accounts_params)
       StripeGateway.account_update(@account.id)
       AppEvent.success('Updated credit card', current_account, current_user)
+      logger.info { "Card for '#{@account}' updated - #{admin_account_url(@account)}" }
       redirect_to settings_root_path,
                   notice: 'Credit card was successfully updated.'
     else
       @account.card_token = nil
+      logger.debug { "Card update failed #{@account.inspect}" }
       render 'edit'
     end
   end

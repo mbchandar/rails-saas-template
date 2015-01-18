@@ -42,9 +42,13 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
     @cancellation_category = CancellationCategory.new(cancellation_category_params)
     if @cancellation_category.save
       AppEvent.success("Created cancellation category #{@cancellation_category}", nil, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "Cancellation category '#{@cancellation_category}' created - #{admin_cancellation_category_url(@cancellation_category)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to admin_cancellation_category_path(@cancellation_category),
                   notice: 'Cancellation category was successfully created.'
     else
+      logger.debug { "Cancellation category create failed #{@cancellation_category.inspect}" }
       render 'new'
     end
   end
@@ -62,9 +66,13 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
   def update
     if @cancellation_category.update_attributes(cancellation_category_params)
       AppEvent.success("Updated cancellation category #{@cancellation_category}", nil, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "Cancellation category '#{@cancellation_category}' updated - #{admin_cancellation_category_url(@cancellation_category)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to admin_cancellation_category_path(@cancellation_category),
                   notice: 'Cancellation category was successfully updated.'
     else
+      logger.debug { "Cancellation category update failed #{@cancellation_category.inspect}" }
       render 'edit'
     end
   end

@@ -52,9 +52,11 @@ class Admin::AccountsController < Admin::ApplicationController
     if @account.save
       StripeGateway.account_create(@account.id)
       AppEvent.success("Created account #{@account}", @account, current_user)
+      logger.info { "Account '#{@account}' created - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account),
                   notice: 'Account was successfully created.'
     else
+      logger.debug { "Account create failed #{@account.inspect}" }
       render 'new'
     end
   end
@@ -73,9 +75,11 @@ class Admin::AccountsController < Admin::ApplicationController
     if @account.update_attributes(accounts_params)
       StripeGateway.account_update(@account.id)
       AppEvent.success("Updated account #{@account}", @account, current_user)
+      logger.info { "Account '#{@account}' updated - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account),
                   notice: 'Account was successfully updated.'
     else
+      logger.debug { "Account update failed #{@account.inspect}" }
       render 'edit'
     end
   end
@@ -88,9 +92,11 @@ class Admin::AccountsController < Admin::ApplicationController
     if @account.cancel(cancel_params)
       StripeGateway.account_cancel(@account.id)
       AppEvent.info("Cancelled account #{@account}", @account, current_user)
+      logger.info { "Account '#{@account}' cancelled - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account), notice: 'Account was successfully cancelled.'
     else
       @cancellation_categories = CancellationCategory.available_with_reasons
+      logger.debug { "Account cancel failed #{@account.inspect}" }
       render 'confirm_cancel', notice: 'Unable to cancel the account.'
     end
   end
@@ -105,8 +111,10 @@ class Admin::AccountsController < Admin::ApplicationController
     if @account.restore
       StripeGateway.account_restore(@account.id)
       AppEvent.success("Restored account #{@account}", @account, current_user)
+      logger.info { "Account '#{@account}' restored - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account), notice: 'Account was successfully restored.'
     else
+      logger.debug { "Account restore failed #{@account.inspect}" }
       render 'confirm_restore', notice: 'Unable to restore the account.'
     end
   end

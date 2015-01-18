@@ -48,8 +48,12 @@ class Settings::UserPermissionsController < Settings::ApplicationController
     p = user_permissions_params
     if @user_permission.update_attributes(p)
       AppEvent.success("Updated user permissions #{@user_permission.user}", current_account, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "User permission for '#{@user_permission.user}' updated - #{admin_account_url(@user_permission.account)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to settings_user_permission_path(@user_permission), notice: 'User permissions were successfully updated.'
     else
+      logger.debug { "User persmissions update failed #{@user_permission.inspect}" }
       render 'edit'
     end
   end
@@ -57,8 +61,12 @@ class Settings::UserPermissionsController < Settings::ApplicationController
   def destroy
     if @user_permission.destroy
       AppEvent.info("Deleted user_permission #{@user_permission.user}", current_account, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "User permission for '#{@user_permission.user}' destroyed - #{admin_account_url(@user_permission.account)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to settings_user_permissions_path, notice: 'User was successfully removed.'
     else
+      logger.debug { "User persmissions destroy failed #{@user_permission.inspect}" }
       redirect_to settings_user_permission_path(@user_permission), alert: 'User could not be removed.'
     end
   end

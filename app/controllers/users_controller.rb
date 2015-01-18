@@ -49,12 +49,15 @@ class UsersController < ApplicationController
     if p[:password].blank? && p[:password_confirmation].blank?
       p.delete(:password)
       p.delete(:password_confirmation)
+      logger.debug { 'Password is blank. Not updating the password.' }
     end
     if @user.update_attributes(p)
       AppEvent.success("Updated user #{@user}", nil, current_user)
+      logger.info { "User updated #{@user}" }
       redirect_to user_path(@user),
                   notice: 'User was successfully updated.'
     else
+      logger.debug { "User update failed #{@user.inspect}" }
       render 'edit'
     end
   end

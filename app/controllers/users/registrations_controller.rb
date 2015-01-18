@@ -45,8 +45,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
           if user_permission.save
             @user_invitation.destroy
             AppEvent.success("New user #{resource} for #{@account}", @account, nil)
+            logger.info { "New user #{resource} for #{@account}" }
           else
             AppEvent.alert("New user #{resource} for #{@account} but permission not created", @account, nil)
+            logger.warn { "New user #{resource} for #{@account} but permissions not created" }
           end
         end
       end

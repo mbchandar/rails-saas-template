@@ -54,9 +54,11 @@ class Admin::PlansController < Admin::ApplicationController
     if @plan.save
       StripeGateway.plan_create(@plan.id)
       AppEvent.success("Created plan #{@plan}", nil, current_user)
+      logger.info { "Plan '#{@plan}' created - #{admin_plan_url(@plan)}" }
       redirect_to admin_plan_path(@plan),
                   notice: 'Plan was successfully created.'
     else
+      logger.debug { "Plan create failed #{@plan}" }
       render 'new'
     end
   end
@@ -74,10 +76,12 @@ class Admin::PlansController < Admin::ApplicationController
   def update
     if @plan.update_attributes(plans_update_params)
       StripeGateway.plan_update(@plan.id)
+      logger.info { "Plan '#{@plan}' updated - #{admin_plan_url(@plan)}" }
       AppEvent.success("Updated plan #{@plan}", nil, current_user)
       redirect_to admin_plan_path(@plan),
                   notice: 'Plan was successfully updated.'
     else
+      logger.debug { "Plan update failed #{@plan.inspect}" }
       render 'edit'
     end
   end
@@ -86,9 +90,11 @@ class Admin::PlansController < Admin::ApplicationController
     if @plan.destroy
       StripeGateway.plan_delete(@plan.stripe_id)
       AppEvent.info("Deleted plan #{@plan}", nil, current_user)
+      logger.info { "Plan '#{@plan}' destroyed - #{admin_plan_url(@plan)}" }
       redirect_to admin_plans_path,
                   notice: 'Plan was successfully removed.'
     else
+      logger.debug { "Plan destroy failed #{@plan.inspect}" }
       redirect_to admin_plan_path(@plan),
                   alert: 'Plan could not be removed.'
     end

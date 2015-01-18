@@ -43,9 +43,13 @@ class Settings::UserInvitationsController < Settings::ApplicationController
     if @user_invitation.save
       UserMailer.user_invitation(@user_invitation).deliver_now
       AppEvent.success("Created user invitation #{@user_invitation}", current_account, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "User invitation '#{@user_invitation}' created - #{admin_account_user_invitation_url(@account, @user_invitation)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to settings_user_invitation_path(@user_invitation),
                   notice: 'User invitation was successfully created.'
     else
+      logger.debug { "User invitation update failed #{@user_invitation.inspect}" }
       render 'new'
     end
   end
@@ -66,9 +70,13 @@ class Settings::UserInvitationsController < Settings::ApplicationController
       UserMailer.user_invitation(@user_invitation).deliver_now
       # StripeGateway.delay.plan_update(@plan.id)
       AppEvent.success("Updated user invitation #{@user_invitation}", current_account, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "User invitation '#{@user_invitation}' updated - #{admin_account_user_invitation_url(@account, @user_invitation)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to settings_user_invitation_path(@user_invitation),
                   notice: 'User invitation was successfully updated.'
     else
+      logger.debug { "User invitation update failed #{@user_invitation.inspect}" }
       render 'edit'
     end
   end
@@ -76,8 +84,12 @@ class Settings::UserInvitationsController < Settings::ApplicationController
   def destroy
     if @user_invitation.destroy
       AppEvent.info("Deleted user #{@user_invitation}", current_account, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "User invitation '#{@user_invitation}' destroyed - #{admin_account_user_invitation_url(@account, @user_invitation)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to settings_user_invitations_path, notice: 'User invitation was successfully removed.'
     else
+      logger.debug { "User invitation destroy failed #{@user_invitation.inspect}" }
       redirect_to settings_user_invitation_path(@user), alert: 'User invitation could not be removed.'
     end
   end

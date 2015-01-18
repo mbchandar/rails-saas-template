@@ -49,10 +49,13 @@ class Users::UserInvitationsController < ApplicationController
         UserMailer.welcome(current_user).deliver
         user_invitation.destroy
         @account = user_permission.account
+        logger.info { "User invitation accepted #{params[:invite_code]}" }
       else
         AppEvent.alert("Could not create new user permission for #{current_user} / #{@account}", @account, nil)
+        logger.warn { "User invitation accept failed #{params[:invite_code]}" }
       end
     else
+      logger.debug { "User invitation not found #{params[:invite_code]}" }
       redirect_to new_user_invitation_path(invite_code: params[:invite_code]), alert: 'Invalid invite code'
     end
   end

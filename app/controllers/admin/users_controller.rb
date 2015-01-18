@@ -43,8 +43,10 @@ class Admin::UsersController < Admin::ApplicationController
     if @user.save
       UserMailer.welcome(@user).deliver_now
       AppEvent.success("Created user #{@user}", nil, current_user)
+      logger.info { "User '#{@user}' created - #{admin_user_url(@user)}" }
       redirect_to admin_user_path(@user), notice: 'User was successfully created.'
     else
+      logger.debug { "User create failed #{@user.inspect}" }
       render 'new'
     end
   end
@@ -64,11 +66,14 @@ class Admin::UsersController < Admin::ApplicationController
     if p[:password].blank? && p[:password_confirmation].blank?
       p.delete(:password)
       p.delete(:password_confirmation)
+      logger.debug { 'Password is blank. Not updating the password.' }
     end
     if @user.update_attributes(p)
       AppEvent.success("Updated user #{@user}", nil, current_user)
+      logger.info { "User '#{@user}' updated - #{admin_user_url(@user)}" }
       redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
     else
+      logger.debug { "User update failed #{@user.inspect}" }
       render 'edit'
     end
   end
@@ -76,8 +81,10 @@ class Admin::UsersController < Admin::ApplicationController
   def destroy
     if @user.destroy
       AppEvent.info("Deleted user #{@user}", nil, current_user)
+      logger.info { "User '#{@user}' destroyed - #{admin_user_url(@user)}" }
       redirect_to admin_users_path, notice: 'User was successfully removed.'
     else
+      logger.debug { "User destroy failed #{@user.inspect}" }
       redirect_to admin_user_path(@user), alert: 'User could not be removed.'
     end
   end

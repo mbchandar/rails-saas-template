@@ -43,9 +43,13 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
     @cancellation_reason = @cancellation_category.cancellation_reasons.build(cancellation_reason_params)
     if @cancellation_reason.save
       AppEvent.success("Created cancellation category #{@cancellation_reason}", nil, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "Cancellation reason '#{@cancellation_reason}' created - #{admin_cancellation_category_cancellation_reason_url(@cancellation_category, @cancellation_reason)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to admin_cancellation_category_cancellation_reason_path(@cancellation_category, @cancellation_reason),
                   notice: 'Cancellation reason was successfully created.'
     else
+      logger.debug { "Cancellation reason create failed #{@cancellation_reason.inspect}" }
       render 'new'
     end
   end
@@ -63,9 +67,13 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
   def update
     if @cancellation_reason.update_attributes(cancellation_reason_params)
       AppEvent.success("Updated cancellation category #{@cancellation_reason}", nil, current_user)
+      # rubocop:disable Metrics/LineLength
+      logger.info { "Cancellation reason '#{@cancellation_reason}' updated - #{admin_cancellation_category_cancellation_reason_url(@cancellation_category, @cancellation_reason)}" }
+      # rubocop:enable Metrics/LineLength
       redirect_to admin_cancellation_category_cancellation_reason_path(@cancellation_category, @cancellation_reason),
                   notice: 'Cancellation reason was successfully updated.'
     else
+      logger.debug { "Cancellation reason update #{@cancellation_reason.inspect}" }
       render 'edit'
     end
   end

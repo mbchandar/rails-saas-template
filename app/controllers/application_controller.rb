@@ -42,19 +42,22 @@ class ApplicationController < ActionController::Base
 
   # Handle when access is denied by cancancan
   # TODO: Missing RSpec test
-  rescue_from CanCan::AccessDenied do
+  rescue_from CanCan::AccessDenied do |exception|
+    logger.debug { "Access denied. #{exception.inspect}" }
     render 'errors/forbidden', layout: 'errors', status: :forbidden
   end
 
   # Handle when we can't find a record
   # TODO: Missing RSpec test
-  rescue_from ActiveRecord::RecordNotFound do
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    logger.debug { "Record not found. #{exception.inspect}" }
     render 'errors/not_found', layout: 'errors', status: :not_found
   end
 
   # Handle every other errror
   # TODO: Missing RSpec test
-  rescue_from RuntimeError do
+  rescue_from RuntimeError do |exception|
+    logger.fatal { "Internal error. #{exception.inspect}" }
     render 'errors/internal_error', layout: 'errors', status: :internal_server_error
   end
 

@@ -50,30 +50,39 @@ class MarketingController < ApplicationController
   def register
     @plan = Plan.available.where(id: params[:account][:plan_id]).first
 
-    return redirect_to pricing_path, alert: 'Invalid plan.' if @plan.nil?
+    if @plan.nil?
+      logger.debug "Select plan is not available #{params[:account][:plan_id]}"
+      return redirect_to pricing_path, alert: 'Invalid plan.'
+    end
 
     @account = Account.new(accounts_params, active: true)
 
     # Set the email from the current_user or the first user
     if user_signed_in? && (@account.users.count == 0)
       @account.email = current_user.email
+      logger.debug 'Using the current users email as the accounts email'
     else
       @account.email = @account.users[0].email unless @account.users[0].nil?
+      logger.debug 'Using the first users email as the accounts email'
     end
 
     if @account.save
       # Add the current_user as an account admin or set all users as an account admin
       if user_signed_in? && (@account.user_permissions.count == 0)
         @account.user_permissions.build(user: current_user, account_admin: true)
+        logger.debug { "Making the current user an admin for #{@account}" }
       else
         @account.admin_all_users
+        logger.debug { "Making all users an admin for #{@account}" }
       end
 
       StripeGateway.account_create(@account.id)
       AppEvent.success("Created account #{@account}", @account, nil)
+      logger.info { "Account '#{@account}' created - #{admin_account_url(@account)}" }
       redirect_to new_user_session_path,
                   notice: 'Success. Please log in to continue.'
     else
+      logger.debug { "Account create failed #{@account.inspect}" }
       render 'signup'
     end
   end
@@ -82,6 +91,7 @@ class MarketingController < ApplicationController
   def signup
     @plan = Plan.available.where(id: params[:plan_id]).first
     if @plan.nil?
+      logger.debug { "Plan not found #{params[:plan_id]}" }
       redirect_to pricing_path, alert: 'Invalid plan.'
     else
       @account = Account.new(plan: @plan,

@@ -54,8 +54,10 @@ class Settings::PlansController < Settings::ApplicationController
     if @account.update_attributes(plan_id: @plan.id)
       StripeGateway.account_update(@account.id)
       AppEvent.success('Change to plan ' + @plan.to_s, current_account, current_user)
+      logger.info { "Plan for '#{@account}' updated to '#{@plan}' - #{admin_account_url(@account)}" }
       redirect_to settings_root_path, notice: 'Plan was successfully updated.'
     else
+      logger.debug { "Plan update failed #{@account.inspect}" }
       render 'edit'
     end
   end
@@ -68,9 +70,11 @@ class Settings::PlansController < Settings::ApplicationController
     if @account.pause
       StripeGateway.account_update(@account.id)
       AppEvent.warning('Paused the account', current_account, current_user)
+      logger.info { "Account '#{@account}' paused - #{admin_account_url(@account)}" }
       redirect_to root_path, notice: 'Account paused.'
     else
       flash[:alert] = 'Unable to pause the account.'
+      logger.debug { "Account pause failed #{@account.inspect}" }
       render 'cancel'
     end
   end
@@ -79,10 +83,12 @@ class Settings::PlansController < Settings::ApplicationController
     if @account.cancel(cancel_params)
       StripeGateway.account_cancel(@account.id)
       AppEvent.alert('Cancelled the account', current_account, current_user)
+      logger.info { "Account '#{@account}' destroyed - #{admin_account_url(@account)}" }
       redirect_to root_path, notice: 'Account cancelled.'
     else
       flash[:alert] = 'Unable to cancel the account.'
       @cancellation_categories = CancellationCategory.available_with_reasons
+      logger.debug { "Account destroy failed #{@account.inspect}" }
       render 'cancel'
     end
   end
