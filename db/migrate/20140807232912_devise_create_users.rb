@@ -68,7 +68,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # Should this user have super admin access?
       t.boolean :super_admin, null: false, default: false
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :users, :email,                unique: true

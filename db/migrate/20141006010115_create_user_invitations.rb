@@ -38,7 +38,7 @@ class CreateUserInvitations < ActiveRecord::Migration
       t.string :email, limit: 60, null: false
       t.string :invite_code, limit: 36, null: false
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :user_invitations, [:account_id, :email], unique: true

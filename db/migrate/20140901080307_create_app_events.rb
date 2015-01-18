@@ -37,7 +37,7 @@ class CreateAppEvents < ActiveRecord::Migration
       t.string :level, limit: 10, default: 'info', null: false
       t.string :message
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :app_events, [:account_id], unique: false

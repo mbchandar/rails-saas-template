@@ -51,7 +51,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.string :cancellation_message
       t.datetime :cancelled_at
       t.datetime :expires_at
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :accounts, [:email], unique: false

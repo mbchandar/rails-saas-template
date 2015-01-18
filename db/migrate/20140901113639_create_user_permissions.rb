@@ -35,7 +35,7 @@ class CreateUserPermissions < ActiveRecord::Migration
       t.references :user, null: false, index: true
       t.references :account, null: false, index: true
       t.boolean :account_admin, null: false, default: false
-      t.timestamps
+      t.timestamps null: false
     end
     add_index :user_permissions, [:user_id, :account_id], unique: true
   end

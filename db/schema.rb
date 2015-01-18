@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208093353) do
+ActiveRecord::Schema.define(version: 20150118040237) do
 
-  create_table "accounts", force: true do |t|
-    t.string   "company_name",                                        null: false
-    t.string   "email",                                               null: false
-    t.integer  "plan_id",                                             null: false
-    t.integer  "paused_plan_id"
-    t.boolean  "active",                               default: true, null: false
+  create_table "accounts", force: :cascade do |t|
+    t.string   "company_name",             limit: 255,                null: false
+    t.string   "email",                    limit: 255,                null: false
+    t.integer  "plan_id",                  limit: 4,                  null: false
+    t.integer  "paused_plan_id",           limit: 4
+    t.boolean  "active",                   limit: 1,   default: true, null: false
     t.string   "custom_path",              limit: 60
-    t.string   "hostname"
+    t.string   "hostname",                 limit: 255
     t.string   "subdomain",                limit: 64
     t.string   "address_line1",            limit: 120
     t.string   "address_line2",            limit: 120
@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 20141208093353) do
     t.string   "card_exp",                 limit: 7
     t.string   "stripe_customer_id",       limit: 60
     t.string   "stripe_subscription_id",   limit: 60
-    t.integer  "cancellation_category_id"
-    t.integer  "cancellation_reason_id"
-    t.string   "cancellation_message"
+    t.integer  "cancellation_category_id", limit: 4
+    t.integer  "cancellation_reason_id",   limit: 4
+    t.string   "cancellation_message",     limit: 255
     t.datetime "cancelled_at"
     t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   add_index "accounts", ["cancellation_category_id"], name: "index_accounts_on_cancellation_category_id", using: :btree
@@ -54,91 +54,91 @@ ActiveRecord::Schema.define(version: 20141208093353) do
   add_index "accounts", ["stripe_subscription_id"], name: "index_accounts_on_stripe_subscription_id", unique: true, using: :btree
   add_index "accounts", ["subdomain"], name: "index_accounts_on_subdomain", unique: true, using: :btree
 
-  create_table "app_events", force: true do |t|
-    t.integer  "account_id"
-    t.integer  "user_id"
-    t.string   "level",      limit: 10, default: "info", null: false
-    t.string   "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "app_events", force: :cascade do |t|
+    t.integer  "account_id", limit: 4
+    t.integer  "user_id",    limit: 4
+    t.string   "level",      limit: 10,  default: "info", null: false
+    t.string   "message",    limit: 255
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "app_events", ["account_id"], name: "index_app_events_on_account_id", using: :btree
   add_index "app_events", ["user_id"], name: "index_app_events_on_user_id", using: :btree
 
-  create_table "cancellation_categories", force: true do |t|
+  create_table "cancellation_categories", force: :cascade do |t|
     t.string   "name",            limit: 120,                 null: false
-    t.boolean  "active",                      default: true,  null: false
-    t.boolean  "allow_message",               default: false, null: false
-    t.boolean  "require_message",             default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "active",          limit: 1,   default: true,  null: false
+    t.boolean  "allow_message",   limit: 1,   default: false, null: false
+    t.boolean  "require_message", limit: 1,   default: false, null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   add_index "cancellation_categories", ["name"], name: "index_cancellation_categories_on_name", unique: true, using: :btree
 
-  create_table "cancellation_reasons", force: true do |t|
-    t.integer  "cancellation_category_id",                             null: false
+  create_table "cancellation_reasons", force: :cascade do |t|
+    t.integer  "cancellation_category_id", limit: 4,                   null: false
     t.string   "name",                     limit: 120,                 null: false
-    t.boolean  "active",                               default: true,  null: false
-    t.boolean  "allow_message",                        default: true,  null: false
-    t.boolean  "require_message",                      default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "active",                   limit: 1,   default: true,  null: false
+    t.boolean  "allow_message",            limit: 1,   default: true,  null: false
+    t.boolean  "require_message",          limit: 1,   default: false, null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "cancellation_reasons", ["cancellation_category_id", "name"], name: "index_cancellation_reasons_on_cancellation_category_id_and_name", unique: true, using: :btree
   add_index "cancellation_reasons", ["cancellation_category_id"], name: "index_cancellation_reasons_on_cancellation_category_id", using: :btree
 
-  create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   limit: 4,     default: 0, null: false
+    t.integer  "attempts",   limit: 4,     default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "plans", force: true do |t|
+  create_table "plans", force: :cascade do |t|
     t.string   "stripe_id",             limit: 80
     t.string   "name",                  limit: 80,                    null: false
     t.string   "statement_description", limit: 150
-    t.boolean  "active",                            default: true,    null: false
-    t.boolean  "public",                            default: true,    null: false
-    t.integer  "paused_plan_id"
+    t.boolean  "active",                limit: 1,   default: true,    null: false
+    t.boolean  "public",                limit: 1,   default: true,    null: false
+    t.integer  "paused_plan_id",        limit: 4
     t.string   "label",                 limit: 30
     t.string   "currency",              limit: 3,   default: "USD",   null: false
-    t.integer  "interval_count",                    default: 1,       null: false
+    t.integer  "interval_count",        limit: 4,   default: 1,       null: false
     t.string   "interval",              limit: 5,   default: "month", null: false
-    t.integer  "amount",                            default: 0,       null: false
-    t.integer  "trial_period_days",                 default: 30,      null: false
-    t.boolean  "require_card_upfront",              default: false,   null: false
-    t.integer  "max_users",                         default: 1,       null: false
-    t.boolean  "allow_custom_path",                 default: false,   null: false
-    t.boolean  "allow_hostname",                    default: false,   null: false
-    t.boolean  "allow_subdomain",                   default: false,   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "amount",                limit: 4,   default: 0,       null: false
+    t.integer  "trial_period_days",     limit: 4,   default: 30,      null: false
+    t.boolean  "require_card_upfront",  limit: 1,   default: false,   null: false
+    t.integer  "max_users",             limit: 4,   default: 1,       null: false
+    t.boolean  "allow_custom_path",     limit: 1,   default: false,   null: false
+    t.boolean  "allow_hostname",        limit: 1,   default: false,   null: false
+    t.boolean  "allow_subdomain",       limit: 1,   default: false,   null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   add_index "plans", ["paused_plan_id"], name: "index_plans_on_paused_plan_id", using: :btree
   add_index "plans", ["stripe_id"], name: "index_plans_on_stripe_id", unique: true, using: :btree
 
-  create_table "user_invitations", force: true do |t|
-    t.integer  "account_id"
+  create_table "user_invitations", force: :cascade do |t|
+    t.integer  "account_id",  limit: 4
     t.string   "first_name",  limit: 60
     t.string   "last_name",   limit: 60
     t.string   "email",       limit: 60, null: false
     t.string   "invite_code", limit: 36, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "user_invitations", ["account_id", "email"], name: "index_user_invitations_on_account_id_and_email", unique: true, using: :btree
@@ -146,13 +146,13 @@ ActiveRecord::Schema.define(version: 20141208093353) do
   add_index "user_invitations", ["email"], name: "index_user_invitations_on_email", using: :btree
   add_index "user_invitations", ["invite_code"], name: "index_user_invitations_on_invite_code", unique: true, using: :btree
 
-  create_table "user_permissions", force: true do |t|
-    t.integer  "rec_num",                       null: false
-    t.integer  "user_id",                       null: false
-    t.integer  "account_id",                    null: false
-    t.boolean  "account_admin", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_permissions", force: :cascade do |t|
+    t.integer  "rec_num",       limit: 4,                 null: false
+    t.integer  "user_id",       limit: 4,                 null: false
+    t.integer  "account_id",    limit: 4,                 null: false
+    t.boolean  "account_admin", limit: 1, default: false, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "user_permissions", ["account_id", "rec_num"], name: "index_user_permissions_on_account_id_and_rec_num", unique: true, using: :btree
@@ -160,26 +160,26 @@ ActiveRecord::Schema.define(version: 20141208093353) do
   add_index "user_permissions", ["user_id", "account_id"], name: "index_user_permissions_on_user_id_and_account_id", unique: true, using: :btree
   add_index "user_permissions", ["user_id"], name: "index_user_permissions_on_user_id", using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "first_name",             limit: 60
     t.string   "last_name",              limit: 60
-    t.string   "email",                             default: "",    null: false
-    t.boolean  "active",                            default: true,  null: false
-    t.string   "encrypted_password",                default: "",    null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "",    null: false
+    t.boolean  "active",                 limit: 1,   default: true,  null: false
+    t.string   "encrypted_password",     limit: 255, default: "",    null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",                   default: 0,     null: false
-    t.string   "unlock_token"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.integer  "failed_attempts",        limit: 4,   default: 0,     null: false
+    t.string   "unlock_token",           limit: 255
     t.datetime "locked_at"
-    t.boolean  "super_admin",                       default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "super_admin",            limit: 1,   default: false, null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -45,7 +45,7 @@ class CreatePlans < ActiveRecord::Migration
       t.integer :trial_period_days, default: 30, null: false
       t.integer :max_users, default: 1, null: false
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :plans, [:paused_plan_id], unique: false
