@@ -41,7 +41,7 @@ class Admin::UsersController < Admin::ApplicationController
   def create
     @user = User.new(users_params)
     if @user.save
-      UserMailer.welcome(@user).deliver_now
+      UserMailer.welcome(@user).deliver_later
       AppEvent.success("Created user #{@user}", nil, current_user)
       logger.info { "User '#{@user}' created - #{admin_user_url(@user)}" }
       redirect_to admin_user_path(@user), notice: 'User was successfully created.'

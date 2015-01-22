@@ -39,7 +39,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if @user_invitation
       super do |resource|
         if resource.errors.count == 0
-          UserMailer.welcome(resource).deliver
+          UserMailer.welcome(resource).deliver_later
           user_permission = @user_invitation.account.user_permissions.build(user: resource)
           sign_in resource
           if user_permission.save

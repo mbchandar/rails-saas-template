@@ -46,7 +46,7 @@ class Users::UserInvitationsController < ApplicationController
     if user_invitation
       user_permission = user_invitation.account.user_permissions.build(user: current_user)
       if user_permission.save
-        UserMailer.welcome(current_user).deliver
+        UserMailer.welcome(current_user).deliver_later
         user_invitation.destroy
         @account = user_permission.account
         logger.info { "User invitation accepted #{params[:invite_code]}" }

@@ -46,7 +46,7 @@ class Admin::UserInvitationsController < Admin::ApplicationController
   def create
     @user_invitation = @account.user_invitations.build(user_invitation_params)
     if @user_invitation.save
-      UserMailer.user_invitation(@user_invitation).deliver_now
+      UserMailer.user_invitation(@user_invitation).deliver_later
       AppEvent.success("Created user invitation #{@user_invitation}", @user_invitation.account, current_user)
       # rubocop:disable Metrics/LineLength
       logger.info { "User invitation '#{@user_invitation}' created - #{admin_account_user_invitation_url(@account, @user_invitation)}" }
@@ -73,7 +73,7 @@ class Admin::UserInvitationsController < Admin::ApplicationController
     p = user_invitation_params
     if @user_invitation.update_attributes(p)
       # StripeGateway.delay.plan_update(@plan.id)
-      UserMailer.user_invitation(@user_invitation).deliver_now
+      UserMailer.user_invitation(@user_invitation).deliver_later
       AppEvent.success("Updated user invitation #{@user_invitation}", @user_invitation.account, current_user)
       # rubocop:disable Metrics/LineLength
       logger.info { "User invitation '#{@user_invitation}' updated - #{admin_account_user_invitation_url(@account, @user_invitation)}" }

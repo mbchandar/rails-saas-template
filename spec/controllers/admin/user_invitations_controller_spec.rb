@@ -92,7 +92,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       context 'with valid attributes' do
         before(:each) do
           mailer = double(ActionMailer::Base)
-          expect(mailer).to receive(:deliver_now).once
+          expect(mailer).to receive(:deliver_later).once
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
@@ -594,7 +594,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       context 'with valid attributes' do
         before :each do
           mailer = double(ActionMailer::Base)
-          expect(mailer).to receive(:deliver_now).once
+          expect(mailer).to receive(:deliver_later).once
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
