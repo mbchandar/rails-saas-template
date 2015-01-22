@@ -28,46 +28,26 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Allows the account admin to manage cards in the settings
-class Settings::CardsController < Settings::ApplicationController
-  before_action :find_account, only: [:show, :edit, :update]
+# ActiveJob to create a Stripe plan
+class StripePlanCreateJob < ActiveJob::Base
+  queue_as :default
 
-  before_action do
-    authorize!(params[:action], @account || Account)
-  end
+  def perform(id)
+    plan = Plan.find(id)
+    data = {
+      id: plan.stripe_id,
+      amount: plan.amount,
+      currency: plan.currency,
+      interval: plan.interval,
+      interval_count: plan.interval_count,
+      name: plan.name,
+      trial_period_days: plan.trial_period_days
+    }
 
-  def show
-  end
+    data[:statement_description] = plan.statement_description if plan.statement_description?
 
-  def edit
-    @account.card_token = nil
-  end
+    Stripe::Plan.create(data)
 
-  def update
-    if @account.update_attributes(accounts_params)
-      StripeAccountUpdateJob.perform_later @account.id
-      AppEvent.success('Updated credit card', current_account, current_user)
-      logger.info { "Card for '#{@account}' updated - #{admin_account_url(@account)}" }
-      redirect_to settings_root_path,
-                  notice: 'Credit card was successfully updated.'
-    else
-      @account.card_token = nil
-      logger.debug { "Card update failed #{@account.inspect}" }
-      render 'edit'
-    end
-  end
-
-  private
-
-  def set_nav_item
-    @nav_item = 'card'
-  end
-
-  def find_account
-    @account = current_account
-  end
-
-  def accounts_params
-    params.require(:account).permit(:card_token)
+    plan.save!
   end
 end

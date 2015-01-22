@@ -28,46 +28,9 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Allows the account admin to manage cards in the settings
-class Settings::CardsController < Settings::ApplicationController
-  before_action :find_account, only: [:show, :edit, :update]
+require 'rails_helper'
 
-  before_action do
-    authorize!(params[:action], @account || Account)
-  end
-
-  def show
-  end
-
-  def edit
-    @account.card_token = nil
-  end
-
-  def update
-    if @account.update_attributes(accounts_params)
-      StripeAccountUpdateJob.perform_later @account.id
-      AppEvent.success('Updated credit card', current_account, current_user)
-      logger.info { "Card for '#{@account}' updated - #{admin_account_url(@account)}" }
-      redirect_to settings_root_path,
-                  notice: 'Credit card was successfully updated.'
-    else
-      @account.card_token = nil
-      logger.debug { "Card update failed #{@account.inspect}" }
-      render 'edit'
-    end
-  end
-
-  private
-
-  def set_nav_item
-    @nav_item = 'card'
-  end
-
-  def find_account
-    @account = current_account
-  end
-
-  def accounts_params
-    params.require(:account).permit(:card_token)
-  end
+# Tests for StripeAccountCreateJob
+RSpec.describe StripeAccountCreateJob, type: :job do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

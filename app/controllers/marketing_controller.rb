@@ -76,7 +76,7 @@ class MarketingController < ApplicationController
         logger.debug { "Making all users an admin for #{@account}" }
       end
 
-      StripeGateway.account_create(@account.id)
+      StripeAccountCreateJob.perform_later @account.id
       AppEvent.success("Created account #{@account}", @account, nil)
       logger.info { "Account '#{@account}' created - #{admin_account_url(@account)}" }
       redirect_to new_user_session_path,

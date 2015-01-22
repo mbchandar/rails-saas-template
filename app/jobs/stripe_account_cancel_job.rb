@@ -28,46 +28,23 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Allows the account admin to manage cards in the settings
-class Settings::CardsController < Settings::ApplicationController
-  before_action :find_account, only: [:show, :edit, :update]
+# ActiveJob to cancel a Stripe account
+class StripeAccountCancelJob < ActiveJob::Base
+  queue_as :default
 
-  before_action do
-    authorize!(params[:action], @account || Account)
-  end
+  def perform(id)
+    account = Account.find(id)
 
-  def show
-  end
+    customer = Stripe::Customer.retrieve(account.stripe_customer_id)
+    subscription = customer.subscriptions.retrieve(account.stripe_subscription_id)
+    subscription.delete
 
-  def edit
-    @account.card_token = nil
-  end
-
-  def update
-    if @account.update_attributes(accounts_params)
-      StripeAccountUpdateJob.perform_later @account.id
-      AppEvent.success('Updated credit card', current_account, current_user)
-      logger.info { "Card for '#{@account}' updated - #{admin_account_url(@account)}" }
-      redirect_to settings_root_path,
-                  notice: 'Credit card was successfully updated.'
-    else
-      @account.card_token = nil
-      logger.debug { "Card update failed #{@account.inspect}" }
-      render 'edit'
-    end
-  end
-
-  private
-
-  def set_nav_item
-    @nav_item = 'card'
-  end
-
-  def find_account
-    @account = current_account
-  end
-
-  def accounts_params
-    params.require(:account).permit(:card_token)
+    account.card_token = 'dummy'
+    account.card_brand = nil
+    account.card_last4 = nil
+    account.card_exp = nil
+    account.expires_at = Time.at(subscription.canceled_at)
+    account.stripe_subscription_id = nil
+    account.save
   end
 end

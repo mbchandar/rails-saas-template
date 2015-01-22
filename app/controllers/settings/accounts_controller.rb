@@ -43,7 +43,7 @@ class Settings::AccountsController < Settings::ApplicationController
 
   def update
     if @account.update_attributes(accounts_params)
-      StripeGateway.account_update(@account.id)
+      StripeAccountUpdateJob.perform_later @account.id
       AppEvent.success('Updated account details', current_account, current_user)
       logger.info { "Account '#{@account}' updated - #{admin_account_url(@account)}" }
       redirect_to settings_root_path, notice: 'Account was successfully updated.'

@@ -52,7 +52,7 @@ class Admin::PlansController < Admin::ApplicationController
   def create
     @plan = Plan.new(plans_create_params)
     if @plan.save
-      StripeGateway.plan_create(@plan.id)
+      StripePlanCreateJob.perform_later @plan.id
       AppEvent.success("Created plan #{@plan}", nil, current_user)
       logger.info { "Plan '#{@plan}' created - #{admin_plan_url(@plan)}" }
       redirect_to admin_plan_path(@plan),
@@ -75,7 +75,7 @@ class Admin::PlansController < Admin::ApplicationController
 
   def update
     if @plan.update_attributes(plans_update_params)
-      StripeGateway.plan_update(@plan.id)
+      StripePlanUpdateJob.perform_later @plan.id
       logger.info { "Plan '#{@plan}' updated - #{admin_plan_url(@plan)}" }
       AppEvent.success("Updated plan #{@plan}", nil, current_user)
       redirect_to admin_plan_path(@plan),
@@ -88,7 +88,7 @@ class Admin::PlansController < Admin::ApplicationController
 
   def destroy
     if @plan.destroy
-      StripeGateway.plan_delete(@plan.stripe_id)
+      StripePlanDeleteJob.perform_later(@plan.stripe_id)
       AppEvent.info("Deleted plan #{@plan}", nil, current_user)
       logger.info { "Plan '#{@plan}' destroyed - #{admin_plan_url(@plan)}" }
       redirect_to admin_plans_path,

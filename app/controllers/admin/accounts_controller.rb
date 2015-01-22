@@ -50,7 +50,7 @@ class Admin::AccountsController < Admin::ApplicationController
     @account = Account.new(accounts_params)
     @account.card_token = 'dummy'
     if @account.save
-      StripeGateway.account_create(@account.id)
+      StripeAccountCreateJob.perform_later @account.id
       AppEvent.success("Created account #{@account}", @account, current_user)
       logger.info { "Account '#{@account}' created - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account),
@@ -73,7 +73,7 @@ class Admin::AccountsController < Admin::ApplicationController
 
   def update
     if @account.update_attributes(accounts_params)
-      StripeGateway.account_update(@account.id)
+      StripeAccountUpdateJob.perform_later @account.id
       AppEvent.success("Updated account #{@account}", @account, current_user)
       logger.info { "Account '#{@account}' updated - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account),
@@ -90,7 +90,7 @@ class Admin::AccountsController < Admin::ApplicationController
 
   def cancel
     if @account.cancel(cancel_params)
-      StripeGateway.account_cancel(@account.id)
+      StripeAccountCancelJob.perform_later @account.id
       AppEvent.info("Cancelled account #{@account}", @account, current_user)
       logger.info { "Account '#{@account}' cancelled - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account), notice: 'Account was successfully cancelled.'
@@ -109,7 +109,7 @@ class Admin::AccountsController < Admin::ApplicationController
 
   def restore
     if @account.restore
-      StripeGateway.account_restore(@account.id)
+      StripeAccountRestoreJob.perform_later @account.id
       AppEvent.success("Restored account #{@account}", @account, current_user)
       logger.info { "Account '#{@account}' restored - #{admin_account_url(@account)}" }
       redirect_to admin_account_path(@account), notice: 'Account was successfully restored.'

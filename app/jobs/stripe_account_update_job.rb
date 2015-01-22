@@ -28,46 +28,35 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Allows the account admin to manage cards in the settings
-class Settings::CardsController < Settings::ApplicationController
-  before_action :find_account, only: [:show, :edit, :update]
+# ActiveJob to update a Stripe account
+class StripeAccountUpdateJob < ActiveJob::Base
+  queue_as :default
 
-  before_action do
-    authorize!(params[:action], @account || Account)
-  end
+  def perform(id)
+    account = Account.find(id)
 
-  def show
-  end
+    customer = Stripe::Customer.retrieve(account.stripe_customer_id)
+    customer.card = account.card_token if account.card_token? && account.card_token != 'dummy'
+    customer.description = account.company_name
+    customer.email = account.email
+    customer.save
 
-  def edit
-    @account.card_token = nil
-  end
-
-  def update
-    if @account.update_attributes(accounts_params)
-      StripeAccountUpdateJob.perform_later @account.id
-      AppEvent.success('Updated credit card', current_account, current_user)
-      logger.info { "Card for '#{@account}' updated - #{admin_account_url(@account)}" }
-      redirect_to settings_root_path,
-                  notice: 'Credit card was successfully updated.'
-    else
-      @account.card_token = nil
-      logger.debug { "Card update failed #{@account.inspect}" }
-      render 'edit'
+    subscription = customer.subscriptions.retrieve(account.stripe_subscription_id)
+    current_plan = account.plan_stripe_id
+    current_plan = account.paused_plan_stripe_id unless account.paused_plan_stripe_id.nil?
+    if subscription.plan.id != current_plan
+      subscription.plan = current_plan
+      subscription.save
     end
-  end
 
-  private
+    account.card_token = 'dummy'
+    account.expires_at = Time.at(subscription.current_period_end)
+    account.save
 
-  def set_nav_item
-    @nav_item = 'card'
-  end
-
-  def find_account
-    @account = current_account
-  end
-
-  def accounts_params
-    params.require(:account).permit(:card_token)
+    card = customer.cards.retrieve(customer.default_card)
+    account.card_brand = card.brand
+    account.card_last4 = card.last4
+    account.card_exp = "#{card.exp_month}/#{card.exp_year}"
+    account.save!
   end
 end

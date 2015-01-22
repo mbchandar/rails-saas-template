@@ -72,7 +72,6 @@ class Admin::UserInvitationsController < Admin::ApplicationController
   def update
     p = user_invitation_params
     if @user_invitation.update_attributes(p)
-      # StripeGateway.delay.plan_update(@plan.id)
       UserMailer.user_invitation(@user_invitation).deliver_later
       AppEvent.success("Updated user invitation #{@user_invitation}", @user_invitation.account, current_user)
       # rubocop:disable Metrics/LineLength
