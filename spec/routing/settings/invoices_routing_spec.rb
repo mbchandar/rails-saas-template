@@ -28,12 +28,24 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
-FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+require 'rails_helper'
+
+# Tests for settings/invoices routing
+RSpec.describe 'routing for the settings invoices', type: :routing do
+  it 'routes GET /path/settings/invoices to settings/invoices#index' do
+    expect(get: '/path/settings/invoices').to route_to(
+      controller: 'settings/invoices',
+      action: 'index',
+      path: 'path'
+    )
+  end
+
+  it 'routes GET /path/settings/invoices/1 to settings/invoices#show' do
+    expect(get: '/path/settings/invoices/1').to route_to(
+      controller: 'settings/invoices',
+      action: 'show',
+      path: 'path',
+      id: '1'
+    )
   end
 end

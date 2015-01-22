@@ -1,0 +1,44 @@
+<%
+content_for(:page_title, 'Invoices')
+content_for(:page_heading, 'Invoices')
+%>
+
+<% if @account %>
+<ul class="nav nav-tabs">
+  <% if can?(:index, @account) %><li><%= link_to "Account", admin_account_path(@account) %></li><% end %>
+  <% if can?(:users, @account) %><li><%= link_to "Users", admin_account_users_path(@account) %></li><% end %>
+  <% if can?(:index, @account) %><li><%= link_to "User Invitations", admin_account_user_invitations_path(@account) %></li><% end %>
+  <li class="active"><%= link_to "Invoices", admin_account_invoices_path(@account) %></li>
+  <% if can?(:events, @account) %><li><%= link_to "Events", admin_account_events_path(@account) %></li><% end %>
+</ul>
+<% end %>
+
+<% if @invoices.empty? then %>
+<p>No invoices found</p>
+<% else %>
+<table class="table table-condensed table-striped">
+	<thead>
+		<tr>
+			<th>Inv #</th>
+			<th>Account</th>
+			<th>Invoiced At</th>
+			<th>Paid At</th>
+			<th>Amount</th>
+			<th>Stripe ID</th>
+		</tr>
+	</thead>
+	<tbody>
+<% @invoices.each do |invoice| %>
+		<tr>
+			<td><%= link_to_if can?(:show, invoice), invoice.inv_number, admin_invoice_path(invoice) %></td>
+			<td><%= link_to_if can?(:show, invoice.account), invoice.account, admin_account_path(invoice.account) %></td>
+			<td><%= invoice.invoiced_at %></td>
+			<td><%= invoice.paid_at %></td>
+			<td><%= invoice.total_amount %></td>
+                        <td><%= invoice.stripe_invoice_id %> <a href="https://dashboard.stripe.com/test/invoices/<%= invoice.stripe_invoice_id  %>"><span class="glyphicon glyphicon-new-window"></span></a><% if invoice.download_url %> <a href="<%= invoice.download_url %>"><span class="glyphicon glyphicon-download"></span></a><% end %></td>
+		</tr>
+<% end %>
+	</tbody>
+</table>
+<%= paginate @invoices %>
+<% end %>

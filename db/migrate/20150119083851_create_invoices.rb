@@ -28,12 +28,21 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
-FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+# Migration to add invoices table
+class CreateInvoices < ActiveRecord::Migration
+  def change
+    create_table :invoices do |t|
+      t.integer :inv_number, null: false
+      t.references :account, null: false, index: true
+      t.string :stripe_invoice_id, limit: 100, null: false
+      t.datetime :invoiced_at, null: false
+      t.datetime :paid_at
+      t.decimal :total_amount, null: false, precision: 10, scale: 2
+      t.string :download_url
+
+      t.timestamps null: false
+    end
+
+    add_index :invoices, [:inv_number], unique: true
   end
 end

@@ -26,10 +26,11 @@
 <div class="container-fluid">
   <div class="row" style="padding-top: 60px">
     <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
+      <ul class="nav nav-pills nav-stacked">
         <li<%if @nav_item == 'dashboard' %> class="active"<% end %>><%= link_to "Dashboard", settings_root_path %></li>
         <li<%if @nav_item == 'account' %> class="active"<% end %>><%= link_to "Details", settings_account_path %></li>
         <li<%if @nav_item == 'card' %> class="active"<% end %>><%= link_to "Credit Card", settings_card_path %></li>
+        <li<%if @nav_item == 'invoices' %> class="active"<% end %>><%= link_to "Invoices", settings_invoices_path %></li>
         <li<%if @nav_item == 'plan' %> class="active"<% end %>><%= link_to "Plan", settings_plan_path %></li>
         <li<%if @nav_item == 'users' %> class="active"<% end %>><%= link_to "Users", settings_user_permissions_path %></li>
         <li<%if @nav_item == 'user_invitations' %> class="active"<% end %>><%= link_to "User Invitations", settings_user_invitations_path %></li>

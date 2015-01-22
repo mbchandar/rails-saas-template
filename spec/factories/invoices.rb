@@ -28,12 +28,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
+# Invoice factories
 FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+  factory :invoice do
+    association :account, factory: :account
+    sequence(:stripe_invoice_id) { |n| "inv_#{n}" }
+    invoiced_at Time.now
+    total_amount 9.99
   end
 end

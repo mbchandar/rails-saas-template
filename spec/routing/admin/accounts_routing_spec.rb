@@ -124,4 +124,12 @@ RSpec.describe 'routing for the admin accounts', type: :routing do
       action: 'create'
     )
   end
+
+  it 'routes GET /admin/accounts/1/invoices to admin/invoices#index' do
+    expect(get: '/admin/accounts/1/invoices').to route_to(
+      controller: 'admin/invoices',
+      action: 'index',
+      account_id: '1'
+    )
+  end
 end

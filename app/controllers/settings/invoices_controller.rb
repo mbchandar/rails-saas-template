@@ -28,12 +28,31 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
-FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+# Allows the account admin to view invoices in the settings
+class Settings::InvoicesController < Settings::ApplicationController
+  before_action :find_invoice, only: [:show]
+
+  authorize_resource
+
+  def index
+    @invoices = current_account.invoices.page(params[:page])
+  end
+
+  def show
+    if @invoice.download_url
+      redirect_to @invoice.download_url
+    else
+      redirect_to settings_invoices_path
+    end
+  end
+
+  private
+
+  def find_invoice
+    @invoice = current_account.invoices.find(params[:id])
+  end
+
+  def set_nav_item
+    @nav_item = 'invoices'
   end
 end

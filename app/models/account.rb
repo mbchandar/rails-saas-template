@@ -36,6 +36,7 @@ class Account < ActiveRecord::Base
   belongs_to :cancellation_reason
 
   has_many :app_events, dependent: :destroy
+  has_many :invoices, dependent: :destroy
   has_many :users, through: :user_permissions
   has_many :user_invitations, dependent: :destroy
   has_many :user_permissions, dependent: :destroy

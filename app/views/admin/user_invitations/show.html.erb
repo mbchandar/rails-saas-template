@@ -8,6 +8,7 @@ content_for(:page_heading, 'User Invitations')
   <% if can?(:users, @account) %><li><%= link_to "Users", admin_account_users_path(@account) %></li><% end %>
   <% if can?(:index, @account) %><li><%= link_to "User Invitations", admin_account_user_invitations_path(@account) %></li><% end %>
   <li class="active"><%= link_to "User Invitation: #{@user_invitation}", admin_account_user_invitation_path(@account, @user_invitation) %></li>
+  <% if can?(:invoices, @account) %><li><%= link_to "Invoices", admin_account_invoices_path(@account) %></li><% end %>
   <% if can?(:events, @account) %><li><%= link_to "Events", admin_account_events_path(@account) %></li><% end %>
 </ul>
 

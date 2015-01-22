@@ -75,9 +75,10 @@ class Ability
     unless section == :admin
       # Account Admin's get additional privileges
       if !permissions.nil? && permissions.account_admin?
-        can :manage, Account, id: account.id
-        can :manage, UserInvitation, account_id: account.id
-        can :manage, UserPermission, account_id: account.id
+        can :manage, Account, user_permissions: { user_id: user.id, account_admin: true }
+        can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
+        can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
+        can :manage, Invoice, account: { user_permissions: { user_id: user.id, account_admin: true } }
         can :index, :dashboard
       end
 

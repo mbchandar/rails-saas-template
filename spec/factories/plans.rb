@@ -31,8 +31,8 @@
 # User factories
 FactoryGirl.define do
   factory :plan do
-    stripe_id { Faker::Lorem.characters(20) }
-    name { Faker::Lorem.word }
+    sequence(:stripe_id) { |n| "plan_#{n}" }
+    sequence(:name) { |n| "Plan #{n}" }
     statement_description ''
     active true
     public true

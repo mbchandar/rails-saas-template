@@ -33,7 +33,7 @@ FactoryGirl.define do
   factory :user do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    email { Faker::Internet.safe_email }
+    sequence(:email) { |n| "user-#{n}@example.com" }
     password 'abcd1234'
     super_admin false
   end
@@ -41,7 +41,7 @@ FactoryGirl.define do
   factory :admin, class: User do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    email { Faker::Internet.safe_email }
+    sequence(:email) { |n| "admin-#{n}@example.com" }
     password 'abcd1234'
     super_admin true
   end

@@ -94,6 +94,7 @@ Rails.application.routes.draw do
   end
   namespace :admin do
     resources :accounts, except: [:destroy] do
+      resources :invoices, only: [:index]
       resources :user_invitations
       get 'cancel' => 'accounts#confirm_cancel'
       patch 'cancel' => 'accounts#cancel'
@@ -105,6 +106,7 @@ Rails.application.routes.draw do
     resources :cancellation_categories, except: [:destroy] do
       resources :cancellation_reasons, except: [:destroy]
     end
+    resources :invoices, only: [:index, :show]
     resources :plans do
       get 'accounts' => 'plans#accounts'
     end
@@ -126,6 +128,7 @@ Rails.application.routes.draw do
     namespace :settings do
       resource :account, only: [:show, :edit, :update]
       resource :card, only: [:show, :edit, :update]
+      resources :invoices, only: [:index, :show]
       resource :plan, only: [:show, :update, :destroy] do
         get 'cancel'
         patch 'pause'

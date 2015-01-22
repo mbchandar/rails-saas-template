@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118040237) do
+ActiveRecord::Schema.define(version: 20150119083851) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "company_name",             limit: 255,                null: false
@@ -105,6 +105,21 @@ ActiveRecord::Schema.define(version: 20150118040237) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "invoices", force: :cascade do |t|
+    t.integer  "inv_number",        limit: 4,                            null: false
+    t.integer  "account_id",        limit: 4,                            null: false
+    t.string   "stripe_invoice_id", limit: 100,                          null: false
+    t.datetime "invoiced_at",                                            null: false
+    t.datetime "paid_at"
+    t.decimal  "total_amount",                  precision: 10, scale: 2, null: false
+    t.string   "download_url",      limit: 255
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "invoices", ["account_id"], name: "index_invoices_on_account_id", using: :btree
+  add_index "invoices", ["inv_number"], name: "index_invoices_on_inv_number", unique: true, using: :btree
 
   create_table "plans", force: :cascade do |t|
     t.string   "stripe_id",             limit: 80

@@ -32,10 +32,10 @@
 FactoryGirl.define do
   factory :account do
     company_name { Faker::Company.name }
-    email { Faker::Internet.safe_email }
+    sequence(:email) { |n| "company-#{n}@example.com" }
     association :plan, factory: :plan
     active true
     expires_at Time.now + 30.days
-    card_token { Faker::Lorem.characters(10) }
+    sequence(:card_token) { |n| "card_#{n}" }
   end
 end

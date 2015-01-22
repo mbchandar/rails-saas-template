@@ -32,7 +32,7 @@
 FactoryGirl.define do
   factory :cancellation_reason do
     association :cancellation_category, factory: :cancellation_category
-    name { Faker::Lorem.characters(20) }
+    sequence(:name) { |n| "Reason #{n}" }
     active false
     allow_message false
     require_message false

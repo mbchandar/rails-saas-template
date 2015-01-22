@@ -28,12 +28,30 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
-FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+# Invoice model
+class Invoice < ActiveRecord::Base
+  belongs_to :account
+
+  before_validation(on: :create) do
+    unless inv_number
+      max_inv_number = Invoice.maximum(:inv_number)
+      if max_inv_number
+        self.inv_number = max_inv_number + 1
+      else
+        self.inv_number = 1
+      end
+    end
   end
+
+  validates :account_id, presence: true
+  validates :download_url, length: { maximum: 255 }
+  validates :inv_number,
+            numericality: { greater_than: 0, integer_only: true },
+            uniqueness: true,
+            presence: true
+  validates :invoiced_at, presence: true
+  validates :total_amount,
+            numericality: true,
+            presence: true
+  validates :stripe_invoice_id, length: { maximum: 100 }, presence: true
 end

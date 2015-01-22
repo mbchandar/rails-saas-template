@@ -168,7 +168,10 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.cancelled_at' do
-    # t.datetime :cancelled_at
+    it 'is not required' do
+      account = FactoryGirl.build(:account, cancelled_at: nil)
+      expect(account).to be_valid
+    end
   end
 
   describe '.cancellation_category_id' do
@@ -336,6 +339,13 @@ RSpec.describe Account, type: :model do
       expect(AppEvent.where(account_id: account.id).count).to eq 0
     end
 
+    it 'destroys related Invoices' do
+      account = FactoryGirl.create(:account)
+      FactoryGirl.create(:invoice, account: account)
+      expect { account.destroy }.to change { Invoice.count }.by(-1)
+      expect(Invoice.where(account_id: account.id).count).to eq 0
+    end
+
     it 'destroys related UserInvitations' do
       account = FactoryGirl.create(:account)
       FactoryGirl.create(:user_invitation, account: account)
@@ -378,7 +388,10 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.expires_at' do
-    # validates :expires_at, presence: true
+    it 'is not required' do
+      account = FactoryGirl.build(:account, expires_at: nil)
+      expect(account).to be_valid
+    end
   end
 
   describe '.hostname' do
@@ -666,6 +679,18 @@ RSpec.describe Account, type: :model do
         a = Account.find_by_subdomain('my-app')
         expect(a).to be_nil
       end
+    end
+  end
+
+  describe '.invoices' do
+    it 'connects to Invoice' do
+      account = FactoryGirl.create(:account)
+      invoice1 = FactoryGirl.create(:invoice, account: account)
+      invoice2 = FactoryGirl.create(:invoice, account: account)
+      FactoryGirl.create(:invoice)
+      expect(account.invoices.count).to eq 2
+      expect(account.invoices).to include invoice1
+      expect(account.invoices).to include invoice2
     end
   end
 

@@ -28,12 +28,40 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# CancellationCategory factories
-FactoryGirl.define do
-  factory :cancellation_category do
-    sequence(:name) { |n| "Category #{n}" }
-    active false
-    allow_message false
-    require_message false
+# Provides invoices administration in the admin section
+class Admin::InvoicesController < Admin::ApplicationController
+  before_action :find_account
+  before_action :find_invoice, only: [:show]
+
+  authorize_resource
+
+  def index
+    if @account
+      @invoices = @account.invoices.page(params[:page])
+      @nav_item = 'accounts'
+    else
+      @invoices = Invoice.page(params[:page])
+    end
+  end
+
+  def show
+  end
+
+  private
+
+  def find_account
+    @account = Account.find(params[:account_id]) if params[:account_id]
+  end
+
+  def find_invoice
+    if params[:invoice_id]
+      @invoice = Invoice.find(params[:invoice_id])
+    else
+      @invoice = Invoice.find(params[:id])
+    end
+  end
+
+  def set_nav_item
+    @nav_item = 'invoices'
   end
 end
