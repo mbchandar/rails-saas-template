@@ -33,44 +33,40 @@ require 'rails_helper'
 # Tests for the user mailer
 RSpec.describe UserMailer, type: :mailer do
   describe '.user_invitation' do
-    before :each do
-      @user_invitation = FactoryGirl.create(:user_invitation)
-      @mail = UserMailer.user_invitation(@user_invitation)
-    end
+    let(:user_invitation) { FactoryGirl.create(:user_invitation) }
+    let(:mail) { UserMailer.user_invitation(user_invitation) }
 
     it 'renders a subject' do
-      expect(@mail.subject).to eq 'Your invitation has arrived'
+      expect(mail.subject).to eq 'Your invitation has arrived'
     end
 
     it 'renders the receiver email' do
-      expect(@mail.to).to eq [@user_invitation.email]
+      expect(mail.to).to eq [user_invitation.email]
     end
 
     it 'renders the sender email' do
-      expect(@mail.from).to eq ['no-reply@example.com']
+      expect(mail.from).to eq ['no-reply@example.com']
     end
 
     it 'assigns the invite code' do
-      expect(@mail.body.encoded).to match @user_invitation.invite_code
+      expect(mail.body.encoded).to match user_invitation.invite_code
     end
   end
 
   describe '.welcome' do
-    before :each do
-      @user = FactoryGirl.create(:user)
-      @mail = UserMailer.welcome(@user)
-    end
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.welcome(user) }
 
     it 'renders a subject' do
-      expect(@mail.subject).to eq 'Welcome'
+      expect(mail.subject).to eq 'Welcome'
     end
 
     it 'renders the receiver email' do
-      expect(@mail.to).to eq [@user.email]
+      expect(mail.to).to eq [user.email]
     end
 
     it 'renders the sender email' do
-      expect(@mail.from).to eq ['no-reply@example.com']
+      expect(mail.from).to eq ['no-reply@example.com']
     end
   end
 end

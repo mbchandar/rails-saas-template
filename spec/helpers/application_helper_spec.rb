@@ -43,16 +43,14 @@ require 'rails_helper'
 RSpec.describe ApplicationHelper, type: :helper do
   describe '.formatted_plan_price' do
     context 'free plans and interval_count of 1' do
-      before(:each) do
-        @plan = FactoryGirl.build(:plan, amount: 0, interval_count: 1, interval: 'month')
-      end
+      let(:plan) { FactoryGirl.build(:plan, amount: 0, interval_count: 1, interval: 'month') }
 
       it 'is $0.00/month without free text' do
-        expect(helper.formatted_plan_price(@plan)).to eq '$0.00 / month'
+        expect(helper.formatted_plan_price(plan)).to eq '$0.00 / month'
       end
 
       it 'uses the free text free text' do
-        expect(helper.formatted_plan_price(@plan, 'FREE')).to eq 'FREE'
+        expect(helper.formatted_plan_price(plan, 'FREE')).to eq 'FREE'
       end
     end
 
@@ -65,28 +63,26 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '.render_errors' do
-    before(:each) do
-      @user = User.new
-    end
+    let(:user) { User.new }
 
     context 'no errors' do
       it 'displays nothing' do
-        expect(helper.render_errors(@user)).to eq ''
+        expect(helper.render_errors(user)).to eq ''
       end
     end
 
     context 'one error' do
       it 'displays one error' do
-        @user.errors.add :base, '>Something'
-        expect(helper.render_errors(@user)).to eq '<div class="alert alert-danger">&gt;Something</div>'
+        user.errors.add :base, '>Something'
+        expect(helper.render_errors(user)).to eq '<div class="alert alert-danger">&gt;Something</div>'
       end
     end
 
     context 'multiple errors' do
       it 'displays multiple errors' do
-        @user.errors.add :base, '>Something'
-        @user.errors.add :base, '>Else'
-        expect(helper.render_errors(@user)).to(
+        user.errors.add :base, '>Something'
+        user.errors.add :base, '>Else'
+        expect(helper.render_errors(user)).to(
           eq '<div class="alert alert-danger">&gt;Something</div><div class="alert alert-danger">&gt;Else</div>')
       end
     end

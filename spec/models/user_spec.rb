@@ -159,27 +159,25 @@ RSpec.describe User, type: :model do
     end
 
     context 'on update' do
-      before(:each) do
-        @user = FactoryGirl.create(:user)
-      end
+      let(:user) { FactoryGirl.create(:user) }
 
       it 'can be blank' do
-        @user.password = ''
-        expect(@user).to_not be_valid
-        expect(@user.errors[:password]).to include 'can\'t be blank'
+        user.password = ''
+        expect(user).to_not be_valid
+        expect(user.errors[:password]).to include 'can\'t be blank'
       end
 
       it 'must be confirmed' do
-        @user.password = 'abcd1234'
-        @user.password_confirmation = ''
-        expect(@user).to_not be_valid
-        expect(@user.errors[:password_confirmation]).to include 'doesn\'t match Password'
+        user.password = 'abcd1234'
+        user.password_confirmation = ''
+        expect(user).to_not be_valid
+        expect(user.errors[:password_confirmation]).to include 'doesn\'t match Password'
       end
 
       it 'confirmation must match' do
-        @user.password = 'abcd1234'
-        @user.password_confirmation = 'abcd1234'
-        expect(@user).to be_valid
+        user.password = 'abcd1234'
+        user.password_confirmation = 'abcd1234'
+        expect(user).to be_valid
       end
     end
   end

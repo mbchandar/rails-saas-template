@@ -52,7 +52,21 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.active' do
-    # t.boolean :active, default: true, null: false
+    it 'can be false' do
+      account = FactoryGirl.build(:account, active: false)
+      expect(account).to be_valid
+    end
+
+    it 'can be true' do
+      account = FactoryGirl.build(:account, active: true)
+      expect(account).to be_valid
+    end
+
+    it 'is requried' do
+      account = FactoryGirl.build(:account, active: nil)
+      expect(account).to_not be_valid
+      expect(account.errors[:active]).to include 'is not included in the list'
+    end
   end
 
   describe '.address_city' do
@@ -131,13 +145,12 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.cancel' do
-    before :each do
-      @cancellation_category = FactoryGirl.create(:cancellation_category)
-    end
+    let(:cancellation_category) { FactoryGirl.create(:cancellation_category) }
+
     context 'on success' do
       it 'returns true on cancellation' do
         account = FactoryGirl.create(:account)
-        result = account.cancel(cancellation_category: @cancellation_category,
+        result = account.cancel(cancellation_category: cancellation_category,
                                 cancellation_reason: nil,
                                 cancellation_message: 'xxx')
         expect(result).to eq true
@@ -145,7 +158,7 @@ RSpec.describe Account, type: :model do
 
       it 'sets active to false' do
         account = FactoryGirl.create(:account)
-        account.cancel(cancellation_category: @cancellation_category,
+        account.cancel(cancellation_category: cancellation_category,
                        cancellation_reason: nil,
                        cancellation_message: 'xxx')
         expect(account.active).to eq false
@@ -153,7 +166,7 @@ RSpec.describe Account, type: :model do
 
       it 'sets cancelled_at' do
         account = FactoryGirl.create(:account)
-        account.cancel(cancellation_category: @cancellation_category,
+        account.cancel(cancellation_category: cancellation_category,
                        cancellation_reason: nil,
                        cancellation_message: 'xxx')
         expect(account.cancelled_at).to_not be_nil
@@ -275,57 +288,55 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.custom_path' do
-    before :each do
-      @plan = FactoryGirl.create(:plan, allow_custom_path: true)
-    end
+    let(:plan) { FactoryGirl.create(:plan, allow_custom_path: true) }
 
     it 'must be 2 characters or less' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: 'A')
+      account = FactoryGirl.build(:account, plan: plan, custom_path: 'A')
       expect(account).to_not be_valid
       expect(account.errors[:custom_path]).to include 'is too short (minimum is 2 characters)'
     end
 
     it 'must be 60 characters or less' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: Faker::Lorem.characters(61))
+      account = FactoryGirl.build(:account, plan: plan, custom_path: Faker::Lorem.characters(61))
       expect(account).to_not be_valid
       expect(account.errors[:custom_path]).to include 'is too long (maximum is 60 characters)'
     end
 
     it 'can be nil' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: nil)
+      account = FactoryGirl.build(:account, plan: plan, custom_path: nil)
       expect(account).to be_valid
     end
 
     it 'cannot be numeric' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: '123')
+      account = FactoryGirl.build(:account, plan: plan, custom_path: '123')
       expect(account).to_not be_valid
       expect(account.errors[:custom_path]).to include 'must contain at least one letter'
     end
 
     it 'can start with a number' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: '123me')
+      account = FactoryGirl.build(:account, plan: plan, custom_path: '123me')
       expect(account).to be_valid
     end
 
     it 'must be unique if not nil' do
-      account1 = FactoryGirl.create(:account, plan: @plan, custom_path: '123mex')
+      account1 = FactoryGirl.create(:account, plan: plan, custom_path: '123mex')
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, custom_path: '123mex')
+      account2 = FactoryGirl.build(:account, plan: plan, custom_path: '123mex')
       expect(account2).to_not be_valid
       expect(account2.errors[:custom_path]).to include 'has already been taken'
     end
 
     it 'can be nil if others are' do
-      account1 = FactoryGirl.create(:account, plan: @plan, custom_path: nil)
+      account1 = FactoryGirl.create(:account, plan: plan, custom_path: nil)
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, custom_path: nil)
+      account2 = FactoryGirl.build(:account, plan: plan, custom_path: nil)
       expect(account2).to be_valid
     end
 
     it 'cannot contain illegal characters' do
-      account = FactoryGirl.build(:account, plan: @plan, custom_path: '123&me')
+      account = FactoryGirl.build(:account, plan: plan, custom_path: '123&me')
       expect(account).to_not be_valid
       expect(account.errors[:custom_path]).to include 'can only contain letters and numbers'
     end
@@ -395,45 +406,43 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.hostname' do
-    before :each do
-      @plan = FactoryGirl.create(:plan, allow_hostname: true)
-    end
+    let(:plan) { FactoryGirl.create(:plan, allow_hostname: true) }
 
     it 'must be 255 characters or less' do
-      account = FactoryGirl.build(:account, plan: @plan, hostname: Faker::Lorem.characters(256))
+      account = FactoryGirl.build(:account, plan: plan, hostname: Faker::Lorem.characters(256))
       expect(account).to_not be_valid
       expect(account.errors[:hostname]).to include 'is too long (maximum is 255 characters)'
     end
 
     it 'is required' do
-      account = FactoryGirl.build(:account, plan: @plan, hostname: nil)
+      account = FactoryGirl.build(:account, plan: plan, hostname: nil)
       expect(account).to be_valid
     end
 
     it 'can be a domain name' do
-      account = FactoryGirl.build(:account, plan: @plan, hostname: 'my-app.example.com')
+      account = FactoryGirl.build(:account, plan: plan, hostname: 'my-app.example.com')
       expect(account).to be_valid
     end
 
     it 'must be unique if not nil' do
-      account1 = FactoryGirl.create(:account, plan: @plan, hostname: 'www.example.com')
+      account1 = FactoryGirl.create(:account, plan: plan, hostname: 'www.example.com')
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, hostname: 'www.example.com')
+      account2 = FactoryGirl.build(:account, plan: plan, hostname: 'www.example.com')
       expect(account2).to_not be_valid
       expect(account2.errors[:hostname]).to include 'has already been taken'
     end
 
     it 'can be nil if others are' do
-      account1 = FactoryGirl.create(:account, plan: @plan, hostname: nil)
+      account1 = FactoryGirl.create(:account, plan: plan, hostname: nil)
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, hostname: nil)
+      account2 = FactoryGirl.build(:account, plan: plan, hostname: nil)
       expect(account2).to be_valid
     end
 
     it 'cannot contain illegal characters' do
-      account = FactoryGirl.build(:account, plan: @plan, hostname: 'www&example.com')
+      account = FactoryGirl.build(:account, plan: plan, hostname: 'www&example.com')
       expect(account).to_not be_valid
       expect(account.errors[:hostname]).to include 'is invalid'
     end
@@ -441,12 +450,10 @@ RSpec.describe Account, type: :model do
 
   describe '.find_by_hostname' do
     context 'plan that allows hostname' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_hostname: true)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_hostname: true) }
 
       it 'finds active accounts' do
-        account = FactoryGirl.create(:account, active: true, hostname: 'my-app.example.com', plan: @plan)
+        account = FactoryGirl.create(:account, active: true, hostname: 'my-app.example.com', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_hostname('my-app.example.com')
@@ -454,7 +461,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts' do
-        account = FactoryGirl.create(:account, active: false, hostname: 'my-app.example.com', plan: @plan)
+        account = FactoryGirl.create(:account, active: false, hostname: 'my-app.example.com', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_hostname('my-app.example.com')
@@ -463,12 +470,10 @@ RSpec.describe Account, type: :model do
     end
 
     context 'plan that does not allows hostname' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_hostname: false)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_hostname: false) }
 
       it 'does not find active accounts' do
-        account = FactoryGirl.create(:account, active: true, hostname: 'my-app.example.com', plan: @plan)
+        account = FactoryGirl.create(:account, active: true, hostname: 'my-app.example.com', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_hostname('my-app.example.com')
@@ -476,7 +481,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts' do
-        account = FactoryGirl.create(:account, active: false, hostname: 'my-app.example.com', plan: @plan)
+        account = FactoryGirl.create(:account, active: false, hostname: 'my-app.example.com', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_hostname('my-app.example.com')
@@ -487,12 +492,10 @@ RSpec.describe Account, type: :model do
 
   describe '.find_by_path' do
     context 'plan that allow custom path' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_custom_path: true)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_custom_path: true) }
 
       it 'finds active accounts by ID' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan)
+        account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path(account.id)
@@ -500,7 +503,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by ID' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan)
+        account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path(account.id)
@@ -508,7 +511,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'finds active accounts by custom path' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: true, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         a = Account.find_by_path('abc')
@@ -516,7 +519,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by  custom path' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: false, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         a = Account.find_by_path('abc')
@@ -525,12 +528,10 @@ RSpec.describe Account, type: :model do
     end
 
     context 'plan that do not allow custom path' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_custom_path: false)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_custom_path: false) }
 
       it 'finds active accounts by ID' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan)
+        account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path(account.id)
@@ -538,7 +539,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by ' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan)
+        account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path(account.id)
@@ -546,7 +547,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find active accounts by custom path' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: true, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         a = Account.find_by_path('abc')
@@ -554,7 +555,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by  custom path' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: false, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         a = Account.find_by_path('abc')
@@ -565,12 +566,10 @@ RSpec.describe Account, type: :model do
 
   describe '.find_by_path!' do
     context 'plan that allow custom path' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_custom_path: true)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_custom_path: true) }
 
       it 'finds active accounts by ID' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan)
+        account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path!(account.id)
@@ -578,14 +577,14 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by ID' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan)
+        account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
         expect { Account.find_by_path!(account.id) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'finds active accounts by custom path' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: true, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         a = Account.find_by_path!('abc')
@@ -593,7 +592,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by  custom path' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: false, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         expect { Account.find_by_path!('abc') }.to raise_error(ActiveRecord::RecordNotFound)
@@ -601,12 +600,10 @@ RSpec.describe Account, type: :model do
     end
 
     context 'plan that do not allow custom path' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_custom_path: false)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_custom_path: false) }
 
       it 'finds active accounts by ID' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan)
+        account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_path!(account.id)
@@ -614,21 +611,21 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts by ' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan)
+        account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
         expect { Account.find_by_path!(account.id) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'does not find active accounts by custom path' do
-        account = FactoryGirl.create(:account, active: true, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: true, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         expect { Account.find_by_path!('abc') }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'does not find inactive accounts by  custom path' do
-        account = FactoryGirl.create(:account, active: false, plan: @plan, custom_path: 'abc')
+        account = FactoryGirl.create(:account, active: false, plan: plan, custom_path: 'abc')
         expect(account).to be_valid
 
         expect { Account.find_by_path!('abc') }.to raise_error(ActiveRecord::RecordNotFound)
@@ -638,12 +635,10 @@ RSpec.describe Account, type: :model do
 
   describe '.find_by_subdomain' do
     context 'plan that allows subdomain' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_subdomain: true)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_subdomain: true) }
 
       it 'finds active accounts' do
-        account = FactoryGirl.create(:account, active: true, subdomain: 'my-app', plan: @plan)
+        account = FactoryGirl.create(:account, active: true, subdomain: 'my-app', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_subdomain('my-app')
@@ -651,7 +646,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts' do
-        account = FactoryGirl.create(:account, active: false, subdomain: 'my-app', plan: @plan)
+        account = FactoryGirl.create(:account, active: false, subdomain: 'my-app', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_subdomain('my-app')
@@ -660,12 +655,10 @@ RSpec.describe Account, type: :model do
     end
 
     context 'plan that does not allows subdomain' do
-      before :each do
-        @plan = FactoryGirl.create(:plan, allow_subdomain: false)
-      end
+      let(:plan) { FactoryGirl.create(:plan, allow_subdomain: false) }
 
       it 'does not find active accounts' do
-        account = FactoryGirl.create(:account, active: true, subdomain: 'my-app', plan: @plan)
+        account = FactoryGirl.create(:account, active: true, subdomain: 'my-app', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_subdomain('my-app')
@@ -673,7 +666,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'does not find inactive accounts' do
-        account = FactoryGirl.create(:account, active: false, subdomain: 'my-app', plan: @plan)
+        account = FactoryGirl.create(:account, active: false, subdomain: 'my-app', plan: plan)
         expect(account).to be_valid
 
         a = Account.find_by_subdomain('my-app')
@@ -952,45 +945,43 @@ RSpec.describe Account, type: :model do
   end
 
   describe '.subdomain' do
-    before :each do
-      @plan = FactoryGirl.create(:plan, allow_subdomain: true)
-    end
+    let(:plan) { FactoryGirl.create(:plan, allow_subdomain: true) }
 
     it 'must be 64 characters or less' do
-      account = FactoryGirl.build(:account, plan: @plan, subdomain: Faker::Lorem.characters(65))
+      account = FactoryGirl.build(:account, plan: plan, subdomain: Faker::Lorem.characters(65))
       expect(account).to_not be_valid
       expect(account.errors[:subdomain]).to include 'is too long (maximum is 64 characters)'
     end
 
     it 'is required' do
-      account = FactoryGirl.build(:account, plan: @plan, subdomain: nil)
+      account = FactoryGirl.build(:account, plan: plan, subdomain: nil)
       expect(account).to be_valid
     end
 
     it 'can be a subdomain name' do
-      account = FactoryGirl.build(:account, plan: @plan, subdomain: 'my-app')
+      account = FactoryGirl.build(:account, plan: plan, subdomain: 'my-app')
       expect(account).to be_valid
     end
 
     it 'must be unique if not nil' do
-      account1 = FactoryGirl.create(:account, plan: @plan, subdomain: 'www')
+      account1 = FactoryGirl.create(:account, plan: plan, subdomain: 'www')
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, subdomain: 'www')
+      account2 = FactoryGirl.build(:account, plan: plan, subdomain: 'www')
       expect(account2).to_not be_valid
       expect(account2.errors[:subdomain]).to include 'has already been taken'
     end
 
     it 'can be nil if others are' do
-      account1 = FactoryGirl.create(:account, plan: @plan, subdomain: nil)
+      account1 = FactoryGirl.create(:account, plan: plan, subdomain: nil)
       expect(account1).to be_valid
 
-      account2 = FactoryGirl.build(:account, plan: @plan, subdomain: nil)
+      account2 = FactoryGirl.build(:account, plan: plan, subdomain: nil)
       expect(account2).to be_valid
     end
 
     it 'cannot contain illegal characters' do
-      account = FactoryGirl.build(:account, plan: @plan, subdomain: 'www.example.com')
+      account = FactoryGirl.build(:account, plan: plan, subdomain: 'www.example.com')
       expect(account).to_not be_valid
       expect(account.errors[:subdomain]).to include 'is invalid'
     end

@@ -115,17 +115,15 @@ RSpec.describe AppEvent, type: :model do
   end
 
   describe '.success' do
-    before :each do
-      @message = Faker::Lorem.characters(50)
-      @account = FactoryGirl.create(:account)
-      @user = FactoryGirl.create(:user)
-    end
+    let(:message) { Faker::Lorem.characters(50) }
+    let(:account) { FactoryGirl.create(:account) }
+    let(:user) { FactoryGirl.create(:user) }
 
     context 'no account or user' do
       it 'should save correctly' do
-        event = AppEvent.success(@message)
+        event = AppEvent.success(message)
         expect(event.level).to eq 'success'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
         expect(event.user).to be_nil
       end
@@ -133,47 +131,45 @@ RSpec.describe AppEvent, type: :model do
 
     context 'account but no user' do
       it 'should save correctly' do
-        event = AppEvent.success(@message, @account)
+        event = AppEvent.success(message, account)
         expect(event.level).to eq 'success'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
+        expect(event.message).to eq message
+        expect(event.account).to eq account
         expect(event.user).to be_nil
       end
     end
 
     context 'user but no account' do
       it 'should save correctly' do
-        event = AppEvent.success(@message, nil, @user)
+        event = AppEvent.success(message, nil, user)
         expect(event.level).to eq 'success'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
-        expect(event.user).to eq @user
+        expect(event.user).to eq user
       end
     end
 
     context 'user and account' do
       it 'should save correctly' do
-        event = AppEvent.success(@message, @account, @user)
+        event = AppEvent.success(message, account, user)
         expect(event.level).to eq 'success'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
-        expect(event.user).to eq @user
+        expect(event.message).to eq message
+        expect(event.account).to eq account
+        expect(event.user).to eq user
       end
     end
   end
 
   describe '.info' do
-    before :each do
-      @message = Faker::Lorem.characters(50)
-      @account = FactoryGirl.create(:account)
-      @user = FactoryGirl.create(:user)
-    end
+    let(:message) { Faker::Lorem.characters(50) }
+    let(:account) { FactoryGirl.create(:account) }
+    let(:user) { FactoryGirl.create(:user) }
 
     context 'no account or user' do
       it 'should save correctly' do
-        event = AppEvent.info(@message)
+        event = AppEvent.info(message)
         expect(event.level).to eq 'info'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
         expect(event.user).to be_nil
       end
@@ -181,47 +177,45 @@ RSpec.describe AppEvent, type: :model do
 
     context 'account but no user' do
       it 'should save correctly' do
-        event = AppEvent.info(@message, @account)
+        event = AppEvent.info(message, account)
         expect(event.level).to eq 'info'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
+        expect(event.message).to eq message
+        expect(event.account).to eq account
         expect(event.user).to be_nil
       end
     end
 
     context 'user but no account' do
       it 'should save correctly' do
-        event = AppEvent.info(@message, nil, @user)
+        event = AppEvent.info(message, nil, user)
         expect(event.level).to eq 'info'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
-        expect(event.user).to eq @user
+        expect(event.user).to eq user
       end
     end
 
     context 'user and account' do
       it 'should save correctly' do
-        event = AppEvent.info(@message, @account, @user)
+        event = AppEvent.info(message, account, user)
         expect(event.level).to eq 'info'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
-        expect(event.user).to eq @user
+        expect(event.message).to eq message
+        expect(event.account).to eq account
+        expect(event.user).to eq user
       end
     end
   end
 
   describe '.warning' do
-    before :each do
-      @message = Faker::Lorem.characters(50)
-      @account = FactoryGirl.create(:account)
-      @user = FactoryGirl.create(:user)
-    end
+    let(:message) { Faker::Lorem.characters(50) }
+    let(:account) { FactoryGirl.create(:account) }
+    let(:user) { FactoryGirl.create(:user) }
 
     context 'no account or user' do
       it 'should save correctly' do
-        event = AppEvent.warning(@message)
+        event = AppEvent.warning(message)
         expect(event.level).to eq 'warning'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
         expect(event.user).to be_nil
       end
@@ -229,47 +223,45 @@ RSpec.describe AppEvent, type: :model do
 
     context 'account but no user' do
       it 'should save correctly' do
-        event = AppEvent.warning(@message, @account)
+        event = AppEvent.warning(message, account)
         expect(event.level).to eq 'warning'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
+        expect(event.message).to eq message
+        expect(event.account).to eq account
         expect(event.user).to be_nil
       end
     end
 
     context 'user but no account' do
       it 'should save correctly' do
-        event = AppEvent.warning(@message, nil, @user)
+        event = AppEvent.warning(message, nil, user)
         expect(event.level).to eq 'warning'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
-        expect(event.user).to eq @user
+        expect(event.user).to eq user
       end
     end
 
     context 'user and account' do
       it 'should save correctly' do
-        event = AppEvent.warning(@message, @account, @user)
+        event = AppEvent.warning(message, account, user)
         expect(event.level).to eq 'warning'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
-        expect(event.user).to eq @user
+        expect(event.message).to eq message
+        expect(event.account).to eq account
+        expect(event.user).to eq user
       end
     end
   end
 
   describe '.alert' do
-    before :each do
-      @message = Faker::Lorem.characters(50)
-      @account = FactoryGirl.create(:account)
-      @user = FactoryGirl.create(:user)
-    end
+    let(:message) { Faker::Lorem.characters(50) }
+    let(:account) { FactoryGirl.create(:account) }
+    let(:user) { FactoryGirl.create(:user) }
 
     context 'no account or user' do
       it 'should save correctly' do
-        event = AppEvent.alert(@message)
+        event = AppEvent.alert(message)
         expect(event.level).to eq 'alert'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
         expect(event.user).to be_nil
       end
@@ -277,31 +269,31 @@ RSpec.describe AppEvent, type: :model do
 
     context 'account but no user' do
       it 'should save correctly' do
-        event = AppEvent.alert(@message, @account)
+        event = AppEvent.alert(message, account)
         expect(event.level).to eq 'alert'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
+        expect(event.message).to eq message
+        expect(event.account).to eq account
         expect(event.user).to be_nil
       end
     end
 
     context 'user but no account' do
       it 'should save correctly' do
-        event = AppEvent.alert(@message, nil, @user)
+        event = AppEvent.alert(message, nil, user)
         expect(event.level).to eq 'alert'
-        expect(event.message).to eq @message
+        expect(event.message).to eq message
         expect(event.account).to be_nil
-        expect(event.user).to eq @user
+        expect(event.user).to eq user
       end
     end
 
     context 'user and account' do
       it 'should save correctly' do
-        event = AppEvent.alert(@message, @account, @user)
+        event = AppEvent.alert(message, account, user)
         expect(event.level).to eq 'alert'
-        expect(event.message).to eq @message
-        expect(event.account).to eq @account
-        expect(event.user).to eq @user
+        expect(event.message).to eq message
+        expect(event.account).to eq account
+        expect(event.user).to eq user
       end
     end
   end
