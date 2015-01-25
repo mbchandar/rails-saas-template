@@ -79,9 +79,9 @@ RSpec.describe Admin::AccountsController, type: :controller do
           @account_attributes = FactoryGirl.attributes_for(:account).merge(plan_id: plan.id)
         end
 
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           post :create, account: @account_attributes
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to account' do
@@ -106,15 +106,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
           @attrs = FactoryGirl.attributes_for(:account, company_name: '')
         end
 
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           post :create, account: @attrs
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it renders the new template' do
           post :create, account: @attrs
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new account' do
@@ -177,15 +177,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :confirm_cancel, account_id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the confirm_cancel template' do
         get :confirm_cancel, account_id: @account.id
         expect(response).to render_template('confirm_cancel')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a confirm_cancel account' do
@@ -240,15 +240,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :confirm_restore, account_id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the confirm_restore template' do
         get :confirm_restore, account_id: @account.id
         expect(response).to render_template('confirm_restore')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a confirm_restore account' do
@@ -303,15 +303,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :edit, id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the edit template' do
         get :edit, id: @account.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit account' do
@@ -366,15 +366,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :events, account_id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the events template' do
         get :events, account_id: @account.id
         expect(response).to render_template('events')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
     end
   end
@@ -418,15 +418,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :index
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the index template' do
         get :index
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns accounts correctly' do
@@ -482,15 +482,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :new
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the new template' do
         get :new
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new account' do
@@ -545,15 +545,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :show, id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the show template' do
         get :show, id: @account.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show account' do
@@ -608,15 +608,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :users, account_id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the users template' do
         get :users, account_id: @account.id
         expect(response).to render_template('users')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
     end
   end
@@ -668,11 +668,11 @@ RSpec.describe Admin::AccountsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :cancel, account_id: @account.id, account: { cancellation_category_id: @cancellation_category.id,
                                                              cancellation_message: '',
                                                              cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to account' do
@@ -693,11 +693,11 @@ RSpec.describe Admin::AccountsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :cancel, account_id: @account.id, account: { cancellation_category_id: nil,
                                                              cancellation_message: '',
                                                              cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it renders the confirm_cancel template' do
@@ -705,7 +705,7 @@ RSpec.describe Admin::AccountsController, type: :controller do
                                                              cancellation_message: '',
                                                              cancellation_reason_id: nil }
           expect(response).to render_template('confirm_cancel')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new account' do
@@ -758,9 +758,9 @@ RSpec.describe Admin::AccountsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :restore, account_id: @account.id, account: {}
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to account' do
@@ -816,9 +816,9 @@ RSpec.describe Admin::AccountsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, id: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to account' do
@@ -835,15 +835,15 @@ RSpec.describe Admin::AccountsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, id: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'accounts'
+          expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it renders the new template' do
           patch :update, id: @account.id, account: FactoryGirl.attributes_for(:account, company_name: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new account' do

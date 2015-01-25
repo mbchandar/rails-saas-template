@@ -30,6 +30,8 @@
 
 # Allows the account admin to manage user invitations in the settings
 class Settings::UserInvitationsController < Settings::ApplicationController
+  add_breadcrumb 'User Invitations', :settings_user_invitations_path
+
   before_action :find_user_invitation, only: [:destroy, :edit, :show, :update]
 
   authorize_resource
@@ -49,15 +51,18 @@ class Settings::UserInvitationsController < Settings::ApplicationController
       redirect_to settings_user_invitation_path(@user_invitation),
                   notice: 'User invitation was successfully created.'
     else
+      add_breadcrumb 'New', new_settings_user_invitation_path
       logger.debug { "User invitation update failed #{@user_invitation.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_settings_user_invitation_path(@user_invitation)
   end
 
   def new
+    add_breadcrumb 'New', new_settings_user_invitation_path
     @user_invitation = current_account.user_invitations.build
   end
 
@@ -75,6 +80,7 @@ class Settings::UserInvitationsController < Settings::ApplicationController
       redirect_to settings_user_invitation_path(@user_invitation),
                   notice: 'User invitation was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_settings_user_invitation_path(@user_invitation)
       logger.debug { "User invitation update failed #{@user_invitation.inspect}" }
       render 'edit'
     end
@@ -101,13 +107,14 @@ class Settings::UserInvitationsController < Settings::ApplicationController
 
   def find_user_invitation
     @user_invitation = current_account.user_invitations.find(params[:id])
+    add_breadcrumb @user_invitation, settings_user_invitation_path(@user_invitation)
   end
 
   def user_invitation_params
     params.require(:user_invitation).permit(:email, :first_name, :last_name)
   end
 
-  def set_nav_item
-    @nav_item = 'user_invitations'
+  def set_sidebar_item
+    @sidebar_item = :user_invitations
   end
 end

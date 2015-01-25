@@ -32,17 +32,25 @@
 class Admin::DashboardController < Admin::ApplicationController
   def index
     authorize! :index, :admin_dashboard
+
+    render layout: 'application_borderless'
   end
 
   def events
     authorize! :events, :admin_dashboard
+
+    add_breadcrumb 'Events', admin_events_path
+
     @app_events = AppEvent.includes(:account, :user).page(params[:page])
-    @nav_item = 'events'
+    @sidebar_item = :events
   end
 
   def jobs
     authorize! :jobs, :admin_dashboard
+
+    add_breadcrumb 'Jobs', admin_jobs_path
+
     @jobs = Delayed::Backend::ActiveRecord::Job.page(params[:page])
-    @nav_item = 'jobs'
+    @sidebar_item = :jobs
   end
 end

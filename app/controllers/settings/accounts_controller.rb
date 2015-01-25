@@ -30,12 +30,15 @@
 
 # Allows the account admin to manage account details in the settings
 class Settings::AccountsController < Settings::ApplicationController
+  add_breadcrumb 'Account', :settings_account_path
+
   authorize_resource
 
   def home
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_settings_account_path
   end
 
   def show
@@ -48,6 +51,7 @@ class Settings::AccountsController < Settings::ApplicationController
       logger.info { "Account '#{@account}' updated - #{admin_account_url(@account)}" }
       redirect_to settings_root_path, notice: 'Account was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_settings_account_path
       logger.debug { "Account update failed #{@account.inspect}" }
       render 'edit'
     end
@@ -55,8 +59,8 @@ class Settings::AccountsController < Settings::ApplicationController
 
   private
 
-  def set_nav_item
-    @nav_item = 'account'
+  def set_sidebar_item
+    @sidebar_item = :account
   end
 
   def accounts_params

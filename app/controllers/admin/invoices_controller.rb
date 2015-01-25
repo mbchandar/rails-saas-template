@@ -50,7 +50,15 @@ class Admin::InvoicesController < Admin::ApplicationController
   private
 
   def find_account
-    @account = Account.find(params[:account_id]) if params[:account_id]
+    if params[:account_id]
+      @account = Account.find(params[:account_id])
+      @sidebar_item = :accounts
+      add_breadcrumb 'Accounts', admin_accounts_path
+      add_breadcrumb @account, admin_account_path(@account)
+      add_breadcrumb 'User Invitations', admin_account_user_invitations_path(@account)
+    else
+      add_breadcrumb 'Invoices', :admin_invoices_path
+    end
   end
 
   def find_invoice
@@ -59,9 +67,10 @@ class Admin::InvoicesController < Admin::ApplicationController
     else
       @invoice = Invoice.find(params[:id])
     end
+    add_breadcrumb @invoice, admin_invoice_path(@invoice)
   end
 
-  def set_nav_item
-    @nav_item = 'invoices'
+  def set_sidebar_item
+    @sidebar_item = :invoices
   end
 end

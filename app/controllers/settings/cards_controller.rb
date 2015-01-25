@@ -30,6 +30,8 @@
 
 # Allows the account admin to manage cards in the settings
 class Settings::CardsController < Settings::ApplicationController
+  add_breadcrumb 'Credit Card', :settings_card_path
+
   before_action :find_account, only: [:show, :edit, :update]
 
   before_action do
@@ -40,6 +42,7 @@ class Settings::CardsController < Settings::ApplicationController
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_settings_card_path
     @account.card_token = nil
   end
 
@@ -51,6 +54,7 @@ class Settings::CardsController < Settings::ApplicationController
       redirect_to settings_root_path,
                   notice: 'Credit card was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_settings_card_path
       @account.card_token = nil
       logger.debug { "Card update failed #{@account.inspect}" }
       render 'edit'
@@ -59,8 +63,8 @@ class Settings::CardsController < Settings::ApplicationController
 
   private
 
-  def set_nav_item
-    @nav_item = 'card'
+  def set_sidebar_item
+    @sidebar_item = :card
   end
 
   def find_account

@@ -10,7 +10,7 @@ content_for(:page_heading, 'Restore Account')
 <h3><%= @account %></h3>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
 <%= form_for [:admin, @account], url: admin_account_restore_path(@account), method: :patch do |f| %>
   <%= f.submit "Restore Account", class: "btn btn-success" %>
   <%= link_to "Keep account", admin_accounts_path, class: "btn btn-primary" %>

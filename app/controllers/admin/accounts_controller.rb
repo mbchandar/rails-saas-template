@@ -30,6 +30,8 @@
 
 # Provides acounts administration in the admin section
 class Admin::AccountsController < Admin::ApplicationController
+  add_breadcrumb 'Accounts', :admin_accounts_path
+
   before_action :find_account, only: [:edit,
                                       :show,
                                       :update,
@@ -56,16 +58,19 @@ class Admin::AccountsController < Admin::ApplicationController
       redirect_to admin_account_path(@account),
                   notice: 'Account was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_account_path
       logger.debug { "Account create failed #{@account.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_account_path(@account)
   end
 
   def new
     @account = Account.new
+    add_breadcrumb 'New', new_admin_account_path
   end
 
   def show
@@ -79,6 +84,7 @@ class Admin::AccountsController < Admin::ApplicationController
       redirect_to admin_account_path(@account),
                   notice: 'Account was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_account_path(@account)
       logger.debug { "Account update failed #{@account.inspect}" }
       render 'edit'
     end
@@ -86,6 +92,7 @@ class Admin::AccountsController < Admin::ApplicationController
 
   def events
     @app_events = @account.app_events.includes(:user).page(params[:page])
+    add_breadcrumb 'Events', admin_account_events_path(@account)
   end
 
   def cancel
@@ -96,15 +103,19 @@ class Admin::AccountsController < Admin::ApplicationController
       redirect_to admin_account_path(@account), notice: 'Account was successfully cancelled.'
     else
       @cancellation_categories = CancellationCategory.available_with_reasons
+      add_breadcrumb 'Cancel', admin_account_cancel_path(@account)
       logger.debug { "Account cancel failed #{@account.inspect}" }
       render 'confirm_cancel', notice: 'Unable to cancel the account.'
     end
   end
 
   def confirm_cancel
+    add_breadcrumb 'Cancel', admin_account_cancel_path(@account)
+    @cancellation_categories = CancellationCategory.available_with_reasons
   end
 
   def confirm_restore
+    add_breadcrumb 'Restore', admin_account_restore_path(@account)
   end
 
   def restore
@@ -115,12 +126,14 @@ class Admin::AccountsController < Admin::ApplicationController
       redirect_to admin_account_path(@account), notice: 'Account was successfully restored.'
     else
       logger.debug { "Account restore failed #{@account.inspect}" }
+      add_breadcrumb 'Restore', admin_account_restore_path(@account)
       render 'confirm_restore', notice: 'Unable to restore the account.'
     end
   end
 
   def users
     @user_permissions = @account.user_permissions.includes(:user).page(params[:page])
+    add_breadcrumb 'Users', admin_account_users_path(@account)
   end
 
   private
@@ -131,6 +144,7 @@ class Admin::AccountsController < Admin::ApplicationController
     else
       @account = Account.find(params[:id])
     end
+    add_breadcrumb @account, admin_account_path(@account)
   end
 
   def cancel_params
@@ -155,7 +169,7 @@ class Admin::AccountsController < Admin::ApplicationController
                                     :subdomain)
   end
 
-  def set_nav_item
-    @nav_item = 'accounts'
+  def set_sidebar_item
+    @sidebar_item = :accounts
   end
 end

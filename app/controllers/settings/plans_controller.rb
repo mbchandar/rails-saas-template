@@ -30,11 +30,15 @@
 
 # Allows the account admin to manage plans in the settings
 class Settings::PlansController < Settings::ApplicationController
+  add_breadcrumb 'Plan', :settings_plan_path
+
   before_action do
     authorize!(params[:action], @account || Account)
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_settings_plan_path
+
     @plan = Plan.available.find(params[:id])
     @account.plan_id = @plan.id
   end
@@ -57,16 +61,19 @@ class Settings::PlansController < Settings::ApplicationController
       logger.info { "Plan for '#{@account}' updated to '#{@plan}' - #{admin_account_url(@account)}" }
       redirect_to settings_root_path, notice: 'Plan was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_settings_plan_path
       logger.debug { "Plan update failed #{@account.inspect}" }
       render 'edit'
     end
   end
 
   def cancel
+    add_breadcrumb 'Cancel', cancel_settings_plan_path
     @cancellation_categories = CancellationCategory.available_with_reasons
   end
 
   def pause
+    add_breadcrumb 'Pause', pause_settings_plan_path
     if @account.pause
       StripeAccountUpdateJob.perform_later @account.id
       AppEvent.warning('Paused the account', current_account, current_user)
@@ -86,6 +93,7 @@ class Settings::PlansController < Settings::ApplicationController
       logger.info { "Account '#{@account}' destroyed - #{admin_account_url(@account)}" }
       redirect_to root_path, notice: 'Account cancelled.'
     else
+      add_breadcrumb 'Cancel', cancel_settings_plan_path
       flash[:alert] = 'Unable to cancel the account.'
       @cancellation_categories = CancellationCategory.available_with_reasons
       logger.debug { "Account destroy failed #{@account.inspect}" }
@@ -95,8 +103,8 @@ class Settings::PlansController < Settings::ApplicationController
 
   private
 
-  def set_nav_item
-    @nav_item = 'plan'
+  def set_sidebar_item
+    @sidebar_item = :plan
   end
 
   def cancel_params

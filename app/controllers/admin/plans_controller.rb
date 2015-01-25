@@ -30,6 +30,8 @@
 
 # Provides plans administration in the admin section
 class Admin::PlansController < Admin::ApplicationController
+  add_breadcrumb 'Plans', :admin_plans_path
+
   before_action :find_plan, only: [:account,
                                    :destroy,
                                    :edit,
@@ -45,6 +47,7 @@ class Admin::PlansController < Admin::ApplicationController
   end
 
   def accounts
+    add_breadcrumb 'Edit', admin_plan_accounts_path(@plan)
     @accounts =
       Account.includes(:plan).where('plan_id = ? or paused_plan_id = ?', @plan.id, @plan.id).page(params[:page])
   end
@@ -58,15 +61,18 @@ class Admin::PlansController < Admin::ApplicationController
       redirect_to admin_plan_path(@plan),
                   notice: 'Plan was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_plan_path
       logger.debug { "Plan create failed #{@plan}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_plan_path(@plan)
   end
 
   def new
+    add_breadcrumb 'New', new_admin_plan_path
     @plan = Plan.new
   end
 
@@ -81,6 +87,7 @@ class Admin::PlansController < Admin::ApplicationController
       redirect_to admin_plan_path(@plan),
                   notice: 'Plan was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_plan_path(@plan)
       logger.debug { "Plan update failed #{@plan.inspect}" }
       render 'edit'
     end
@@ -108,6 +115,7 @@ class Admin::PlansController < Admin::ApplicationController
     else
       @plan = Plan.find(params[:id])
     end
+    add_breadcrumb @plan, admin_plan_path(@plan)
   end
 
   def plans_create_params
@@ -144,7 +152,7 @@ class Admin::PlansController < Admin::ApplicationController
                                  :statement_description)
   end
 
-  def set_nav_item
-    @nav_item = 'plans'
+  def set_sidebar_item
+    @sidebar_item = :plans
   end
 end

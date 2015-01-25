@@ -75,15 +75,15 @@ RSpec.describe Settings::InvoicesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to invoices' do
+      it 'sets the sidebar_item to invoices' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'invoices'
+        expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -111,15 +111,15 @@ RSpec.describe Settings::InvoicesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to invoices' do
+      it 'sets the sidebar_item to invoices' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'invoices'
+        expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do

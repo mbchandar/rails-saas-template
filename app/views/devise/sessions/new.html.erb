@@ -34,7 +34,7 @@ content_for(:page_heading, 'Sign In')
 
 	<div class="panel-footer">
 		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6">
+			<div class="col-sm-6">
 <% if devise_mapping.rememberable? %>
 				<div class="checkbox">
 					<label><%= f.check_box :remember_me %> Remember me</label>
@@ -42,7 +42,7 @@ content_for(:page_heading, 'Sign In')
 <% end %>
 
 			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right">
+			<div class="col-sm-6" style="text-align: right">
 				<%= f.submit 'Sign In', class: "btn btn-primary" %>
 			</div>
 		</div>

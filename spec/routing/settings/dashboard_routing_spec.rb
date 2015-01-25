@@ -28,34 +28,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Invoice model
-class Invoice < ActiveRecord::Base
-  belongs_to :account
+require 'rails_helper'
 
-  before_validation(on: :create) do
-    unless inv_number
-      max_inv_number = Invoice.maximum(:inv_number)
-      if max_inv_number
-        self.inv_number = max_inv_number + 1
-      else
-        self.inv_number = 1
-      end
-    end
-  end
-
-  validates :account_id, presence: true
-  validates :download_url, length: { maximum: 255 }
-  validates :inv_number,
-            numericality: { greater_than: 0, integer_only: true },
-            uniqueness: true,
-            presence: true
-  validates :invoiced_at, presence: true
-  validates :total_amount,
-            numericality: true,
-            presence: true
-  validates :stripe_invoice_id, length: { maximum: 100 }, presence: true
-
-  def to_s
-    inv_number.to_s
+# Tests for settings/accounts routing
+RSpec.describe 'routing for the settings dashboard', type: :routing do
+  it 'routes GET /path/settings to settings/dashboard#index' do
+    expect(get: '/path/settings').to route_to(
+      controller: 'settings/dashboard',
+      action: 'index',
+      path: 'path'
+    )
   end
 end

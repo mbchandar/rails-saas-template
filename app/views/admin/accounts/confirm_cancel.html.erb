@@ -10,7 +10,7 @@ content_for(:page_heading, 'Cancel Account')
 <h3><%= @account %></h3>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
 <%= form_for [:admin, @account], url: admin_account_cancel_path(@account), method: :patch do |f| %>
   <div id="cancellation-reason-block" class="form-group">
       <label>Cancellation Reason</label>

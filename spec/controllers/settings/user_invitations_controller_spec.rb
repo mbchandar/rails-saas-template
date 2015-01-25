@@ -93,9 +93,9 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it redirects to user_invitation' do
@@ -120,16 +120,16 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it renders the new template' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation,
                                                                                        email: '')
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user invitation' do
@@ -163,9 +163,9 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it redirects to user_invitation' do
@@ -190,15 +190,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it renders the new template' do
           post :create, path: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user invitation' do
@@ -348,15 +348,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :edit, path: @account.id, id: @user_invitation.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @user_invitation.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user invitation' do
@@ -379,15 +379,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :edit, path: @account.id, id: @user_invitation.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @user_invitation.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user invitation' do
@@ -438,15 +438,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to user_invitations' do
+      it 'sets the sidebar_item to user_invitations' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -474,15 +474,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to user_invitations' do
+      it 'sets the sidebar_item to user_invitations' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -539,15 +539,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :new, path: @account.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the new template' do
         get :new, path: @account.id
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new user' do
@@ -570,15 +570,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :new, path: @account.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the new template' do
         get :new, path: @account.id
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new user' do
@@ -634,15 +634,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :show, path: @account.id, id: @user_invitation.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the show template' do
         get :show, path: @account.id, id: @user_invitation.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user invitation' do
@@ -665,15 +665,15 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :show, path: @account.id, id: @user_invitation.id
-        expect(assigns(:nav_item)).to eq 'user_invitations'
+        expect(assigns(:sidebar_item)).to eq :user_invitations
       end
 
       it 'renders the show template' do
         get :show, path: @account.id, id: @user_invitation.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user invitation' do
@@ -739,12 +739,12 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it redirects to user' do
@@ -766,12 +766,12 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it renders the new template' do
@@ -780,7 +780,7 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user invite' do
@@ -808,12 +808,12 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
           expect(UserMailer).to receive(:user_invitation).with(kind_of(UserInvitation)).once.and_return(mailer)
         end
 
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation)
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it redirects to user' do
@@ -835,12 +835,12 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
-          expect(assigns(:nav_item)).to eq 'user_invitations'
+          expect(assigns(:sidebar_item)).to eq :user_invitations
         end
 
         it 'it renders the new template' do
@@ -849,7 +849,7 @@ RSpec.describe Settings::UserInvitationsController, type: :controller do
                 id: @user_invitation.id,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user invite' do

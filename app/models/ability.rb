@@ -79,7 +79,7 @@ class Ability
         can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
         can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
         can :manage, Invoice, account: { user_permissions: { user_id: user.id, account_admin: true } }
-        can :index, :dashboard
+        can :index, :settings_dashboard
       end
 
       # Regular users can do some things BUT not in the settings section

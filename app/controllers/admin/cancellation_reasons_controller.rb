@@ -49,15 +49,19 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
       redirect_to admin_cancellation_category_cancellation_reason_path(@cancellation_category, @cancellation_reason),
                   notice: 'Cancellation reason was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_cancellation_category_cancellation_reason_path(@cancellation_category)
       logger.debug { "Cancellation reason create failed #{@cancellation_reason.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_cancellation_category_cancellation_reason_path(@cancellation_category,
+                                                                                     @cancellation_reason)
   end
 
   def new
+    add_breadcrumb 'New', new_admin_cancellation_category_cancellation_reason_path(@cancellation_category)
     @cancellation_reason = @cancellation_category.cancellation_reasons.build
   end
 
@@ -73,6 +77,8 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
       redirect_to admin_cancellation_category_cancellation_reason_path(@cancellation_category, @cancellation_reason),
                   notice: 'Cancellation reason was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_cancellation_category_cancellation_reason_path(@cancellation_category,
+                                                                                       @cancellation_reason)
       logger.debug { "Cancellation reason update #{@cancellation_reason.inspect}" }
       render 'edit'
     end
@@ -82,6 +88,10 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
 
   def find_cancellation_category
     @cancellation_category = CancellationCategory.find(params[:cancellation_category_id])
+    add_breadcrumb 'Cancellation Categories', admin_cancellation_categories_path
+    add_breadcrumb @cancellation_category, admin_cancellation_category_path(@cancellation_category)
+    add_breadcrumb 'Cancellation Reasons',
+                   admin_cancellation_category_cancellation_reasons_path(@cancellation_category)
   end
 
   def find_cancellation_reason
@@ -95,7 +105,7 @@ class Admin::CancellationReasonsController < Admin::ApplicationController
                                                 :require_message)
   end
 
-  def set_nav_item
-    @nav_item = 'cancellation_categories'
+  def set_sidebar_item
+    @sidebar_item = :cancellation_categories
   end
 end

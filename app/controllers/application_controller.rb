@@ -37,6 +37,12 @@ class ApplicationController < ActionController::Base
   # Make sure the user is authenticated by default
   before_action :authenticate_user!
 
+  # Set the sidebar menu items
+  before_action :set_sidebar_menu
+
+  # Set the current sidebar item
+  before_action :set_sidebar_item
+
   # Lock down the controllers with cancancan
   check_authorization
 
@@ -78,5 +84,14 @@ class ApplicationController < ActionController::Base
   # Find the current account, returning it or nil if there is no current account
   def current_account
     @current_account ||= Account.find_account(params[:path], request.host, request.subdomain.last)
+  end
+
+  def set_sidebar_menu
+    @sidebar_menu = {
+    }
+  end
+
+  def set_sidebar_item
+    @sidebar_item = nil
   end
 end

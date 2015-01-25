@@ -4,7 +4,7 @@ content_for(:page_heading, 'Accept User Invitation')
 %>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <h2>Already got an account?</h2>
       <p>You can link this invitation to an existing account.</p>
 <% if user_signed_in? %>
@@ -19,7 +19,7 @@ content_for(:page_heading, 'Accept User Invitation')
         <%= link_to 'Sign in first', new_user_session_path, class: 'btn btn-primary' %>
 <% end %>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <h2>Need a new account?</h2>
       <p>If you don't already have an account you can create one for free.</p>
       <p><%= link_to 'Create Account', new_user_registration_path(invite_code: @user_invitation.invite_code), class: 'btn btn-primary' %></p>

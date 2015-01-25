@@ -30,10 +30,7 @@
 
 # Base class for all application controllers
 class Admin::ApplicationController < ApplicationController
-  # Switch to the admin layout for all admin controllers
-  layout 'admin'
-
-  before_action :set_nav_item
+  add_breadcrumb 'Admin', :admin_root_path
 
   # Return the ability model. It needs to know about the user and the account.
   def current_ability
@@ -44,5 +41,23 @@ class Admin::ApplicationController < ApplicationController
 
   def set_nav_item
     @nav_item = 'dashboard'
+  end
+
+  def set_sidebar_menu
+    @sidebar_menu = {
+      dashboard: { title: 'Dashboard', url: admin_root_path },
+      accounts: { title: 'Accounts', url: admin_accounts_path },
+      cancellation_categories: { title: 'Cancellation Categories', url: admin_cancellation_categories_path },
+      events: { title: 'Events', url: admin_events_path },
+      invoices: { title: 'Invoices', url: admin_invoices_path },
+      jobs: { title: 'Jobs', url: admin_jobs_path },
+      plans: { title: 'Plans', url: admin_plans_path },
+      users: { title: 'Users', url: admin_users_path },
+      user_invitations: { title: 'User Invitations', url: admin_user_invitations_path }
+    }
+  end
+
+  def set_sidebar_item
+    @sidebar_item = :dashboard
   end
 end

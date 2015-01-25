@@ -20,13 +20,13 @@ content_for(:page_heading, 'Sign Up')
 <% unless user_signed_in? %>
 <%= f.fields_for :users do |u| %>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="form-group">
         <%= u.label :first_name, class: "control-label" %>
         <%= u.text_field :first_name, class: "form-control", placeholder: "First Name" %>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="form-group">
         <%= u.label :last_name, class: "control-label" %>
         <%= u.text_field :last_name, class: "form-control", placeholder: "Last Name" %>
@@ -34,7 +34,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group">
         <%= u.label :email, class: "control-label" %>
         <%= u.text_field :email, class: "form-control", placeholder: "Email" %>
@@ -42,13 +42,13 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="form-group">
         <%= u.label :password, class: "control-label" %>
         <%= u.password_field :password, class: "form-control", placeholder: "Password" %>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="form-group">
         <%= u.label :password_confirmation, class: "control-label" %>
         <%= u.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password" %>
@@ -58,7 +58,7 @@ content_for(:page_heading, 'Sign Up')
 <% end %>
 <% end %>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group">
         <%= f.label :company_name, class: "control-label" %>
         <%= f.text_field :company_name, class: "form-control", placeholder: "Company Name" %>
@@ -66,7 +66,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="account_address_line1_group" style="display: none">
         <%= f.label :address_line1, class: "control-label" %>
         <%= f.text_field :address_line1, class: "form-control", placeholder: "Street Address" %>
@@ -74,7 +74,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="account_address_line2_group" style="display: none">
         <%= f.label :address_line2, class: "control-label" %>
         <%= f.text_field :address_line2, class: "form-control" %>
@@ -82,7 +82,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="account_address_city_group" style="display: none">
         <%= f.label :address_city, class: "control-label" %>
         <%= f.text_field :address_city, class: "form-control", placeholder: "City/Suburb" %>
@@ -90,7 +90,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="account_address_state_group" style="display: none">
         <%= f.label :address_state, class: "control-label" %>
         <%= f.text_field :address_state, class: "form-control", placeholder: "State" %>
@@ -98,7 +98,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="account_address_zip_group" style="display: none">
         <%= f.label :address_zip, class: "control-label" %>
         <%= f.text_field :address_zip, class: "form-control", placeholder: "ZIP" %>
@@ -106,7 +106,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group">
         <%= f.label :address_country, class: "control-label" %>
         <%= f.country_select :address_country, ["AU", "CA", "NZ", "GB", "US"], { iso_codes: true}, { class: "form-control" } %>
@@ -121,7 +121,7 @@ content_for(:page_heading, 'Sign Up')
   </div>
 <% else %>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="card_name_group">
         <label class="control-label">Card Name</label>
         <input type="text" id="cc_name" placeholder="Card Name" class="form-control" data-stripe="name">
@@ -129,7 +129,7 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="card_number_group">
         <label class="control-label">Card Number</label>
         <div class="input-group">
@@ -140,20 +140,20 @@ content_for(:page_heading, 'Sign Up')
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-sm-6">
       <div class="form-group" id="card_expiry_group">
         <label class="control-label">Expiry Date</label>
         <div class="input-group">
-          <div class="col-xs-6 col-md-6" style="padding-left: 0">
+          <div class="col-xs-6 col-sm-6" style="padding-left: 0">
             <input type="cc_expiry_month" placeholder="MM" class="form-control" data-stripe="exp-month">
           </div>
-          <div class="col-xs-6 col-md-6" style="padding-left: 0">
+          <div class="col-xs-6 col-sm-6" style="padding-left: 0">
             <input type="cc_expiry_year" placeholder="YYYY" class="form-control" data-stripe="exp-year">
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-sm-6">
       <div class="form-group" id="card_cvc_group">
         <label class="control-label">CVC</label>
         <input type="text" id="cc_cvc" placeholder="CVC" class="form-control" data-stripe="cvc">

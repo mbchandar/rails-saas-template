@@ -30,13 +30,15 @@
 
 require 'rails_helper'
 
-# Tests for the admin dashboard
-RSpec.describe Admin::DashboardController, type: :controller do
-  # Requesting http://www.[your-domain]/admin should show the admin dashboard
+# Tests for the settings dashboard
+RSpec.describe Settings::DashboardController, type: :controller do
   describe 'GET #index' do
+    let(:account) { FactoryGirl.create(:account) }
+
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :index
+        get :index, path: account.id
+        expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -48,66 +50,39 @@ RSpec.describe Admin::DashboardController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :index
+        get :index, path: account.id
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :index
+        get :index, path: account.id
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
     end
 
-    context 'as super admin user' do
+    context 'as account admin user' do
       before(:each) do
-        admin = FactoryGirl.create(:admin)
-        sign_in :user, admin
+        user = FactoryGirl.create(:user)
+        FactoryGirl.create(:user_permission, account: account, user: user, account_admin: true)
+        sign_in :user, user
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :index
+        get :index, path: account.id
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the sidebar_item to dashboard' do
-        get :index
+      it 'sets the sidebar_item to accounts' do
+        get :index, path: account.id
         expect(assigns(:sidebar_item)).to eq :dashboard
       end
 
-      it 'renders the index template' do
-        get :index
+      it 'renders the show template' do
+        get :index, path: account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/application_borderless')
-      end
-    end
-  end
-
-  # Requesting http://www.[your-domain]/admin/events should show all the system events
-  describe 'GET #events' do
-    context 'as anonymous user' do
-      it 'redirects to login page' do
-        get :events
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'as unauthorized users' do
-      before(:each) do
-        user = FactoryGirl.create(:user)
-        sign_in :user, user
-      end
-
-      it 'responds with forbidden' do
-        get :events
-        expect(response).to be_forbidden
-      end
-
-      it 'renders the forbidden' do
-        get :events
-        expect(response).to render_template('errors/forbidden')
-        expect(response).to render_template('layouts/errors')
+        expect(response).to render_template('layouts/application')
       end
     end
 
@@ -118,19 +93,19 @@ RSpec.describe Admin::DashboardController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :events
+        get :index, path: account.id
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the sidebar_item to dashboard' do
-        get :events
-        expect(assigns(:sidebar_item)).to eq :events
+      it 'sets the sidebar_item to accounts' do
+        get :index, path: account.id
+        expect(assigns(:sidebar_item)).to eq :dashboard
       end
 
-      it 'renders the events template' do
-        get :events
-        expect(response).to render_template('events')
+      it 'renders the show template' do
+        get :index, path: account.id
+        expect(response).to render_template('index')
         expect(response).to render_template('layouts/application')
       end
     end

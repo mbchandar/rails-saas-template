@@ -3,7 +3,7 @@ content_for(:page_title, "Plan - #{@plan}")
 content_for(:page_heading, 'Plan')
 %>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
   <li class="active"><%= link_to "Plan", admin_plan_path(@plan) %></li>
   <% if can?(:accounts, @plan) %><li><%= link_to "Accounts", admin_plan_accounts_path(@plan) %></li><% end %>
 </ul>

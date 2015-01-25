@@ -30,6 +30,8 @@
 
 # Provides cancellation categories administration in the admin section
 class Admin::CancellationCategoriesController < Admin::ApplicationController
+  add_breadcrumb 'Cancellation Categories', :admin_cancellation_categories_path
+
   before_action :find_cancellation_category, only: [:edit, :show, :update]
 
   authorize_resource
@@ -48,15 +50,18 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
       redirect_to admin_cancellation_category_path(@cancellation_category),
                   notice: 'Cancellation category was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_cancellation_category_path
       logger.debug { "Cancellation category create failed #{@cancellation_category.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_cancellation_category_path(@cancellation_category)
   end
 
   def new
+    add_breadcrumb 'New', new_admin_cancellation_category_path
     @cancellation_category = CancellationCategory.new
   end
 
@@ -72,6 +77,7 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
       redirect_to admin_cancellation_category_path(@cancellation_category),
                   notice: 'Cancellation category was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_cancellation_category_path(@cancellation_category)
       logger.debug { "Cancellation category update failed #{@cancellation_category.inspect}" }
       render 'edit'
     end
@@ -81,6 +87,7 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
 
   def find_cancellation_category
     @cancellation_category = CancellationCategory.find(params[:id])
+    add_breadcrumb @cancellation_category, admin_cancellation_category_path(@cancellation_category)
   end
 
   def cancellation_category_params
@@ -90,7 +97,7 @@ class Admin::CancellationCategoriesController < Admin::ApplicationController
                                                   :require_message)
   end
 
-  def set_nav_item
-    @nav_item = 'cancellation_categories'
+  def set_sidebar_item
+    @sidebar_item = :cancellation_categories
   end
 end

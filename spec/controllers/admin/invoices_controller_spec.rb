@@ -74,15 +74,15 @@ RSpec.describe Admin::InvoicesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :index
-        expect(assigns(:nav_item)).to eq 'invoices'
+        expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the index template' do
         get :index
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -137,15 +137,15 @@ RSpec.describe Admin::InvoicesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to invoices' do
+      it 'sets the sidebar_item to invoices' do
         get :index, account_id: @account.id
-        expect(assigns(:nav_item)).to eq 'accounts'
+        expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the index template' do
         get :index, account_id: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -169,7 +169,7 @@ RSpec.describe Admin::InvoicesController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -182,12 +182,12 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -200,24 +200,24 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
-        get :show, account_id: @account.id, id: @invoice.id
-        expect(assigns(:nav_item)).to eq 'invoices'
+      it 'sets the sidebar_item to users' do
+        get :show, id: @invoice.id
+        expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the show template' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user invitation' do
-        get :show, account_id: @account.id, id: @invoice.id
+        get :show, id: @invoice.id
         inv = assigns(:invoice)
         expect(inv).to_not be_nil
         expect(inv.id).to eq @invoice.id

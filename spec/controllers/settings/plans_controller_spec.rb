@@ -78,15 +78,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :edit, path: @account.id, id: @plan1.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @plan1.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit account' do
@@ -110,15 +110,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :edit, path: @account.id, id: @plan1.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @plan1.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit account' do
@@ -179,15 +179,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :show, path: @account.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the show template' do
         get :show, path: @account.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns the plans' do
@@ -216,15 +216,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :show, path: @account.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the show template' do
         get :show, path: @account.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns the plans' do
@@ -280,9 +280,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, plan_id: @plan1.id)
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to plans' do
@@ -298,9 +298,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, plan_id: nil)
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the errors/not_found template' do
@@ -325,9 +325,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, plan_id: @plan1.id)
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to plans' do
@@ -343,9 +343,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, plan_id: nil)
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the errors/not_found template' do
@@ -409,15 +409,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :cancel, path: @account.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the cancel template' do
         get :cancel, path: @account.id
         expect(response).to render_template('cancel')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns the account' do
@@ -440,15 +440,15 @@ RSpec.describe Settings::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :cancel, path: @account.id
-        expect(assigns(:nav_item)).to eq 'plan'
+        expect(assigns(:sidebar_item)).to eq :plan
       end
 
       it 'renders the cancel template' do
         get :cancel, path: @account.id
         expect(response).to render_template('cancel')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns the account' do
@@ -501,9 +501,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'is pausable' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.id
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to the root path' do
@@ -523,15 +523,15 @@ RSpec.describe Settings::PlansController, type: :controller do
           @plan.update_attributes(paused_plan: nil)
         end
 
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.id
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the errors/cancel template' do
           patch :pause, path: @account.id
           expect(response).to render_template('cancel')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'sets a notice' do
@@ -555,9 +555,9 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'is pausable' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.id
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to the root path' do
@@ -577,15 +577,15 @@ RSpec.describe Settings::PlansController, type: :controller do
           @plan.update_attributes(paused_plan: nil)
         end
 
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.id
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the errors/cancel template' do
           patch :pause, path: @account.id
           expect(response).to render_template('cancel')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'sets a notice' do
@@ -651,11 +651,11 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           delete :destroy, path: @account.id, account: { cancellation_category_id: @cancellation_category.id,
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to plans' do
@@ -675,11 +675,11 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           delete :destroy, path: @account.id, account: { cancellation_category_id: nil,
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the cancel template' do
@@ -687,7 +687,7 @@ RSpec.describe Settings::PlansController, type: :controller do
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
           expect(response).to render_template('cancel')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'sets an alert' do
@@ -715,11 +715,11 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           delete :destroy, path: @account.id, account: { cancellation_category_id: @cancellation_category.id,
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it redirects to plans' do
@@ -739,11 +739,11 @@ RSpec.describe Settings::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           delete :destroy, path: @account.id, account: { cancellation_category_id: nil,
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
-          expect(assigns(:nav_item)).to eq 'plan'
+          expect(assigns(:sidebar_item)).to eq :plan
         end
 
         it 'it renders the cancel template' do
@@ -751,7 +751,7 @@ RSpec.describe Settings::PlansController, type: :controller do
                                                          cancellation_message: '',
                                                          cancellation_reason_id: nil }
           expect(response).to render_template('cancel')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'sets an alert' do

@@ -28,34 +28,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Invoice model
-class Invoice < ActiveRecord::Base
-  belongs_to :account
-
-  before_validation(on: :create) do
-    unless inv_number
-      max_inv_number = Invoice.maximum(:inv_number)
-      if max_inv_number
-        self.inv_number = max_inv_number + 1
-      else
-        self.inv_number = 1
-      end
-    end
+# Allows the account admin to manage account details in the settings
+class Settings::DashboardController < Settings::ApplicationController
+  def index
+    authorize! :index, :settings_dashboard
   end
 
-  validates :account_id, presence: true
-  validates :download_url, length: { maximum: 255 }
-  validates :inv_number,
-            numericality: { greater_than: 0, integer_only: true },
-            uniqueness: true,
-            presence: true
-  validates :invoiced_at, presence: true
-  validates :total_amount,
-            numericality: true,
-            presence: true
-  validates :stripe_invoice_id, length: { maximum: 100 }, presence: true
+  private
 
-  def to_s
-    inv_number.to_s
+  def set_sidebar_item
+    @sidebar_item = :dashboard
   end
 end

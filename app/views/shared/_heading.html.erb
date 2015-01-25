@@ -1,0 +1,9 @@
+        <div id="heading">
+          <div class="container-fluid">
+            <h1><%= yield :page_heading %><% if content_for? :page_sub_heading %> <small><%= yield :page_sub_heading %></small><% end %> </h1>
+            <ol class="breadcrumb">
+              <li><%= link_to params[:path] ? tenant_root_path : root_path do %><%= fa_icon 'home' %> Home<% end %></li>
+              <%= render_breadcrumbs :tag => :li, :separator => "" %>
+            </ol>
+          </div>
+        </div>

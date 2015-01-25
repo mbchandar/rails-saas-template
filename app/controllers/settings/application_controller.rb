@@ -30,19 +30,29 @@
 
 # Base class for all settings section controllers that provides common functionality
 class Settings::ApplicationController < ApplicationController
+  add_breadcrumb 'Settings', :settings_root_path
+
   before_action :find_account
-
-  before_action :set_nav_item
-
-  layout 'settings'
 
   # Return the ability model. It needs to know about the user and the account.
   def current_ability
     Ability.new(current_user, current_account, :settings)
   end
 
-  def set_nav_item
-    @nav_item = 'dashboard'
+  def set_sidebar_menu
+    @sidebar_menu = {
+      dashboard: { title: 'Dashboard', url: settings_root_path },
+      account: { title: 'Details', url: settings_account_path },
+      card: { title: 'Credit Card', url: settings_card_path },
+      invoices: { title: 'Invoices', url: settings_invoices_path },
+      plan: { title: 'Plan', url: settings_plan_path },
+      users: { title: 'Users', url: settings_user_permissions_path },
+      user_invitations: { title: 'User Invitations', url: settings_user_invitations_path }
+    }
+  end
+
+  def set_sidebar_item
+    @sidebar_item = :dashboard
   end
 
   def find_account

@@ -30,6 +30,8 @@
 
 # The Application controller to show the dashboard for the logged in account
 class DashboardController < ApplicationController
+  add_breadcrumb 'Dashboard', :tenant_root_path
+
   def index
     authorize! :index, :dashboard
   end

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -14,44 +14,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
 <% if user_signed_in? %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome <%= current_user %> <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="navbar-content">
-                <div class="row">
-                  <div class="col-md-5">
-                    <img src="http://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/twDq00QDud4/s120-c/photo.jpg"
-                       alt="Alternate Text" class="img-responsive" />
-                    <p class="text-center small"><%= link_to 'Change Photo', edit_user_registration_path %></p>
-                  </div>
-                  <div class="col-md-7">
-                    <span><%= current_user %></span>
-                    <p class="text-muted small"><%= current_user.email %></p>
-                    <div class="divider"></div>
-                    <%= link_to 'View Profile', edit_user_registration_path, class: 'btn btn-primary btn-sm active' %>
-                  </div>
-                </div>
-              </div>
-              <div class="navbar-footer">
-                <div class="navbar-footer-content">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <%= link_to 'Change Password', edit_user_registration_path, class: 'btn btn-default btn-sm active' %>
-                    </div>
-                    <div class="col-md-6">
-                      <%= link_to '<span class="glyphicon glyphicon-off"></span> Sign Out'.html_safe, destroy_user_session_path, method: :delete, class: 'btn btn-danger btn-sm pull-right' %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </li>
+        <li><%= link_to user_path(current_user) do %><%= fa_icon 'user' %> Welcome, <%= current_user %><% end %></li>
 <% else %>
         <li><%= link_to "Plans & Pricing", pricing_path %></li>
         <li><%= link_to "Sign Up", pricing_path %></li>
         <li><%= link_to "Sign In", new_user_session_path %></li>
+<% end %>
+      </ul>
+      <ul id="side-nav" class="nav navbar-nav navbar-right">
+<% @sidebar_menu.each do |key, menu_item| %>
+        <li<%if @sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:title], menu_item[:url] %></li>
 <% end %>
       </ul>
     </div>

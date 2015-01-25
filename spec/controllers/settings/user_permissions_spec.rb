@@ -208,15 +208,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :edit, path: @account.id, id: @user_permission.to_param
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @user_permission.to_param
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user permission' do
@@ -239,15 +239,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :edit, path: @account.id, id: @user_permission.to_param
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id, id: @user_permission.to_param
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user permission' do
@@ -298,15 +298,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to user_permissions' do
+      it 'sets the sidebar_item to user_permissions' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -334,15 +334,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to user_permissions' do
+      it 'sets the sidebar_item to user_permissions' do
         get :index, path: @account.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the index template' do
         get :index, path: @account.id
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -404,15 +404,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :show, path: @account.id, id: @user_permission.to_param
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the show template' do
         get :show, path: @account.id, id: @user_permission.to_param
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user permission' do
@@ -435,15 +435,15 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :show, path: @account.id, id: @user_permission.to_param
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the show template' do
         get :show, path: @account.id, id: @user_permission.to_param
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user permission' do
@@ -504,12 +504,12 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission)
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it redirects to user' do
@@ -531,12 +531,12 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it renders the new template' do
@@ -545,7 +545,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user permission' do
@@ -567,12 +567,12 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission)
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it redirects to user permissions' do
@@ -594,12 +594,12 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update,
                 path: @account.id,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it renders the new template' do
@@ -608,7 +608,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user permission' do

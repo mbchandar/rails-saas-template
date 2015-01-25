@@ -30,6 +30,8 @@
 
 # Provides user permissions administration in the settings section
 class Settings::UserPermissionsController < Settings::ApplicationController
+  add_breadcrumb 'Users', :settings_user_permissions_path
+
   before_action :find_user_permission, only: [:destroy, :edit, :show, :update]
 
   authorize_resource
@@ -39,6 +41,7 @@ class Settings::UserPermissionsController < Settings::ApplicationController
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_settings_user_permission_path(@user_permission)
   end
 
   def show
@@ -53,6 +56,7 @@ class Settings::UserPermissionsController < Settings::ApplicationController
       # rubocop:enable Metrics/LineLength
       redirect_to settings_user_permission_path(@user_permission), notice: 'User permissions were successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_settings_user_permission_path(@user_permission)
       logger.debug { "User persmissions update failed #{@user_permission.inspect}" }
       render 'edit'
     end
@@ -81,13 +85,14 @@ class Settings::UserPermissionsController < Settings::ApplicationController
     end
     @user_permission = current_account.user_permissions.includes(:user).where(rec_num: id).first!
     @user = @user_permission.user
+    add_breadcrumb @user, settings_user_permission_path(@user_permission)
   end
 
   def user_permissions_params
     params.require(:user_permission).permit(:account_admin)
   end
 
-  def set_nav_item
-    @nav_item = 'users'
+  def set_sidebar_item
+    @sidebar_item = :users
   end
 end

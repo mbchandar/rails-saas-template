@@ -80,9 +80,9 @@ RSpec.describe Admin::UsersController, type: :controller do
           expect(UserMailer).to receive(:welcome).with(kind_of(User)).once.and_return(mailer)
         end
 
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, user: FactoryGirl.attributes_for(:user)
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it redirects to user' do
@@ -103,15 +103,15 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           post :create, user: FactoryGirl.attributes_for(:user)
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it renders the new template' do
           post :create, user: FactoryGirl.attributes_for(:user, email: '')
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user' do
@@ -251,15 +251,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :accounts, user_id: @user.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the accounts template' do
         get :accounts, user_id: @user.id
         expect(response).to render_template('accounts')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a user' do
@@ -321,15 +321,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :edit, id: @user.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the edit template' do
         get :edit, id: @user.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user' do
@@ -379,15 +379,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :index
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the index template' do
         get :index
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns users correctly' do
@@ -448,15 +448,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :user_invitations, user_id: @user.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the accounts template' do
         get :user_invitations, user_id: @user.id
         expect(response).to render_template('user_invitations')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a user' do
@@ -515,15 +515,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :new
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the new template' do
         get :new
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new user' do
@@ -577,15 +577,15 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to users' do
+      it 'sets the sidebar_item to users' do
         get :show, id: @user.id
-        expect(assigns(:nav_item)).to eq 'users'
+        expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the show template' do
         get :show, id: @user.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user' do
@@ -634,9 +634,9 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it redirects to user' do
@@ -653,15 +653,15 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to users' do
+        it 'sets the sidebar_item to users' do
           patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user, email: '')
-          expect(assigns(:nav_item)).to eq 'users'
+          expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it renders the new template' do
           patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user, email: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user' do

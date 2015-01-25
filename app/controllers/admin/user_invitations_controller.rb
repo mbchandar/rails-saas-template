@@ -54,15 +54,18 @@ class Admin::UserInvitationsController < Admin::ApplicationController
       redirect_to admin_account_user_invitation_path(@user_invitation.account, @user_invitation),
                   notice: 'User invitation was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_account_user_invitation_path(@account)
       logger.debug { "User invitation create failed #{@user_invitation.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_account_user_invitation_path(@account, @user_invitation)
   end
 
   def new
+    add_breadcrumb 'New', new_admin_account_user_invitation_path(@account)
     @user_invitation = @account.user_invitations.build
   end
 
@@ -80,6 +83,7 @@ class Admin::UserInvitationsController < Admin::ApplicationController
       redirect_to admin_account_user_invitation_path(@user_invitation.account, @user_invitation),
                   notice: 'User invitation was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_account_user_invitation_path(@account, @user_invitation)
       render 'edit'
     end
   end
@@ -99,13 +103,22 @@ class Admin::UserInvitationsController < Admin::ApplicationController
   end
 
   def accounts
+    add_breadcrumb 'Edit', edit_admin_account_user_invitation_accounts_path(@accounts, @user_invitation)
     @user_permissions = @user.user_permissions.includes(:account).page(params[:page])
   end
 
   private
 
   def find_account
-    @account = Account.find(params[:account_id]) if params[:account_id]
+    if params[:account_id]
+      @account = Account.find(params[:account_id]) if params[:account_id]
+      @sidebar_item = :accounts
+      add_breadcrumb 'Accounts', admin_accounts_path
+      add_breadcrumb @account, admin_account_path(@account)
+      add_breadcrumb 'User Invitations', admin_account_user_invitations_path(@account)
+    else
+      add_breadcrumb 'User Invitations', admin_user_invitations_path
+    end
   end
 
   def find_user_invitation
@@ -114,13 +127,14 @@ class Admin::UserInvitationsController < Admin::ApplicationController
     else
       @user_invitation = UserInvitation.find(params[:id])
     end
+    add_breadcrumb @user_invitation, admin_account_user_invitation_path(@account, @user_invitation)
   end
 
   def user_invitation_params
     params.require(:user_invitation).permit(:email, :first_name, :last_name)
   end
 
-  def set_nav_item
-    @nav_item = 'accounts'
+  def set_sidebar_item
+    @sidebar_item = :user_invitations
   end
 end

@@ -133,4 +133,11 @@ RSpec.describe CancellationCategory, type: :model do
   describe '.require_message' do
     # t.boolean :active, default: true, null: false
   end
+
+  describe '.to_s' do
+    it 'returns the name' do
+      cancellation_category = FactoryGirl.build(:cancellation_category, name: 'category')
+      expect(cancellation_category.to_s).to eq 'category'
+    end
+  end
 end

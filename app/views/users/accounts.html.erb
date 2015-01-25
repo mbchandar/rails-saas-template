@@ -3,7 +3,7 @@ content_for(:page_title, "User Accounts - #{@user}")
 content_for(:page_heading, 'User Accounts')
 %>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
   <% if can?(:index, @user) %><li><%= link_to "User", user_path(@user) %></li><% end %>
   <li class="active"><%= link_to "Accounts", user_accounts_path(@user) %></li>
   <% if can?(:invitations, @user) %><li><%= link_to "Invitations", user_user_invitations_path(@user) %></li><% end %>

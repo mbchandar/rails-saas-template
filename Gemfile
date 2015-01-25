@@ -40,9 +40,16 @@ gem 'tzinfo-data', '~> 1.2014.10', platforms: [:mingw, :mswin]
 
 # Add bootstrap-sass for a theme
 gem 'bootstrap-sass', '~> 3.3.1.0'
+gem 'bootstrap-switch-rails', '~> 3.3.0'
+
+# Added font-awesome
+gem 'font-awesome-rails', '~> 4.2.0.0'
 
 # Add kaminari for paging results
 gem 'kaminari', '~> 0.16.1'
+
+# Add breadcrumbs on rails to provide breadcrumbs
+gem 'breadcrumbs_on_rails', '~> 2.3.0'
 
 # Add flutie for helpers with title and body class
 gem 'flutie', '~> 2.0.0'

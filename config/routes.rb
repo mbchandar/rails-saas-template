@@ -136,7 +136,7 @@ Rails.application.routes.draw do
       end
       resources :user_permissions, except: [:create, :new]
       resources :user_invitations
-      root to: 'accounts#home'
+      root to: 'dashboard#index'
     end
     root to: 'dashboard#index', as: :tenant_root
   end

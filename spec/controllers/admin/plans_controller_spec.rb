@@ -74,9 +74,9 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           post :create, plan: FactoryGirl.attributes_for(:plan)
-          expect(assigns(:nav_item)).to eq 'plans'
+          expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it redirects to plan' do
@@ -97,15 +97,15 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           post :create, plan: FactoryGirl.attributes_for(:plan, name: '')
-          expect(assigns(:nav_item)).to eq 'plans'
+          expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it renders the new template' do
           post :create, plan: FactoryGirl.attributes_for(:plan, name: '')
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new plan' do
@@ -227,15 +227,15 @@ RSpec.describe Admin::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :accounts, plan_id: @plan.id
-        expect(assigns(:nav_item)).to eq 'plans'
+        expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the accounts template' do
         get :accounts, plan_id: @plan.id
         expect(response).to render_template('accounts')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns plans correctly' do
@@ -295,15 +295,15 @@ RSpec.describe Admin::PlansController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :edit, id: @plan.id
-        expect(assigns(:nav_item)).to eq 'plans'
+        expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the edit template' do
         get :edit, id: @plan.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit plan' do
@@ -354,15 +354,15 @@ RSpec.describe Admin::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :index
-        expect(assigns(:nav_item)).to eq 'plans'
+        expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the index template' do
         get :index
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns plans correctly' do
@@ -418,15 +418,15 @@ RSpec.describe Admin::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :new
-        expect(assigns(:nav_item)).to eq 'plans'
+        expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the new template' do
         get :new
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new plan' do
@@ -481,15 +481,15 @@ RSpec.describe Admin::PlansController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to plans' do
+      it 'sets the sidebar_item to plans' do
         get :show, id: @plan.id
-        expect(assigns(:nav_item)).to eq 'plans'
+        expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the show template' do
         get :show, id: @plan.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show plan' do
@@ -539,9 +539,9 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
-          expect(assigns(:nav_item)).to eq 'plans'
+          expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it redirects to plan' do
@@ -558,15 +558,15 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to plans' do
+        it 'sets the sidebar_item to plans' do
           patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
-          expect(assigns(:nav_item)).to eq 'plans'
+          expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it renders the new template' do
           patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan, name: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new plan' do

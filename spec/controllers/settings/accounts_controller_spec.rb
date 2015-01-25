@@ -76,15 +76,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :edit, path: @account.id
-        expect(assigns(:nav_item)).to eq 'account'
+        expect(assigns(:sidebar_item)).to eq :account
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit account' do
@@ -107,15 +107,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :edit, path: @account.id
-        expect(assigns(:nav_item)).to eq 'account'
+        expect(assigns(:sidebar_item)).to eq :account
       end
 
       it 'renders the edit template' do
         get :edit, path: @account.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit account' do
@@ -171,15 +171,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :show, path: @account.id
-        expect(assigns(:nav_item)).to eq 'account'
+        expect(assigns(:sidebar_item)).to eq :account
       end
 
       it 'renders the show template' do
         get :show, path: @account.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show account' do
@@ -202,15 +202,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to accounts' do
+      it 'sets the sidebar_item to accounts' do
         get :show, path: @account.id
-        expect(assigns(:nav_item)).to eq 'account'
+        expect(assigns(:sidebar_item)).to eq :account
       end
 
       it 'renders the show template' do
         get :show, path: @account.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/settings')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show account' do
@@ -261,9 +261,9 @@ RSpec.describe Settings::AccountsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'account'
+          expect(assigns(:sidebar_item)).to eq :account
         end
 
         it 'it redirects to account' do
@@ -279,15 +279,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'account'
+          expect(assigns(:sidebar_item)).to eq :account
         end
 
         it 'it renders the edit template' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, company_name: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass an existing account' do
@@ -306,9 +306,9 @@ RSpec.describe Settings::AccountsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'account'
+          expect(assigns(:sidebar_item)).to eq :account
         end
 
         it 'it redirects to account' do
@@ -324,15 +324,15 @@ RSpec.describe Settings::AccountsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to accounts' do
+        it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:nav_item)).to eq 'account'
+          expect(assigns(:sidebar_item)).to eq :account
         end
 
         it 'it renders the edit template' do
           patch :update, path: @account.id, account: FactoryGirl.attributes_for(:account, company_name: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/settings')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass an existing account' do

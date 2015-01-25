@@ -118,4 +118,35 @@ RSpec.describe UserInvitation, type: :model do
       expect(user_invitation.errors[:last_name]).to include 'is too long (maximum is 60 characters)'
     end
   end
+
+  describe '.to_s' do
+    context 'no first or last name' do
+      it 'defaults to unknown' do
+        user_invitation = FactoryGirl.build(:user_invitation, first_name: '', last_name: '')
+        expect(user_invitation.to_s).to eq '(unknown)'
+      end
+    end
+
+    context 'first name only' do
+      it 'uses the first name' do
+        user_invitation = FactoryGirl.build(:user_invitation, last_name: '')
+        expect(user_invitation.to_s).to eq user_invitation.first_name
+      end
+    end
+
+    context 'last name only' do
+      it 'uses the last name' do
+        user_invitation = FactoryGirl.build(:user_invitation, first_name: '')
+        expect(user_invitation.to_s).to eq user_invitation.last_name
+      end
+    end
+
+    context 'first and last name' do
+      it 'uses both names' do
+        user_invitation = FactoryGirl.build(:user_invitation)
+        name = user_invitation.first_name + ' ' + user_invitation.last_name
+        expect(user_invitation.to_s).to eq name
+      end
+    end
+  end
 end

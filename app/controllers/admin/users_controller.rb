@@ -30,6 +30,8 @@
 
 # Provides plans administration in the admin section
 class Admin::UsersController < Admin::ApplicationController
+  add_breadcrumb 'Users', :admin_users_path
+
   before_action :find_user, only: [:destroy, :edit, :show, :update, :accounts, :user_invitations]
 
   authorize_resource
@@ -46,15 +48,18 @@ class Admin::UsersController < Admin::ApplicationController
       logger.info { "User '#{@user}' created - #{admin_user_url(@user)}" }
       redirect_to admin_user_path(@user), notice: 'User was successfully created.'
     else
+      add_breadcrumb 'New', new_admin_user_path
       logger.debug { "User create failed #{@user.inspect}" }
       render 'new'
     end
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_admin_user_path(@user)
   end
 
   def new
+    add_breadcrumb 'New', new_admin_user_path
     @user = User.new
   end
 
@@ -73,6 +78,7 @@ class Admin::UsersController < Admin::ApplicationController
       logger.info { "User '#{@user}' updated - #{admin_user_url(@user)}" }
       redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_admin_user_path(@user)
       logger.debug { "User update failed #{@user.inspect}" }
       render 'edit'
     end
@@ -90,10 +96,12 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def accounts
+    add_breadcrumb 'Accounts', admin_user_accounts_path(@user)
     @user_permissions = @user.user_permissions.includes(:account).page(params[:page])
   end
 
   def user_invitations
+    add_breadcrumb 'User Invitations', admin_user_user_invitations_path(@user)
     @user_invitations = UserInvitation.where(email: @user.email).page(params[:page])
   end
 
@@ -105,6 +113,7 @@ class Admin::UsersController < Admin::ApplicationController
     else
       @user = User.find(params[:id])
     end
+    add_breadcrumb @user, admin_user_path(@user)
   end
 
   def users_params
@@ -117,7 +126,7 @@ class Admin::UsersController < Admin::ApplicationController
                                  :super_admin)
   end
 
-  def set_nav_item
-    @nav_item = 'users'
+  def set_sidebar_item
+    @sidebar_item = :users
   end
 end

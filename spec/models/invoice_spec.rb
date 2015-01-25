@@ -125,6 +125,13 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
+  describe '.to_s' do
+    it 'returns inv_number' do
+      invoice = FactoryGirl.build(:invoice, inv_number: 123)
+      expect(invoice.to_s).to eq '123'
+    end
+  end
+
   describe '.total_amount' do
     it 'can have two decimal places' do
       invoice = FactoryGirl.build(:invoice, total_amount: 1.23)

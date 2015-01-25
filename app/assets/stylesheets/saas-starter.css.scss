@@ -1,2 +1,275 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+/*** BEGIN Restyle some of the Bootstrap styles ***/
+.alert {
+    background-color: #ffffff;
+    border-width: 1px 1px 1px 5px;
+    color: #000000;
+    .alert-heading {
+        font-size: 130%;
+        margin: 0 0 10px 0;
+        display: block;
+    }
+}
+.alert-danger {
+    border-left-color: #cc0000;
+    .alert-heading {
+        color: #cc0000;
+    }
+}
+.alert-info {
+    border-left-color: #00bfff;
+    .alert-heading {
+        color: #009fff;
+    }
+}
+.alert-warning {
+    border-left-color: #ffcc00;
+    .alert-heading {
+        color: #ffaa00;
+    }
+}
+.alert-success {
+    border-left-color: #00ee33;
+    .alert-heading {
+        color: #00cc33;
+    }
+}
+.navbar-nav > li {
+    border-right: 1px solid #efefef;
+}
+.navbar-nav > li:first-child {
+    border-left: 1px solid #efefef;
+}
+.navbar-nav.navbar-right > li {
+    border-left: 1px solid #efefef;
+}
+.panel-body > .nav-pills {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px;
+}
+/*** END Restyle some of the Bootstrap styles ***/
+
+body {
+    background-color: #e9eaed;
+}
+#wrapper {
+    margin-top: 50px;
+}
+#heading {
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    h1 {
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+    .breadcrumb {
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+}
+#footer {
+    clear: both;
+}
+@media (max-width: 768px) {
+    #footer {
+        padding: 10px 0;
+    }
+    #side-nav {
+        li.active {
+            a, a:link, a:visited, a:hover, a:active {
+                background-color: #006699;
+                color: #ffffff;
+            }
+        }
+    }
+}
+@media (min-width: 768px) {
+    #wrapper {
+        margin-left: 220px;
+    }
+    #side-nav {
+        position: fixed;
+        top: 50px;
+        left: 220px;
+        width: 220px;
+        bottom: 0;
+        padding: 20px 5px 5px 5px;
+        margin-left: -220px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        display: block;
+        background-color: #23272d;
+        li {
+            display: list-item;
+            float: none;
+            border: 0;
+            margin-bottom: 1px;
+            a, a:link, a:visited, a:active {
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                color: #cccccc;
+                padding: 10px 10px;
+            }
+            a:hover {
+                background-color: #006699;
+                color: #ffffff;
+            }
+        }
+        li.active {
+            a, a:link, a:visited, a:hover, a:active {
+                background-color: #006699;
+                color: #ffffff;
+            }
+        }
+    }
+    #footer {
+        padding: 40px 0;
+    }
+}
+
+/*** BEGIN: Hacks to make Bootstrap mostly work with the default rails helpers ***/
+div.field_with_errors {
+  display: inline;
+}
+.field_with_errors + .help-block,
+.field_with_errors .control-label,
+.field_with_errors .radio,
+.field_with_errors .checkbox,
+.field_with_errors .radio-inline,
+.field_with_errors .checkbox-inline {
+  color: #a94442;
+}
+.field_with_errors .form-control {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.field_with_errors .form-control:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+// Need something to do .input0group-addon BEFORE the .field_with_errors
+.field_with_errors + .input-group-addon {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442;
+}
+.field_with_errors + .form-control-feedback {
+  color: #a94442;
+}
+/*** END: Hacks to make Bootstrap mostly work with the default rails helpers ***/
+
+/*** BEGIN Styling for the pricing table. Based on http://bootsnipp.com/snippets/featured/plans-and-pricing ***/
+.pricing-table {
+    .panel {
+	padding: 0px;
+	text-align: center;
+    }
+    .panel:hover {
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35);
+    }
+    .panel-heading > h3 {
+	text-align: center;
+    }
+    .panel-body {
+	padding: 0px;
+	text-align: center;
+    }
+    .the-price {
+	background-color: rgba(220,220,220,.17);
+	box-shadow: 0 1px 0 #dcdcdc, inset 0 1px 0 #fff;
+	padding: 20px;
+	margin: 0;
+    }
+    .the-price h1 {
+	line-height: 1em;
+	padding: 0;
+	margin: 0;
+    }
+    .subscript {
+        font-size: 25px;
+    }
+    .list-group {
+	margin: 0;
+    }
+    .list-group .list-group-item {
+	border: 0;
+    }
+    /* CSS-only ribbon styles    */
+    .cnrflash {
+	/*Position correctly within container*/
+	position: absolute;
+	top: -9px;
+	right: 4px;
+	z-index: 1; /*Set overflow to hidden, to mask inner square*/
+	overflow: hidden; /*Set size and add subtle rounding  		to soften edges*/
+	width: 100px;
+	height: 100px;
+	border-radius: 3px 5px 3px 0;
+    }
+    .cnrflash-inner {
+	/*Set position, make larger then 			container and rotate 45 degrees*/
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 145px;
+	height: 145px;
+	-ms-transform: rotate(45deg); /* IE 9 */
+	-o-transform: rotate(45deg); /* Opera */
+	-moz-transform: rotate(45deg); /* Firefox */
+	-webkit-transform: rotate(45deg); /* Safari and Chrome */
+	-webkit-transform-origin: 100% 100%; /*Purely decorative effects to add texture and stuff*/ /* Safari and Chrome */
+	-ms-transform-origin: 100% 100%;  /* IE 9 */
+	-o-transform-origin: 100% 100%; /* Opera */
+	-moz-transform-origin: 100% 100%; /* Firefox */
+	background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.1) 50%), linear-gradient(0deg, transparent 0%, rgba(1,1,1,.2) 50%);
+	background-size: 4px,auto, auto,auto;
+	background-color: #aa0101;
+	box-shadow: 0 3px 3px 0 rgba(1,1,1,.5), 0 1px 0 0 rgba(1,1,1,.5), inset 0 -1px 8px 0 rgba(255,255,255,.3), inset 0 -1px 0 0 rgba(255,255,255,.2);
+    }
+    .cnrflash-inner:before, .cnrflash-inner:after {
+	/*Use the border triangle trick to make  				it look like the ribbon wraps round it's 				container*/
+	content: " ";
+	display: block;
+	position: absolute;
+	bottom: -16px;
+	width: 0;
+	height: 0;
+	border: 8px solid #800000;
+    }
+    .cnrflash-inner:before {
+	left: 1px;
+	border-bottom-color: transparent;
+	border-right-color: transparent;
+    }
+    .cnrflash-inner:after {
+	right: 0;
+	border-bottom-color: transparent;
+	border-left-color: transparent;
+    }
+    .cnrflash-label {
+	/*Make the label look nice*/
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	padding-bottom: 5px;
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(1,1,1,.8);
+	font-size: 0.95em;
+	font-weight: bold;
+	text-align: center;
+    }
+}
+/*** END Styling for the pricing table. Based on http://bootsnipp.com/snippets/featured/plans-and-pricing ***/

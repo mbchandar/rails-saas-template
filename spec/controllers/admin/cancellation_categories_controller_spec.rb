@@ -82,9 +82,9 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to cancellation_categories' do
+        it 'sets the sidebar_item to cancellation_categories' do
           post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
-          expect(assigns(:nav_item)).to eq 'cancellation_categories'
+          expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it redirects to cancellation_category' do
@@ -109,15 +109,15 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to cancellation_categories' do
+        it 'sets the sidebar_item to cancellation_categories' do
           post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
-          expect(assigns(:nav_item)).to eq 'cancellation_categories'
+          expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it renders the new template' do
           post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
           expect(response).to render_template('new')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new cancellation_category' do
@@ -181,15 +181,15 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the nav_item to cancellation_categories' do
+      it 'sets the sidebar_item to cancellation_categories' do
         get :edit, id: @cancellation_category.id
-        expect(assigns(:nav_item)).to eq 'cancellation_categories'
+        expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the edit template' do
         get :edit, id: @cancellation_category.id
         expect(response).to render_template('edit')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit cancellation_category' do
@@ -240,15 +240,15 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to cancellation_categories' do
+      it 'sets the sidebar_item to cancellation_categories' do
         get :index
-        expect(assigns(:nav_item)).to eq 'cancellation_categories'
+        expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the index template' do
         get :index
         expect(response).to render_template('index')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns cancellation_categories correctly' do
@@ -304,15 +304,15 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to cancellation_categories' do
+      it 'sets the sidebar_item to cancellation_categories' do
         get :new
-        expect(assigns(:nav_item)).to eq 'cancellation_categories'
+        expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the new template' do
         get :new
         expect(response).to render_template('new')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new cancellation_category' do
@@ -367,15 +367,15 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'sets the nav_item to cancellation_categories' do
+      it 'sets the sidebar_item to cancellation_categories' do
         get :show, id: @cancellation_category.id
-        expect(assigns(:nav_item)).to eq 'cancellation_categories'
+        expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the show template' do
         get :show, id: @cancellation_category.id
         expect(response).to render_template('show')
-        expect(response).to render_template('layouts/admin')
+        expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show cancellation_category' do
@@ -431,11 +431,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       context 'with valid attributes' do
-        it 'sets the nav_item to cancellation_categories' do
+        it 'sets the sidebar_item to cancellation_categories' do
           patch :update,
                 id: @cancellation_category.id,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
-          expect(assigns(:nav_item)).to eq 'cancellation_categories'
+          expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it redirects to cancellation_category' do
@@ -456,11 +456,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'sets the nav_item to cancellation_categories' do
+        it 'sets the sidebar_item to cancellation_categories' do
           patch :update,
                 id: @cancellation_category.id,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
-          expect(assigns(:nav_item)).to eq 'cancellation_categories'
+          expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it renders the new template' do
@@ -468,7 +468,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
                 id: @cancellation_category.id,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
           expect(response).to render_template('edit')
-          expect(response).to render_template('layouts/admin')
+          expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new cancellation_category' do

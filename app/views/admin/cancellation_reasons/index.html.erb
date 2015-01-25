@@ -3,7 +3,7 @@ content_for(:page_title, 'Cancellation Reasons')
 content_for(:page_heading, 'Cancellation Reasons')
 %>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
   <li><%= link_to "Categories", admin_cancellation_categories_path %></li>
   <li><%= link_to "Category", admin_cancellation_category_path(@cancellation_category) %></li>
   <li class="active"><%= link_to "Reasons", admin_cancellation_category_cancellation_reasons_path(@cancellation_category) %></li>

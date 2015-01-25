@@ -16,7 +16,7 @@ content_for(:page_heading, 'Credit Card')
   <%= f.hidden_field :card_token %>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="card_name_group">
         <label class="control-label">Card Name</label>
         <input type="text" id="cc_name" placeholder="Card Name" class="form-control" data-stripe="name">
@@ -24,7 +24,7 @@ content_for(:page_heading, 'Credit Card')
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="form-group" id="card_number_group">
         <label class="control-label">Card Number</label>
         <div class="input-group">
@@ -35,20 +35,20 @@ content_for(:page_heading, 'Credit Card')
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-sm-6">
       <div class="form-group" id="card_expiry_group">
         <label class="control-label">Expiry Date</label>
         <div class="input-group">
-          <div class="col-xs-6 col-md-6" style="padding-left: 0">
+          <div class="col-xs-6 col-sm-6" style="padding-left: 0">
             <input type="cc_expiry_month" placeholder="MM" class="form-control" data-stripe="exp-month">
           </div>
-          <div class="col-xs-6 col-md-6" style="padding-left: 0">
+          <div class="col-xs-6 col-sm-6" style="padding-left: 0">
             <input type="cc_expiry_year" placeholder="YYYY" class="form-control" data-stripe="exp-year">
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-sm-6">
       <div class="form-group" id="card_cvc_group">
         <label class="control-label">CVC</label>
         <input type="text" id="cc_cvc" placeholder="CVC" class="form-control" data-stripe="cvc">

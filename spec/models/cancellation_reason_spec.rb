@@ -115,24 +115,31 @@ RSpec.describe CancellationReason, type: :model do
     it 'must be unique inside a category' do
       category = FactoryGirl.create(:cancellation_category)
 
-      cancellation_reason = FactoryGirl.create(:cancellation_reason, cancellation_category: category, name: 'category')
+      cancellation_reason = FactoryGirl.create(:cancellation_reason, cancellation_category: category, name: 'reason')
       expect(cancellation_reason).to be_valid
 
-      cancellation_reason = FactoryGirl.build(:cancellation_reason, cancellation_category: category, name: 'category')
+      cancellation_reason = FactoryGirl.build(:cancellation_reason, cancellation_category: category, name: 'reason')
       expect(cancellation_reason).to_not be_valid
       expect(cancellation_reason.errors[:name]).to include 'has already been taken'
     end
 
     it 'can be the same in different  category' do
-      cancellation_reason = FactoryGirl.create(:cancellation_reason, name: 'category')
+      cancellation_reason = FactoryGirl.create(:cancellation_reason, name: 'reason')
       expect(cancellation_reason).to be_valid
 
-      cancellation_reason = FactoryGirl.build(:cancellation_reason, name: 'category')
+      cancellation_reason = FactoryGirl.build(:cancellation_reason, name: 'reason')
       expect(cancellation_reason).to be_valid
     end
   end
 
   describe '.require_message' do
     # t.boolean :active, default: true, null: false
+  end
+
+  describe '.to_s' do
+    it 'returns the name' do
+      cancellation_reason = FactoryGirl.build(:cancellation_reason, name: 'reason')
+      expect(cancellation_reason.to_s).to eq 'reason'
+    end
   end
 end

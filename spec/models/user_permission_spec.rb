@@ -83,7 +83,7 @@ RSpec.describe UserPermission, type: :model do
       expect(user_permission2.errors[:rec_num]).to include 'has already been taken'
     end
 
-    it 'can be duplicate with a different agency' do
+    it 'can be duplicate with a different account' do
       user_permission = FactoryGirl.create(:user_permission, rec_num: 1)
       expect(user_permission).to be_valid
       user_permission2 = FactoryGirl.create(:user_permission, rec_num: 1)

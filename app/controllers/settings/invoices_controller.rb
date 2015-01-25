@@ -30,6 +30,8 @@
 
 # Allows the account admin to view invoices in the settings
 class Settings::InvoicesController < Settings::ApplicationController
+  add_breadcrumb 'Invoices', :settings_invoices_path
+
   before_action :find_invoice, only: [:show]
 
   authorize_resource
@@ -52,7 +54,7 @@ class Settings::InvoicesController < Settings::ApplicationController
     @invoice = current_account.invoices.find(params[:id])
   end
 
-  def set_nav_item
-    @nav_item = 'invoices'
+  def set_sidebar_item
+    @sidebar_item = :invoices
   end
 end

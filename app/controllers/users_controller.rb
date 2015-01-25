@@ -30,6 +30,8 @@
 
 # The users controller implements users view and editing their own profiles
 class UsersController < ApplicationController
+  add_breadcrumb 'Users', :users_path
+
   before_action :find_user, except: [:index]
 
   authorize_resource
@@ -42,6 +44,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    add_breadcrumb 'Edit', edit_user_path(@user)
   end
 
   def update
@@ -57,6 +60,7 @@ class UsersController < ApplicationController
       redirect_to user_path(@user),
                   notice: 'User was successfully updated.'
     else
+      add_breadcrumb 'Edit', edit_user_path(@user)
       logger.debug { "User update failed #{@user.inspect}" }
       render 'edit'
     end
@@ -64,11 +68,17 @@ class UsersController < ApplicationController
 
   def accounts
     authorize! :accounts, @user
+
+    add_breadcrumb 'Accounts', user_accounts_path(@user)
+
     @user_permissions = @user.user_permissions.includes(:account).page(params[:page])
   end
 
   def user_invitations
     authorize! :user_invitations, @user
+
+    add_breadcrumb 'User Invitations', user_user_invitations_path(@user)
+
     @user_invitations = UserInvitation.where(email: @user.email).page(params[:page])
   end
 
@@ -80,6 +90,7 @@ class UsersController < ApplicationController
     else
       @user = User.find(params[:id])
     end
+    add_breadcrumb @user, user_path(@user)
   end
 
   def users_params
