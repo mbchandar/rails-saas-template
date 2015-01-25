@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-# Copyright (c) 2014, Richard Buggy
+# Copyright (c) 2014-2015, Richard Buggy <rich@buggy.id.au>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,140 +32,48 @@
 # jobs
 class StripeGateway
   class << self
-    def account_create(id)
-      account = Account.find(id)
-
-      data = {
-        description: account.company_name,
-        email: account.email,
-        metadata: {
-          account_id: account.id
-        }
-      }
-      data[:card] = account.card_token if account.card_token? && account.card_token != 'dummy'
-      data[:plan] = account.plan_stripe_id
-      data[:plan] = account.paused_plan_stripe_id unless account.paused_plan_stripe_id.nil?
-      customer = Stripe::Customer.create(data)
-
-      subscription = customer.subscriptions.data[0]
-
-      account.card_token = 'dummy'
-      account.expires_at = Time.at(subscription.current_period_end)
-      account.stripe_customer_id = customer.id
-      account.stripe_subscription_id = subscription.id
-      account.save!
-
-      card = customer.cards.retrieve(customer.default_card)
-      account.card_brand = card.brand
-      account.card_last4 = card.last4
-      account.card_exp = "#{card.exp_month}/#{card.exp_year}"
-      account.save!
-    end
-    handle_asynchronously :account_create, priority: 50, queue: 'stripe'
-
-    def account_update(id)
-      account = Account.find(id)
-
-      customer = Stripe::Customer.retrieve(account.stripe_customer_id)
-      customer.card = account.card_token if account.card_token? && account.card_token != 'dummy'
-      customer.description = account.company_name
-      customer.email = account.email
-      customer.save
-
-      subscription = customer.subscriptions.retrieve(account.stripe_subscription_id)
-      current_plan = account.plan_stripe_id
-      current_plan = account.paused_plan_stripe_id unless account.paused_plan_stripe_id.nil?
-      if subscription.plan.id != current_plan
-        subscription.plan = current_plan
-        subscription.save
+    def import_plans
+      Stripe::Plan.all.each do |p|
+        plan = Plan.where(stripe_id: p.id).first
+        unless plan
+          plan = Plan.new(stripe_id: p.id, public: false)
+        end
+        plan.name = p.name
+        plan.statement_description = p.statement_description
+        plan.currency = p.currency.upcase
+        plan.interval_count = p.interval_count
+        plan.interval = p.interval
+        plan.amount = p.amount
+        plan.trial_period_days = p.trial_period_days
+        puts plan.save
+        puts plan.to_json
+        puts plan.errors.to_json
       end
-
-      account.card_token = 'dummy'
-      account.expires_at = Time.at(subscription.current_period_end)
-      account.save
-
-      card = customer.cards.retrieve(customer.default_card)
-      account.card_brand = card.brand
-      account.card_last4 = card.last4
-      account.card_exp = "#{card.exp_month}/#{card.exp_year}"
-      account.save!
     end
-    handle_asynchronously :account_update, priority: 55, queue: 'stripe'
 
-    def account_cancel(id)
-      account = Account.find(id)
+    def import_customers
+      Stripe::Customer.all.each do |c|
+        account = Account.where(stripe_customer_id: c.id).first
+        unless account
+          account = account.new(stripe_customer_id: c.id, active: false)
+        end
+        account.company_name = c.description
+        account.email = c.email
+        s = c.subscriptions.all(limit: 1)
+        if s[0]
+          account.address_country
+          account.card_token
+          account.card_brand
+          account.card_last4
+          account.card_exp
+          account.plan_id = Plan.where(stripe_id: s.plan.id).first
+          account.stripe_subscription_id
+        end
 
-      customer = Stripe::Customer.retrieve(account.stripe_customer_id)
-      subscription = customer.subscriptions.retrieve(account.stripe_subscription_id)
-      subscription.delete
-
-      account.card_token = 'dummy'
-      account.card_brand = nil
-      account.card_last4 = nil
-      account.card_exp = nil
-      account.expires_at = Time.at(subscription.canceled_at)
-      account.stripe_subscription_id = nil
-      account.save
-    end
-    handle_asynchronously :account_cancel, priority: 60, queue: 'stripe'
-
-    def account_restore(id)
-      account = Account.find(id)
-
-      customer = Stripe::Customer.retrieve(account.stripe_customer_id)
-      customer.card = account.card_token if account.card_token? && account.card_token != 'dummy'
-      customer.description = account.company_name
-      customer.email = account.email
-      customer.save
-
-      current_plan = account.plan_stripe_id
-      current_plan = account.paused_plan_stripe_id unless account.paused_plan_stripe_id.nil?
-      subscription = customer.subscriptions.create(plan: current_plan)
-
-      account.card_token = 'dummy'
-      account.expires_at = Time.at(subscription.current_period_end)
-      account.stripe_subscription_id = subscription.id
-      account.save
-    end
-    handle_asynchronously :account_restore, priority: 65, queue: 'stripe'
-
-    def plan_create(id)
-      plan = Plan.find(id)
-      data = {
-        id: plan.stripe_id,
-        amount: plan.amount,
-        currency: plan.currency,
-        interval: plan.interval,
-        interval_count: plan.interval_count,
-        name: plan.name,
-        trial_period_days: plan.trial_period_days
-      }
-
-      data[:statement_description] = plan.statement_description if plan.statement_description?
-
-      Stripe::Plan.create(data)
-
-      plan.save!
-    end
-    handle_asynchronously :plan_create, priority: 0, queue: 'stripe'
-
-    def plan_delete(plan_id)
-      p = Stripe::Plan.retrieve(plan_id)
-      p.delete
-    end
-    handle_asynchronously :plan_delete, priority: 10, queue: 'stripe'
-
-    def plan_update(id)
-      plan = Plan.find(id)
-      p = Stripe::Plan.retrieve(plan.stripe_id)
-      p.name = plan.name
-      if plan.statement_description?
-        p.statement_description = plan.statement_description
-      else
-        p.statement_description = nil
+        puts account.save
+        puts account.to_json
+        puts account.errors.to_json
       end
-      p.save
     end
-    handle_asynchronously :plan_update, priority: 5, queue: 'stripe'
   end
 end

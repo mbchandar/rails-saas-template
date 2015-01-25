@@ -42,7 +42,7 @@ make sure that the hostname is the hostname you use for your application and
 only allow other subdomains or hostnames when the plan allows those features.
 
 ## Licence
-Copyright (c) 2014, Richard Buggy
+Copyright (c) 2014-2015, Richard Buggy <rich@buggy.id.au>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

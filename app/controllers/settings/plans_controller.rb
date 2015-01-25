@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-# Copyright (c) 2014, Richard Buggy
+# Copyright (c) 2014-2015, Richard Buggy <rich@buggy.id.au>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
