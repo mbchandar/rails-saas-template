@@ -45,6 +45,10 @@
 .navbar-nav.navbar-right > li {
     border-left: 1px solid #efefef;
 }
+.navbar-default {
+    background-color: #ffffff;
+    background-image: none;
+}
 .panel-body > .nav-pills {
     padding-bottom: 10px;
     border-bottom: 1px solid #cccccc;
@@ -135,6 +139,16 @@ body {
         padding: 40px 0;
     }
 }
+body.marketing-page {
+    background-color: #ffffff;
+    #wrapper {
+        margin-left: 0;
+    }
+    #side-nav {
+        display: none;
+    }
+}
+
 
 /*** BEGIN: Hacks to make Bootstrap mostly work with the default rails helpers ***/
 div.field_with_errors {
