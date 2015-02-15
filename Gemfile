@@ -64,6 +64,9 @@ gem 'cancancan', '~> 1.9.2'
 gem 'countries', '~> 0.9.3'
 gem 'country_select', '~> 2.1.0'
 
+# Add support for currencies
+gem 'money', '~> 6.5.1'
+
 # Add delayed jobs so we can background tasks that aren't critical
 gem 'daemons', '~> 1.1.9'
 gem 'delayed_job', '~> 4.0.6'

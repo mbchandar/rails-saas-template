@@ -41,6 +41,29 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ApplicationHelper, type: :helper do
+  describe '.currency_list' do
+    it 'returns a list of currencies' do
+      expect(helper.currency_list.count).to be > 0
+    end
+
+    it 'includes test currencies' do
+      count = 0
+
+      helper.currency_list.each do |currency|
+        count = count + 1 if currency[0] == 'USD: United States Dollar' && currency[1] == 'USD'
+        count = count + 1 if currency[0] == 'EUR: Euro' && currency[1] == 'EUR'
+        count = count + 1 if currency[0] == 'GBP: British Pound' && currency[1] == 'GBP'
+        count = count + 1 if currency[0] == 'AUD: Australian Dollar' && currency[1] == 'AUD'
+        count = count + 1 if currency[0] == 'CAD: Canadian Dollar' && currency[1] == 'CAD'
+        count = count + 1 if currency[0] == 'NZD: New Zealand Dollar' && currency[1] == 'NZD'
+        count = count + 1 if currency[0] == 'JPY: Japanese Yen' && currency[1] == 'JPY'
+      end
+
+      # Some currencies are included multiple times!!
+      expect(count).to be > 7
+    end
+  end
+
   describe '.formatted_plan_price' do
     context 'free plans and interval_count of 1' do
       let(:plan) { FactoryGirl.build(:plan, amount: 0, interval_count: 1, interval: 'month') }
@@ -51,6 +74,30 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it 'uses the free text free text' do
         expect(helper.formatted_plan_price(plan, 'FREE')).to eq 'FREE'
+      end
+    end
+
+    context 'USD Plan' do
+      let(:plan) { FactoryGirl.build(:plan, amount: 500, currency: 'USD', interval_count: 1, interval: 'month') }
+
+      it 'formats the currency correctly' do
+        expect(helper.formatted_plan_price(plan)).to eq '$5.00 / month'
+      end
+    end
+
+    context 'FJD Plan' do
+      let(:plan) { FactoryGirl.build(:plan, amount: 500, currency: 'FJD', interval_count: 1, interval: 'month') }
+
+      it 'formats the currency correctly' do
+        expect(helper.formatted_plan_price(plan)).to eq '5.00 $ / month'
+      end
+    end
+
+    context 'JPY Plan' do
+      let(:plan) { FactoryGirl.build(:plan, amount: 500, currency: 'JPY', interval_count: 1, interval: 'month') }
+
+      it 'formats the currency correctly' do
+        expect(helper.formatted_plan_price(plan)).to eq '¥500 / month'
       end
     end
 

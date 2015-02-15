@@ -40,7 +40,7 @@
 <% if plan.new_record? %>
   <div class="form-group">
 	<%= f.label :currency, class: "control-label" %>
-	<%= f.select :currency, ['AUD', 'CAD', 'EUR', 'GBP', 'NZD', 'USD'], {}, { class: "form-control" } %>
+	<%= f.select :currency, currency_list, {}, { class: "form-control" } %>
   </div>
   <div class="form-group">
 	<%= f.label :amount, class: "control-label" %>

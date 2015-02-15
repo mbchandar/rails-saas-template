@@ -28,6 +28,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+require 'money'
+
 # Plan model
 class Plan < ActiveRecord::Base
   has_many :accounts
@@ -68,7 +70,7 @@ class Plan < ActiveRecord::Base
             presence: true,
             numericality: { greater_than_or_equal_to: 0, integer_only: true }
   validates :currency,
-            inclusion: { in: %w( AUD CAD EUR GBP NZD USD ) },
+            inclusion: { in: Money::Currency.all.map { |c| c.iso_code } },
             presence: true
   validates :interval,
             inclusion: { in: %w( day week month year ) },

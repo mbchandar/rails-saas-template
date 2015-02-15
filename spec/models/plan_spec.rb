@@ -150,7 +150,7 @@ RSpec.describe Plan, type: :model do
     end
 
     it 'doesn\'t allow random values' do
-      plan = FactoryGirl.build(:plan, currency: Faker::Lorem.characters(20))
+      plan = FactoryGirl.build(:plan, currency: Faker::Lorem.characters('XX'))
       expect(plan).to_not be_valid
       expect(plan.errors[:currency]).to include 'is not included in the list'
     end
