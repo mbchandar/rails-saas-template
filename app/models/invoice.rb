@@ -55,7 +55,9 @@ class Invoice < ActiveRecord::Base
             presence: true
   validates :stripe_invoice_id, length: { maximum: 100 }, presence: true
 
+  # rubocop:disable Rails/Delegate
   def to_s
     inv_number.to_s
   end
+  # rubocop:enable Rails/Delegate
 end

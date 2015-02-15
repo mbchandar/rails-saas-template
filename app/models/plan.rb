@@ -70,7 +70,7 @@ class Plan < ActiveRecord::Base
             presence: true,
             numericality: { greater_than_or_equal_to: 0, integer_only: true }
   validates :currency,
-            inclusion: { in: Money::Currency.all.map { |c| c.iso_code } },
+            inclusion: { in: Money::Currency.all.map(&:iso_code) },
             presence: true
   validates :interval,
             inclusion: { in: %w( day week month year ) },

@@ -50,13 +50,13 @@ RSpec.describe ApplicationHelper, type: :helper do
       count = 0
 
       helper.currency_list.each do |currency|
-        count = count + 1 if currency[0] == 'USD: United States Dollar' && currency[1] == 'USD'
-        count = count + 1 if currency[0] == 'EUR: Euro' && currency[1] == 'EUR'
-        count = count + 1 if currency[0] == 'GBP: British Pound' && currency[1] == 'GBP'
-        count = count + 1 if currency[0] == 'AUD: Australian Dollar' && currency[1] == 'AUD'
-        count = count + 1 if currency[0] == 'CAD: Canadian Dollar' && currency[1] == 'CAD'
-        count = count + 1 if currency[0] == 'NZD: New Zealand Dollar' && currency[1] == 'NZD'
-        count = count + 1 if currency[0] == 'JPY: Japanese Yen' && currency[1] == 'JPY'
+        count += 1 if currency[0] == 'USD: United States Dollar' && currency[1] == 'USD'
+        count += 1 if currency[0] == 'EUR: Euro' && currency[1] == 'EUR'
+        count += 1 if currency[0] == 'GBP: British Pound' && currency[1] == 'GBP'
+        count += 1 if currency[0] == 'AUD: Australian Dollar' && currency[1] == 'AUD'
+        count += 1 if currency[0] == 'CAD: Canadian Dollar' && currency[1] == 'CAD'
+        count += 1 if currency[0] == 'NZD: New Zealand Dollar' && currency[1] == 'NZD'
+        count += 1 if currency[0] == 'JPY: Japanese Yen' && currency[1] == 'JPY'
       end
 
       # Some currencies are included multiple times!!
