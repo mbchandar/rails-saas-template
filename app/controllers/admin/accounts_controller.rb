@@ -49,8 +49,7 @@ class Admin::AccountsController < Admin::ApplicationController
   end
 
   def create
-    @account = Account.new(accounts_params)
-    @account.card_token = 'dummy'
+    @account = Account.new(accounts_params.merge(card_token: 'dummy'))
     if @account.save
       StripeAccountCreateJob.perform_later @account.id
       AppEvent.success("Created account #{@account}", @account, current_user)

@@ -22,8 +22,8 @@
 <% end %>
       </ul>
       <ul id="side-nav" class="nav navbar-nav navbar-right">
-<% @sidebar_menu.each do |key, menu_item| %>
-        <li<%if @sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:title], menu_item[:url] %></li>
+<% sidebar_menu.each do |key, menu_item| %>
+        <li<%if sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:title], menu_item[:url] %></li>
 <% end %>
       </ul>
     </div>

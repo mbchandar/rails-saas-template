@@ -17,7 +17,7 @@ NeedlessDeepNestingCheck: { nested_count: 2 }
 NotRescueExceptionCheck: { }
 NotUseDefaultRouteCheck: { }
 NotUseTimeAgoInWordsCheck: { }
-OveruseRouteCustomizationsCheck: { customize_count: 3 }
+OveruseRouteCustomizationsCheck: { customize_count: 4 }
 ProtectMassAssignmentCheck: { }
 RemoveEmptyHelpersCheck: { }
 #RemoveTabCheck: { }
@@ -26,6 +26,10 @@ RemoveUnusedMethodsInControllersCheck: {
   except_methods: [
     'ApplicationController#current_ability',
     'ApplicationController#url_options',
+    'Admin::ApplicationController#current_ability',
+    'Admin::ApplicationController#set_nav_item',
+    'Settings::AccountsController#home',
+    'Settings::ApplicationController#current_ability',
     'Users::RegistrationsController#account_update_params'
   ]
 }

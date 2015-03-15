@@ -47,11 +47,11 @@ class Admin::UserInvitationsController < Admin::ApplicationController
     @user_invitation = @account.user_invitations.build(user_invitation_params)
     if @user_invitation.save
       UserMailer.user_invitation(@user_invitation).deliver_later
-      AppEvent.success("Created user invitation #{@user_invitation}", @user_invitation.account, current_user)
+      AppEvent.success("Created user invitation #{@user_invitation}", @account, current_user)
       # rubocop:disable Metrics/LineLength
       logger.info { "User invitation '#{@user_invitation}' created - #{admin_account_user_invitation_url(@account, @user_invitation)}" }
       # rubocop:enable Metrics/LineLength
-      redirect_to admin_account_user_invitation_path(@user_invitation.account, @user_invitation),
+      redirect_to admin_account_user_invitation_path(@account, @user_invitation),
                   notice: 'User invitation was successfully created.'
     else
       add_breadcrumb 'New', new_admin_account_user_invitation_path(@account)

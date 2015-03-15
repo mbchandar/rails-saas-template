@@ -82,6 +82,7 @@ group :development do
   gem 'rails_best_practices', '~> 1.15.4'
   gem 'brakeman', '~> 3.0.2'
   gem 'rubocop', '~> 0.29.1'
+  gem 'web-console', '~> 2.0'
 end
 
 # Testing tools

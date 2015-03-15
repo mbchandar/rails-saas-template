@@ -19,17 +19,17 @@
     <%= yield :head %>
   </head>
   <body class="<%= body_class %>">
-<%= render "shared/navbar" %>
+<%= render 'shared/navbar', sidebar_menu: @sidebar_menu, sidebar_item: @sidebar_item %>
 
     <div id="wrapper">
 
-<%= render "shared/heading" %>
+<%= render 'shared/heading' %>
 
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12">
 
-<%= render "shared/flash" %>
+<%= render 'shared/flash' %>
 
             <div class="panel panel-default">
               <div class="panel-body">
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-<%= render "shared/footer" %>
+<%= render 'shared/footer' %>
       </div> <!-- .container-fluid -->
     </div> <!-- #wrapper -->
 

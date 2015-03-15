@@ -19,7 +19,7 @@
     <%= yield :head %>
   </head>
   <body class="<%= body_class %> marketing-page">
-<%= render "shared/navbar" %>
+<%= render 'shared/navbar', sidebar_menu: @sidebar_menu, sidebar_item: @sidebar_item %>
 
     <div id="top-image">
       <img class="img-responsive" data-src="holder.js/2000x600" alt="Generic placeholder image">
@@ -28,7 +28,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-<%= render "shared/flash" %>
+<%= render 'shared/flash' %>
         </div>
       </div>
 
@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-<%= render "shared/footer" %>
+<%= render 'shared/footer' %>
 
 <%= yield :footer %>
   </body>
