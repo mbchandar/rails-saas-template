@@ -86,6 +86,7 @@ class Ability
       unless section == :settings
         can :manage, User, id: user.id
         can :manage, UserPermission, user_id: user.id
+        can :index, :dashboard if permissions
       end
     end
 

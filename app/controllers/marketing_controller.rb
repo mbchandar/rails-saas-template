@@ -46,7 +46,6 @@ class MarketingController < ApplicationController
     @plans = Plan.available_for_currency(currency)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity, PerceivedComplexity
   def register
     @plan = Plan.available.where(id: params[:account][:plan_id]).first
 
@@ -56,26 +55,7 @@ class MarketingController < ApplicationController
     end
 
     @account = Account.new(accounts_params, active: true)
-
-    # Set the email from the current_user or the first user
-    if user_signed_in? && (@account.users.count == 0)
-      @account.email = current_user.email
-      logger.debug 'Using the current users email as the accounts email'
-    else
-      @account.email = @account.users[0].email unless @account.users[0].nil?
-      logger.debug 'Using the first users email as the accounts email'
-    end
-
-    if @account.save
-      # Add the current_user as an account admin or set all users as an account admin
-      if user_signed_in? && (@account.user_permissions.count == 0)
-        @account.user_permissions.build(user: current_user, account_admin: true)
-        logger.debug { "Making the current user an admin for #{@account}" }
-      else
-        @account.admin_all_users
-        logger.debug { "Making all users an admin for #{@account}" }
-      end
-
+    if @account.register(current_user)
       StripeAccountCreateJob.perform_later @account.id
       AppEvent.success("Created account #{@account}", @account, nil)
       logger.info { "Account '#{@account}' created - #{admin_account_url(@account)}" }
@@ -86,7 +66,6 @@ class MarketingController < ApplicationController
       render 'signup'
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, PerceivedComplexity
 
   def signup
     @plan = Plan.available.where(id: params[:plan_id]).first

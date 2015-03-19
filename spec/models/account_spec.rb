@@ -855,6 +855,79 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe '.register' do
+    it 'returns true on success' do
+      account = FactoryGirl.build(:account)
+      expect(account.register(nil)).to eq true
+    end
+
+    it 'returns false on failure' do
+      account = FactoryGirl.build(:account, plan: nil)
+      expect(account.register(nil)).to eq false
+    end
+
+    it 'uses the current users email if no user is provided' do
+      user1 = FactoryGirl.create(:user)
+      account = FactoryGirl.build(:account, email: '')
+      expect(account.register(user1)).to eq true
+      expect(account.email).to eq user1.email
+    end
+
+    it 'uses the first users email instead of the current users email' do
+      user1 = FactoryGirl.create(:user)
+      account = FactoryGirl.build(:account, email: '', users_attributes: [FactoryGirl.attributes_for(:user)])
+      expect(account.register(user1)).to eq true
+      expect(account.users.count).to eq 1
+      expect(account.email).to eq account.users[0].email
+      expect(account.email).to_not eq user1.email
+    end
+
+    it 'uses the first users email if there is no current user' do
+      account = FactoryGirl.build(:account, email: '', users_attributes: [FactoryGirl.attributes_for(:user)])
+      expect(account.register(nil)).to eq true
+      expect(account.email).to eq account.users[0].email
+    end
+
+    it 'makes the current_user an admin if no user is provided' do
+      user1 = FactoryGirl.create(:user)
+      account = FactoryGirl.build(:account, email: '')
+      expect(account.register(user1)).to eq true
+      expect(account.email).to eq user1.email
+      expect(account.user_permissions.count).to eq 1
+      expect(account.user_permissions[0].user).to eq user1
+      expect(account.user_permissions[0].account_admin).to eq true
+    end
+
+    it 'makes every user an admin if there is no current user' do
+      account = FactoryGirl.build(:account,
+                                  email: '',
+                                  users_attributes: [
+                                    FactoryGirl.attributes_for(:user),
+                                    FactoryGirl.attributes_for(:user)])
+      expect(account.register(nil)).to eq true
+      expect(account.user_permissions.count).to eq 2
+      expect(account.user_permissions[0].account_admin).to eq true
+      expect(account.user_permissions[1].account_admin).to eq true
+    end
+
+    pending 'it uses the first users email instead of the current users email'
+
+    it 'make very user an admin if there is a current user and users' do
+      user1 = FactoryGirl.create(:user)
+      account = FactoryGirl.build(:account,
+                                  email: '',
+                                  users_attributes: [
+                                    FactoryGirl.attributes_for(:user),
+                                    FactoryGirl.attributes_for(:user)])
+      expect(account.register(user1)).to eq true
+      expect(account.user_permissions.count).to eq 2
+      expect(account.user_permissions[0].user).to_not eq user1
+      expect(account.user_permissions[0].account_admin).to eq true
+      expect(account.user_permissions[1].user).to_not eq user1
+      expect(account.user_permissions[1].account_admin).to eq true
+    end
+  end
+
   describe '.require_cancellation_reason_id' do
     it 'is false if cancelled_at is nil' do
       cancellation_category = FactoryGirl.create(:cancellation_category)

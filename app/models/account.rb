@@ -170,6 +170,37 @@ class Account < ActiveRecord::Base
     update_attributes(paused_plan_id: plan.paused_plan_id)
   end
 
+  # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
+  def register(current_user)
+    # Set the email from the current_user or the first user
+    if email.blank?
+      if users && users[0]
+        self.email = users[0].email unless users[0].nil?
+        logger.debug 'Using the first users email as the accounts email'
+      else
+        if current_user
+          self.email = current_user.email
+          logger.debug 'Using the current users email as the accounts email'
+        end
+      end
+    end
+
+    if save
+      # Add the current_user as an account admin or set all users as an account admin
+      if current_user && (user_permissions.count == 0)
+        user_permissions.build(user: current_user, account_admin: true).save!
+        logger.debug { "Making the current user an admin for #{self}" }
+      else
+        admin_all_users
+        logger.debug { "Making all users an admin for #{self}" }
+      end
+      return true
+    end
+
+    false
+  end
+  # rubocop:enable PerceivedComplexity, Metrics/CyclomaticComplexity
+
   def restore
     params = { cancellation_category: nil,
                cancellation_reason: nil,

@@ -73,7 +73,7 @@ gem 'delayed_job', '~> 4.0.6'
 gem 'delayed_job_active_record', '~> 4.0.3'
 
 # Yay Stripe!
-gem 'stripe', '~> 1.20.2'
+gem 'stripe', '~> 1.20.3'
 gem 'stripe_event', '~> 1.5.0'
 
 # Code quality tools
