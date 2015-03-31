@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.1'
 # Use MySQL as the database for Active Record
 gem 'mysql2', '~> 0.3.17'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.1'
+gem 'sass-rails', '~> 5.0.2'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 2.6.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -73,7 +73,7 @@ gem 'delayed_job', '~> 4.0.6'
 gem 'delayed_job_active_record', '~> 4.0.3'
 
 # Yay Stripe!
-gem 'stripe', '~> 1.20.3'
+gem 'stripe', '~> 1.20.4'
 gem 'stripe_event', '~> 1.5.0'
 
 # Code quality tools
