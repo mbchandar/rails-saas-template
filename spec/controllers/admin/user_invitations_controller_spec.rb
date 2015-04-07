@@ -45,13 +45,13 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'does not create a user' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
                account_id: @account.id,
                user_invitation: FactoryGirl.attributes_for(:user_invitation)
         }.to change { UserInvitation.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -73,13 +73,13 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'does not create a user' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
                account_id: @account.id,
                user_invitation: FactoryGirl.attributes_for(:user_invitation)
         }.to change { UserInvitation.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -114,13 +114,13 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         end
 
         it 'creates a user invitation' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
                  account_id: @account.id,
                  user_invitation: FactoryGirl.attributes_for(:user_invitation)
           }.to change { UserInvitation.count }.by(1)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
 
@@ -148,13 +148,13 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         end
 
         it 'does not create a user invitation' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
                  account_id: @account.id,
                  user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           }.to change { UserInvitation.count }.by(0)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
     end
@@ -173,11 +173,11 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'does not delete a user invitation' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, account_id: @account.id, id: @user_invitation.id
         }.to change { UserInvitation.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -199,11 +199,11 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'does not delete a user invitation' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, account_id: @account.id, id: @user_invitation.id
         }.to change { UserInvitation.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -225,11 +225,11 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'deletes a user' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, account_id: @account.id, id: @user_invitation.id
         }.to change { UserInvitation.count }.by(-1)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
   end

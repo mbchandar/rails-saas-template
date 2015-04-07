@@ -50,11 +50,11 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       it 'does not delete a user permission' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, path: @account.id, id: @user_permission.to_param
         }.to change { UserPermission.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -76,11 +76,11 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       it 'does not delete a user permission' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, path: @account.id, id: @user_permission.to_param
         }.to change { UserPermission.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -127,11 +127,11 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
         end
 
         it 'deletes a user' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             delete :destroy, path: @account.id, id: @user_permission.to_param
           }.to change { UserPermission.count }.by(-1)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
     end
@@ -154,11 +154,11 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
       end
 
       it 'deletes a user' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           delete :destroy, path: @account.id, id: @user_permission.to_param
         }.to change { UserPermission.count }.by(-1)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
   end

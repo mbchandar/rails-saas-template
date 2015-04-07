@@ -123,7 +123,7 @@ class Account < ActiveRecord::Base
   end
 
   def cancel(params)
-    time = Time.new
+    time = Time.zone.now
     params[:cancelled_at] = time.strftime('%Y-%m-%d %H:%M:%S')
     params[:active] = false
     update_attributes(params)
@@ -143,14 +143,14 @@ class Account < ActiveRecord::Base
   end
 
   def self.find_by_hostname(hostname)
-    Account.joins(:plan).where(plans: { allow_hostname: true }, active: true, hostname: hostname).first
+    Account.joins(:plan).find_by plans: { allow_hostname: true }, active: true, hostname: hostname
   end
 
   def self.find_by_path(path)
     if path.to_i.to_s == path.to_s
-      Account.where(active: true, id: path).first
+      Account.find_by active: true, id: path
     else
-      Account.joins(:plan).where(plans: { allow_custom_path: true }, active: true, custom_path: path).first
+      Account.joins(:plan).find_by plans: { allow_custom_path: true }, active: true, custom_path: path
     end
   end
 
@@ -161,7 +161,7 @@ class Account < ActiveRecord::Base
   end
 
   def self.find_by_subdomain(subdomain)
-    Account.joins(:plan).where(plans: { allow_subdomain: true }, active: true, subdomain: subdomain).first
+    Account.joins(:plan).find_by plans: { allow_subdomain: true }, active: true, subdomain: subdomain
   end
 
   def pause
@@ -213,7 +213,7 @@ class Account < ActiveRecord::Base
   def status
     s = :active
     s = :paused unless paused_plan_id.nil?
-    s = :expired if !expires_at.nil? && expires_at < Date.today
+    s = :expired if !expires_at.nil? && expires_at < Time.zone.today
     s = :cancel_pending unless cancelled_at.nil?
     s = :cancelled unless active
     s

@@ -804,7 +804,7 @@ RSpec.describe Account, type: :model do
 
     it 'is false if cancellation_category is nil' do
       account = FactoryGirl.build(:account,
-                                  cancelled_at: DateTime.now,
+                                  cancelled_at: Time.zone.now,
                                   cancellation_category: nil,
                                   cancellation_reason: nil)
       expect(account.require_cancellation_message).to eq false
@@ -813,7 +813,7 @@ RSpec.describe Account, type: :model do
     it 'is true if cancellation_category requires message' do
       cancellation_category = FactoryGirl.create(:cancellation_category, allow_message: true, require_message: true)
       account = FactoryGirl.build(:account,
-                                  cancelled_at: DateTime.now,
+                                  cancelled_at: Time.zone.now,
                                   cancellation_category: cancellation_category,
                                   cancellation_reason: nil)
       expect(account.require_cancellation_message).to eq true
@@ -822,7 +822,7 @@ RSpec.describe Account, type: :model do
     it 'is false if cancellation_reason is nil' do
       cancellation_category = FactoryGirl.create(:cancellation_category, allow_message: true, require_message: false)
       account = FactoryGirl.build(:account,
-                                  cancelled_at: DateTime.now,
+                                  cancelled_at: Time.zone.now,
                                   cancellation_category: cancellation_category,
                                   cancellation_reason: nil)
       expect(account.require_cancellation_message).to eq false
@@ -835,7 +835,7 @@ RSpec.describe Account, type: :model do
                                                allow_message: true,
                                                require_message: true)
       account = FactoryGirl.build(:account,
-                                  cancelled_at: DateTime.now,
+                                  cancelled_at: Time.zone.now,
                                   cancellation_category: cancellation_category,
                                   cancellation_reason: cancellation_reason)
       expect(account.require_cancellation_message).to eq true
@@ -848,7 +848,7 @@ RSpec.describe Account, type: :model do
                                                allow_message: true,
                                                require_message: false)
       account = FactoryGirl.build(:account,
-                                  cancelled_at: DateTime.now,
+                                  cancelled_at: Time.zone.now,
                                   cancellation_category: cancellation_category,
                                   cancellation_reason: cancellation_reason)
       expect(account.require_cancellation_message).to eq false
@@ -936,20 +936,20 @@ RSpec.describe Account, type: :model do
     end
 
     it 'is false if cancellation_category is nil' do
-      account = FactoryGirl.build(:account, cancelled_at: DateTime.now, cancellation_category: nil)
+      account = FactoryGirl.build(:account, cancelled_at: Time.zone.now, cancellation_category: nil)
       expect(account.require_cancellation_reason_id).to eq false
     end
 
     it 'is true if there are cancellation_reasons' do
       cancellation_category = FactoryGirl.create(:cancellation_category)
       FactoryGirl.create(:cancellation_reason, active: true, cancellation_category: cancellation_category)
-      account = FactoryGirl.build(:account, cancelled_at: DateTime.now, cancellation_category: cancellation_category)
+      account = FactoryGirl.build(:account, cancelled_at: Time.zone.now, cancellation_category: cancellation_category)
       expect(account.require_cancellation_reason_id).to eq true
     end
 
     it 'is false if there are no cancellation_reasons' do
       cancellation_category = FactoryGirl.create(:cancellation_category)
-      account = FactoryGirl.build(:account, cancelled_at: DateTime.now, cancellation_category: cancellation_category)
+      account = FactoryGirl.build(:account, cancelled_at: Time.zone.now, cancellation_category: cancellation_category)
       expect(account.require_cancellation_reason_id).to eq false
     end
   end
@@ -960,7 +960,7 @@ RSpec.describe Account, type: :model do
       cancellation_reason = FactoryGirl.create(:cancellation_reason, cancellation_category: cancellation_category)
       account = FactoryGirl.create(:account,
                                    active: false,
-                                   cancelled_at: Time.now - 1.days,
+                                   cancelled_at: Time.zone.now - 1.days,
                                    cancellation_category: cancellation_category,
                                    cancellation_message: 'Something',
                                    cancellation_reason: cancellation_reason)
@@ -980,12 +980,12 @@ RSpec.describe Account, type: :model do
     end
 
     it 'is cancel_pending with cancelled_at not nil but still active' do
-      account = FactoryGirl.build(:account, active: true, cancelled_at: Time.now)
+      account = FactoryGirl.build(:account, active: true, cancelled_at: Time.zone.now)
       expect(account.status).to eq :cancel_pending
     end
 
     it 'is expired if past expires_at but still active' do
-      account = FactoryGirl.build(:account, active: true, expires_at: Time.now - 1.days)
+      account = FactoryGirl.build(:account, active: true, expires_at: Time.zone.now - 1.days)
       expect(account.status).to eq :expired
     end
 

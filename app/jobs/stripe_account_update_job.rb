@@ -50,7 +50,7 @@ class StripeAccountUpdateJob < ActiveJob::Base
     end
 
     account.card_token = 'dummy'
-    account.expires_at = Time.at(subscription.current_period_end)
+    account.expires_at = Time.zone.at(subscription.current_period_end)
     account.save
 
     card = customer.cards.retrieve(customer.default_card)

@@ -35,7 +35,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "company-#{n}@example.com" }
     association :plan, factory: :plan
     active true
-    expires_at Time.now + 30.days
+    expires_at Time.zone.now + 30.days
     sequence(:card_token) { |n| "card_#{n}" }
   end
 end

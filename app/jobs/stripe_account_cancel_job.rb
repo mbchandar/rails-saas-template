@@ -43,7 +43,7 @@ class StripeAccountCancelJob < ActiveJob::Base
     account.card_brand = nil
     account.card_last4 = nil
     account.card_exp = nil
-    account.expires_at = Time.at(subscription.canceled_at)
+    account.expires_at = Time.zone.at(subscription.canceled_at)
     account.stripe_subscription_id = nil
     account.save
   end

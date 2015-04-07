@@ -41,11 +41,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'does not create a cancellation_category' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
         }.to change { CancellationCategory.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -67,11 +67,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'does not create a cancellation_category' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
         }.to change { CancellationCategory.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -100,11 +100,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         end
 
         it 'creates a cancellation_category' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
           }.to change { CancellationCategory.count }.by(1)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
 
@@ -128,11 +128,11 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
         end
 
         it 'does not create a cancellation_category' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create, cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
           }.to change { CancellationCategory.count }.by(0)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
     end

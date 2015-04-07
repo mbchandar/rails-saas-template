@@ -63,7 +63,7 @@ class Ability
     return if user.nil?
 
     if account
-      permissions = user.user_permissions.where(account: account).first
+      permissions = user.user_permissions.find_by account: account
     else
       permissions = nil
     end

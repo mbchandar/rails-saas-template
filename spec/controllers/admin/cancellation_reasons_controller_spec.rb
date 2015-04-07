@@ -47,13 +47,13 @@ RSpec.describe Admin::CancellationReasonsController, type: :controller do
       end
 
       it 'does not create a cancellation_reason' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
                cancellation_category_id: @cancellation_category.id,
                cancellation_reason: FactoryGirl.attributes_for(:cancellation_reason)
         }.to change { CancellationReason.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -79,13 +79,13 @@ RSpec.describe Admin::CancellationReasonsController, type: :controller do
       end
 
       it 'does not create a cancellation_reason' do
-        # rubocop:disable Style/Blocks
+        # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
                cancellation_category_id: @cancellation_category.id,
                cancellation_reason: FactoryGirl.attributes_for(:cancellation_reason)
         }.to change { CancellationReason.count }.by(0)
-        # rubocop:enable Style/Blocks
+        # rubocop:enable Style/BlockDelimiters
       end
     end
 
@@ -122,13 +122,13 @@ RSpec.describe Admin::CancellationReasonsController, type: :controller do
         end
 
         it 'creates a cancellation_reason' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
                  cancellation_category_id: @cancellation_category.id,
                  cancellation_reason: FactoryGirl.attributes_for(:cancellation_reason)
           }.to change { CancellationReason.count }.by(1)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
 
@@ -158,13 +158,13 @@ RSpec.describe Admin::CancellationReasonsController, type: :controller do
         end
 
         it 'does not create a cancellation_reason' do
-          # rubocop:disable Style/Blocks
+          # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
                  cancellation_category_id: @cancellation_category.id,
                  cancellation_reason: FactoryGirl.attributes_for(:cancellation_reason, name: '')
           }.to change { CancellationReason.count }.by(0)
-          # rubocop:enable Style/Blocks
+          # rubocop:enable Style/BlockDelimiters
         end
       end
     end

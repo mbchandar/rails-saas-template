@@ -50,7 +50,7 @@ class StripeAccountCreateJob < ActiveJob::Base
     subscription = customer.subscriptions.data[0]
 
     account.card_token = 'dummy'
-    account.expires_at = Time.at(subscription.current_period_end)
+    account.expires_at = Time.zone.at(subscription.current_period_end)
     account.stripe_customer_id = customer.id
     account.stripe_subscription_id = subscription.id
     account.save!

@@ -46,7 +46,7 @@ class StripeAccountRestoreJob < ActiveJob::Base
     subscription = customer.subscriptions.create(plan: current_plan)
 
     account.card_token = 'dummy'
-    account.expires_at = Time.at(subscription.current_period_end)
+    account.expires_at = Time.zone.at(subscription.current_period_end)
     account.stripe_subscription_id = subscription.id
     account.save
   end

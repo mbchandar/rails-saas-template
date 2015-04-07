@@ -33,7 +33,7 @@ FactoryGirl.define do
   factory :invoice do
     association :account, factory: :account
     sequence(:stripe_invoice_id) { |n| "inv_#{n}" }
-    invoiced_at Time.now
+    invoiced_at Time.zone.now
     total_amount 9.99
   end
 end

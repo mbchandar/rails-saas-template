@@ -6,7 +6,7 @@ gem 'rails', '4.2.1'
 # Use MySQL as the database for Active Record
 gem 'mysql2', '~> 0.3.17'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.2'
+gem 'sass-rails', '~> 5.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 2.6.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -81,16 +81,19 @@ group :development do
   gem 'bullet', '~> 4.14.0'
   gem 'rails_best_practices', '~> 1.15.4'
   gem 'brakeman', '~> 3.0.2'
-  gem 'rubocop', '~> 0.29.1'
-  gem 'web-console', '~> 2.0'
+  gem 'rubocop', '~> 0.30.0'
 end
 
 # Testing tools
 group :test, :development do
+  gem 'byebug', '~> 4.0.5'
+  gem 'web-console', '~> 2.0'
   gem 'faker', '~> 1.4.3'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'database_cleaner', '~> 1.4.1'
-  gem 'rspec', '~> 3.2.0'
+  gem 'rspec', '~> 3.2'
+  gem 'rspec-core', '~> 3.2.2'
+  gem 'rspec-expectations', '~> 3.2.1'
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks', '~> 3.2.1'
   gem 'stripe-ruby-mock', '~> 2.1.0'

@@ -57,7 +57,7 @@ RSpec.describe Admin::AccountsHelper, type: :helper do
 
     context 'account is cancel pending' do
       it 'returns cancel_pending' do
-        account = FactoryGirl.build(:account, cancelled_at: Time.now)
+        account = FactoryGirl.build(:account, cancelled_at: Time.zone.now)
         expect(helper.account_status(account)).to eq '<span class="label label-warning">Cancel Pending</span>'
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe Admin::AccountsHelper, type: :helper do
 
     context 'account is expired' do
       it 'returns expired' do
-        account = FactoryGirl.build(:account, expires_at: Time.now - 3.days)
+        account = FactoryGirl.build(:account, expires_at: Time.zone.now - 3.days)
         expect(helper.account_status(account)).to eq '<span class="label label-warning">Expired</span>'
       end
     end
