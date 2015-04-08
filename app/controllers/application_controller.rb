@@ -87,8 +87,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_sidebar_menu
-    @sidebar_menu = {
-    }
+    if params[:path]
+      @sidebar_menu = {
+        dashboard: { title: 'Dashboard', url: tenant_root_path, icon: 'tachometer' }
+      }
+    else
+      @sidebar_menu = {}
+    end
   end
 
   def set_sidebar_item
