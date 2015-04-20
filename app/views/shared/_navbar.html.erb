@@ -12,13 +12,17 @@
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<% unless navbar_left_menu.nil? %>
+      <ul class="nav navbar-nav navbar-left">
+<% navbar_left_menu.each do |key, menu_item| %>
+        <li<%if navbar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %> <% end %><%= menu_item[:title] %><% end %></li>
+<% end %>
+      </ul>
+<% end %>
+
       <ul class="nav navbar-nav navbar-right">
-<% if user_signed_in? %>
-        <li><%= link_to user_path(current_user) do %><%= fa_icon 'user' %> Welcome, <%= current_user %><% end %></li>
-<% else %>
-        <li><%= link_to "Plans & Pricing", pricing_path %></li>
-        <li><%= link_to "Sign Up", pricing_path %></li>
-        <li><%= link_to "Sign In", new_user_session_path %></li>
+<% navbar_right_menu.each do |key, menu_item| %>
+        <li<%if navbar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %> <% end %><%= menu_item[:title] %><% end %></li>
 <% end %>
       </ul>
       <ul id="side-nav" class="nav navbar-nav navbar-right">

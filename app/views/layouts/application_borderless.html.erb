@@ -19,7 +19,7 @@
     <%= yield :head %>
   </head>
   <body class="<%= body_class %>">
-<%= render 'shared/navbar', sidebar_menu: @sidebar_menu, sidebar_item: @sidebar_item %>
+<%= render 'shared/navbar', navbar_left_menu: @navbar_left_menu, navbar_right_menu: @navbar_right_menu, navbar_item: @navbar_item, sidebar_menu: @sidebar_menu, sidebar_item: @sidebar_item %>
 
     <div id="wrapper">
 

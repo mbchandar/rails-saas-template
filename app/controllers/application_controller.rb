@@ -37,6 +37,15 @@ class ApplicationController < ActionController::Base
   # Make sure the user is authenticated by default
   before_action :authenticate_user!
 
+  # Set the navbar left menu items
+  before_action :set_navbar_left_menu
+
+  # Set the navbar right menu items
+  before_action :set_navbar_right_menu
+
+  # Set the current navbar item
+  before_action :set_navbar_item
+
   # Set the sidebar menu items
   before_action :set_sidebar_menu
 
@@ -84,6 +93,28 @@ class ApplicationController < ActionController::Base
   # Find the current account, returning it or nil if there is no current account
   def current_account
     @current_account ||= Account.find_account(params[:path], request.host, request.subdomain.last)
+  end
+
+  def set_navbar_left_menu
+    @navbar_left_menu = {}
+  end
+
+  def set_navbar_right_menu
+    if user_signed_in?
+      @navbar_right_menu = {
+        welcome: { title: "Welcome #{current_user}", url: user_path(current_user), icon: 'user' }
+      }
+    else
+      @navbar_right_menu = {
+        plans: { title: 'Plans & Pricing', url: pricing_path },
+        signup: { title: 'Sign Up', url: pricing_path },
+        signin: { title: 'Sign In', url: new_user_session_path }
+      }
+    end
+  end
+
+  def set_navbar_item
+    @navbar_item = nil
   end
 
   def set_sidebar_menu
