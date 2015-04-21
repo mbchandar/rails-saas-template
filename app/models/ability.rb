@@ -34,61 +34,34 @@ class Ability
 
   # rubocop:disable Metrics/CyclomaticComplexity, PerceivedComplexity
   def initialize(user, account, section)
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    # Don't set any permissions if the user isn't logged in
     return if user.nil?
 
+    # Don't set any premissions if you're not a super admin in the admin section
+    return if section == :admin && !user.super_admin?
+
+    # Find the permissions for the user/account
     if account
       permissions = user.user_permissions.find_by account: account
     else
       permissions = nil
     end
 
+    # Don't set any permissions if you're not a super or account admin in the settings section
+    return if section == :settings && !(user.super_admin? || (permissions && permissions.account_admin?))
+
     # Super Admin's can do anything
     can :manage, :all if user.super_admin?
 
-    # We really don't want people accessing these things via the admin if they can guess the URL
-    unless section == :admin
-      # Account Admin's get additional privileges
-      if !permissions.nil? && permissions.account_admin?
-        can :manage, Account, user_permissions: { user_id: user.id, account_admin: true }
-        can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
-        can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
-        can :manage, Invoice, account: { user_permissions: { user_id: user.id, account_admin: true } }
-        can :index, :settings_dashboard
-      end
-
-      # Regular users can do some things BUT not in the settings section
-      unless section == :settings
-        can :manage, User, id: user.id
-        can :manage, UserPermission, user_id: user.id
-        can :index, :dashboard if permissions
-      end
-    end
+    # Set the basic permissions
+    can :manage, Account, user_permissions: { user_id: user.id, account_admin: true }
+    can :manage, Invoice, account: { user_permissions: { user_id: user.id, account_admin: true } }
+    can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
+    can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
+    can :manage, UserPermission, user_id: user.id
+    can :manage, User, id: user.id
+    can :index, :settings_dashboard
+    can :index, :dashboard if permissions
 
     # Prevent the user from deleting themselves
     cannot :destroy, User, id: user.id
