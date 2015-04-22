@@ -106,9 +106,9 @@ class ApplicationController < ActionController::Base
       }
     else
       @navbar_right_menu = {
-        plans: { title: 'Plans & Pricing', url: pricing_path },
-        signup: { title: 'Sign Up', url: pricing_path },
-        signin: { title: 'Sign In', url: new_user_session_path }
+        home: { title: 'Home', url: root_path },
+        plans: { title: 'Sign Up & Pricing', url: pricing_path },
+        signin: { title: 'Log In', url: new_user_session_path }
       }
     end
   end

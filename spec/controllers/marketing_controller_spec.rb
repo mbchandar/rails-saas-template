@@ -32,17 +32,51 @@ require 'rails_helper'
 
 # Tests for the marketing controller
 RSpec.describe MarketingController, type: :controller do
+  let(:super_admin) { FactoryGirl.create(:admin) }
+  let(:user_without_account) { FactoryGirl.create(:user) }
+  # rubocop:disable Style/BlockDelimiters
+  let(:user_with_account) {
+    up = FactoryGirl.create(:user_permission, account: account)
+    up.user
+  }
+  # rubocop:enable Style/BlockDelimiters
+  let(:account) { FactoryGirl.create(:account) }
+
   # Requesting http://www.[your-domain]/ should show the marketing homepage
   describe 'GET #index' do
-    it 'responds successfully with an HTTP 200 status code' do
-      get :index
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+    context 'as an anonymous user' do
+      it 'redirects to login page' do
+        get :index
+        expect(response).to be_redirect
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
 
-    it 'renders the index template' do
-      get :index
-      expect(response).to render_template('index')
+    context 'user without account' do
+      it 'to redirects to the admin page' do
+        sign_in :user, user_without_account
+        get :index
+        expect(response).to be_redirect
+        expect(response).to redirect_to(users_path)
+      end
+    end
+
+    context 'user with account' do
+      it 'to redirects to the admin page' do
+        sign_in :user, user_with_account
+        get :index
+        expect(response).to be_redirect
+        expect(response).to redirect_to(tenant_root_path(path: account.to_param))
+      end
+    end
+
+    context 'as super admin' do
+      it 'to redirects to the admin page' do
+        sign_in :user, super_admin
+        get :index
+        expect(response).to be_redirect
+        expect(response).to redirect_to(admin_root_path)
+      end
     end
   end
 

@@ -32,13 +32,23 @@
 class MarketingController < ApplicationController
   # Skip authentication and authorization for the marketing controller.
   # We want anonymous users to be able to access it.
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:pricing, :register, :signup]
   skip_authorization_check
 
   layout 'marketing'
 
   def index
-    render layout: false
+    if current_user.super_admin?
+      redirect_to admin_root_path
+    else
+      account = current_account
+      account = current_user.accounts.first if account.nil?
+      if account
+        redirect_to tenant_root_path(path: account.to_param)
+      else
+        redirect_to users_path
+      end
+    end
   end
 
   def pricing
