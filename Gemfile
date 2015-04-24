@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use MySQL as the database for Active Record
@@ -82,6 +81,7 @@ group :development do
   gem 'rails_best_practices', '~> 1.15.4'
   gem 'brakeman', '~> 3.0.2'
   gem 'rubocop', '~> 0.30.0'
+  gem 'pippi', '~> 0.0.14'
 end
 
 # Testing tools

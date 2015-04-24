@@ -34,6 +34,32 @@ require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
+# Only run CODE_QUALITY tests if CODE_QUALITY=true
+if ENV['CODE_QUALITY'].present?
+  # Check with RuboCop unless SKIP_RUBOCOP=true
+  unless ENV['SKIP_RUBOCOP'].present?
+    require 'rubocop/rake_task'
+    RuboCop::RakeTask.new
+  end
+
+  # Check with Brakemane unless SKIP_BRAKEMAN=true
+  unless ENV['SKIP_BRAKEMAN'].present?
+    sh "brakeman -q -z"
+  end
+
+  # Check with Rails Best Practices SKIP_RAILS_BEST_PRACTICES=true
+  unless ENV['SKIP_RAILS_BEST_PRACTICES'].present?
+    path = File.expand_path('../..', __FILE__)
+    sh "rails_best_practices #{path}"
+  end
+
+  # Check with Pippi unless SKIP_PIPPI=true
+  unless ENV['SKIP_PIPPI'].present?
+    require 'pippi'
+    Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
+  end
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
