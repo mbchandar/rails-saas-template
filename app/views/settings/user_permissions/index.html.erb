@@ -25,7 +25,7 @@ content_for(:page_heading, 'User Permissions')
 		<tr>
 			<td><%= link_to_if can?(:show, user_permission), user.first_name, settings_user_permission_path(user_permission) %></td>
 			<td><%= link_to_if can?(:show, user_permission), user.last_name, settings_user_permission_path(user_permission) %></td>
-			<td><%= user.email %> <a href="mailto:<%= user.email %>"><span class="glyphicon glyphicon-envelope"></span></a></td>
+			<td><%= user.email %> <a href="mailto:<%= user.email %>"><%= fa_icon 'envelope' %></a></td>
 			<td><% if user_permission.account_admin %><span class="label label-success">Admin</span><% end %> </td>
 		</tr>
 <% end %>

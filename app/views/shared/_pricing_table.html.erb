@@ -19,9 +19,9 @@
 			</div>
 
 			<ul class="list-group text-center" style="margin: 0">
-				<li class="list-group-item"><i class="glyphicon <% if plan.allow_subdomain %>glyphicon-ok<% else %>glyphicon-remove<% end %>"></i> Choose your subdomain</li>
-				<li class="list-group-item"><i class="glyphicon <% if plan.allow_hostname %>glyphicon-ok<% else %>glyphicon-remove<% end %>"></i> Custom domain</li>
-				<li class="list-group-item"><i class="glyphicon glyphicon-user"></i> <%= plan.max_users %> Users</li>
+				<li class="list-group-item"><% if plan.allow_subdomain %><%= fa_icon 'check' %><% else %><%= fa_icon 'times' %><% end %> Choose your subdomain</li>
+				<li class="list-group-item"><% if plan.allow_hostname %><%= fa_icon 'check' %><% else %><%= fa_icon 'times' %><% end %> Custom domain</li>
+				<li class="list-group-item"><%= fa_icon 'user' %> <%= plan.max_users %> Users</li>
 			</ul>
 		</div>
 	    <div class="panel-footer">

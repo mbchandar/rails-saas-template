@@ -14,14 +14,14 @@ content_for(:page_heading, 'Sign In')
 		<div class="form-group">
 			<%= f.label :email, class: "control-label" %>
 			<div class="input-group">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+				<span class="input-group-addon"><%= fa_icon 'user' %></span>
 				<%= f.text_field :email, class: "form-control" %>
 			</div>
 		</div>
 		<div class="form-group">
 			<%= f.label :password, class: "control-label" %>
 			<div class="input-group">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+				<span class="input-group-addon"><%= fa_icon 'lock' %></span>
 				<%= f.password_field :password, autocomplete: "off", class: "form-control" %>
 			</div>
 		</div>

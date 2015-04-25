@@ -1,16 +1,40 @@
-<% if Rails.env.production? && ENV['SECRET_KEY_BASE'].nil? %>
- <div class="alert alert-danger"><strong>SECRET_KEY_BASE</strong> environment variable is not set</div>
+<% if Rails.env.production? %>
+<%= missing_env_notice 'SECRET_KEY_BASE' %>
 <% end %>
-<% if ENV['STRIPE_API_KEY'].nil? %>
- <div class="alert alert-danger"><strong>STRIPE_API_KEY</strong> environment variable is not set</div>
-<% end %>
-<% if ENV['STRIPE_PUBLISHABLE_KEY'].nil? %>
- <div class="alert alert-danger"><strong>STRIPE_PUBLISHABLE_KEY</strong> environment variable is not set</div>
-<% end %>
+<%= missing_env_notice 'STRIPE_API_KEY' %>
+<%= missing_env_notice 'STRIPE_PUBLISABLE_KEY' %>
 
 <% if flash.key?(:alert) %>
   <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><%= flash[:alert] %></div>
 <% end %>
 <% if flash.key?(:notice) %>
   <div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><%= flash[:notice] %></div>
+<% end %>
+
+<% release_notes = release_notes_for current_user %>
+<% if release_notes %>
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Since you've been gone</h4>
+      </div>
+      <div class="modal-body">
+<% release_notes.each do |row| %>
+        <div class="alert alert-<%= row.status %>" role="alert"><strong><%= row.title %></strong><% unless row.body.blank? %> <%= row.body %><% end %><% unless row.more_info.blank? %> <%= link_to row.more_info, class: 'alert-link' do %><%= fa_icon 'external-link' %><% end %><% end %></div>
+<% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<% content_for :footer do %>
+<script type="text/javascript">
+$('.modal').modal('show')
+</script>
+<% end %>
 <% end %>

@@ -23,7 +23,7 @@ content_for(:page_heading, 'User Invitations')
   <dt>Last Name</dt>
   <dd><%= @user_invitation.last_name %></dd>
   <dt>Email</dt>
-  <dd><%= @user_invitation.email %> <a href="mailto:<%= @user_invitation.email %>"><span class="glyphicon glyphicon-envelope"></span></a></dd>
+  <dd><%= @user_invitation.email %> <a href="mailto:<%= @user_invitation.email %>"><%= fa_icon 'envelope' %></a></dd>
   <dt>Invite Code</dt>
   <dd><%= @user_invitation.invite_code %></dd>
 </dl>

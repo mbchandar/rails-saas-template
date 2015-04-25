@@ -35,7 +35,7 @@ content_for(:page_heading, 'Invoices')
 			<td><%= invoice.invoiced_at %></td>
 			<td><%= invoice.paid_at %></td>
 			<td><%= invoice.total_amount %></td>
-                        <td><%= invoice.stripe_invoice_id %> <a href="https://dashboard.stripe.com/test/invoices/<%= invoice.stripe_invoice_id  %>"><span class="glyphicon glyphicon-new-window"></span></a><% if invoice.download_url %> <a href="<%= invoice.download_url %>"><span class="glyphicon glyphicon-download"></span></a><% end %></td>
+                        <td><%= invoice.stripe_invoice_id %> <a href="https://dashboard.stripe.com/test/invoices/<%= invoice.stripe_invoice_id  %>"><%= fa_icon 'external-link' %></a><% if invoice.download_url %> <a href="<%= invoice.download_url %>"><%= fa_icon 'download' %></a><% end %></td>
 		</tr>
 <% end %>
 	</tbody>

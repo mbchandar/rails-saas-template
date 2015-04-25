@@ -25,7 +25,7 @@ content_for(:page_heading, 'User Invitations')
 		<tr>
 			<td><%= link_to_if can?(:show, user_invitation), user_invitation.first_name, settings_user_invitation_path(user_invitation.account, user_invitation) %></td>
 			<td><%= link_to_if can?(:show, user_invitation), user_invitation.last_name, settings_user_invitation_path(user_invitation.account, user_invitation) %></td>
-			<td><%= user_invitation.email %> <a href="mailto:<%= user_invitation.email %>"><span class="glyphicon glyphicon-envelope"></span></a></td>
+			<td><%= user_invitation.email %> <a href="mailto:<%= user_invitation.email %>"><%= fa_icon 'envelope' %></a></td>
 			<td><%= user_invitation.invite_code %></td>
 		</tr>
 <% end %>

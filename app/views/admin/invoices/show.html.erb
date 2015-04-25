@@ -25,5 +25,5 @@ content_for(:page_heading, 'Invoices')
   <dt>Total Amount</dt>
   <dd><%= @invoice.total_amount %></dd>
   <dt>Stripe ID</dt>
-  <dd><%= @invoice.stripe_invoice_id %> <a href="https://dashboard.stripe.com/test/invoices/<%= @invoice.stripe_invoice_id  %>"><span class="glyphicon glyphicon-new-window"></span></a><% if @invoice.download_url %> <a href="<%= @invoice.download_url %>"><span class="glyphicon glyphicon-download"></span><% end %></dd>
+  <dd><%= @invoice.stripe_invoice_id %> <a href="https://dashboard.stripe.com/test/invoices/<%= @invoice.stripe_invoice_id  %>"><%= fa_icon 'external-link' %></a><% if @invoice.download_url %> <a href="<%= @invoice.download_url %>"><%= fa_icon 'download' %><% end %></dd>
 </dl>
