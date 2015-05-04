@@ -27,10 +27,10 @@
       </ul>
       <ul id="side-nav" class="nav navbar-nav navbar-right">
 <% sidebar_menu.each do |key, menu_item| %>
-        <li<%if sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %> <% end %><%= menu_item[:title] %><% end %></li>
+        <li<%if sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %><% end %><%= menu_item[:title] %><% end %></li>
 <% end %>
 <% if user_signed_in? %>
-        <li><%= link_to destroy_user_session_path, method: :delete do %><%= fa_icon 'sign-out' %> Logout<% end %></li>
+        <li><%= link_to destroy_user_session_path, method: :delete do %><%= fa_icon 'sign-out' %>Logout<% end %></li>
 <% end %>
       </ul>
     </div>

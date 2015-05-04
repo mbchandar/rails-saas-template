@@ -2,6 +2,9 @@
 @import "bootstrap";
 
 /*** BEGIN Restyle some of the Bootstrap styles ***/
+body {
+    font-family: 'Lato', sans-serif;
+}
 .alert {
     background-color: #ffffff;
     border-width: 1px 1px 1px 5px;
@@ -36,18 +39,36 @@
         color: #00cc33;
     }
 }
-.navbar-nav > li {
-    border-right: 1px solid #efefef;
+.navbar-nav {
+    li {
+        border-right: 1px solid #444444;
+        a, a:link, a:visited, a:hover, a:active {
+            color: #ffffff;
+        }
+    }
+    li:first-child {
+        border-left: 1px solid #444444;
+    }
+    button.navbar-toggle {
+        color: #ffffff;
+    }
 }
-.navbar-nav > li:first-child {
-    border-left: 1px solid #efefef;
-}
-.navbar-nav.navbar-right > li {
-    border-left: 1px solid #efefef;
+.navbar-nav.navbar-right {
+    li {
+        border-left: 1px solid #444444;
+        a, a:link, a:visited, a:hover, a:active {
+            color: #ffffff;
+        }
+    }
 }
 .navbar-default {
-    background-color: #ffffff;
+    background-color: #222222;
     background-image: none;
+    .navbar-brand {
+        color: #ffffff;
+        font-size: 200%;
+        font-weight: bold;
+    }
 }
 .panel-body > .nav-pills {
     padding-bottom: 10px;
@@ -86,9 +107,19 @@ body {
         padding: 10px 0;
     }
     #side-nav {
+        li {
+            a, a:link, a:visited, a:active {
+                color: #cccccc;
+                padding: 10px 10px;
+            }
+            a:hover {
+                background-color: #333333;
+                color: #ffffff;
+            }
+        }
         li.active {
             a, a:link, a:visited, a:hover, a:active {
-                background-color: #006699;
+                background-color: #ff8c00;
                 color: #ffffff;
             }
         }
@@ -104,33 +135,34 @@ body {
         left: 220px;
         width: 220px;
         bottom: 0;
-        padding: 20px 5px 5px 5px;
+        padding: 0;
         margin-left: -220px;
         border: none;
         border-radius: 0;
         overflow-y: auto;
         display: block;
-        background-color: #23272d;
+        background-color: #444444;
         li {
             display: list-item;
             float: none;
             border: 0;
-            margin-bottom: 1px;
+            border-bottom: 1px solid #666666;
+            font-size: 110%;
             a, a:link, a:visited, a:active {
-                -webkit-border-radius: 5px;
-                -moz-border-radius: 5px;
-                border-radius: 5px;
                 color: #cccccc;
                 padding: 10px 10px;
             }
             a:hover {
-                background-color: #006699;
+                background-color: #333333;
                 color: #ffffff;
+            }
+            i.fa {
+              padding-right: 10px;
             }
         }
         li.active {
             a, a:link, a:visited, a:hover, a:active {
-                background-color: #006699;
+                background-color: #ff8c00;
                 color: #ffffff;
             }
         }

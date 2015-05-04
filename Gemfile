@@ -60,8 +60,8 @@ gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 
 # Add country_select to provide a list of countries
-gem 'countries', '~> 0.9.3'
-gem 'country_select', '~> 2.1.1'
+gem 'countries', '~> 0.11.0'
+gem 'country_select', '~> 2.2.0'
 
 # Add support for currencies
 gem 'money', '~> 6.5.1'
@@ -72,14 +72,14 @@ gem 'delayed_job', '~> 4.0.6'
 gem 'delayed_job_active_record', '~> 4.0.3'
 
 # Yay Stripe!
-gem 'stripe', '~> 1.20.4'
+gem 'stripe', '~> 1.20.1'
 gem 'stripe_event', '~> 1.5.0'
 
 # Code quality tools
 group :development do
   gem 'bullet', '~> 4.14.0'
   gem 'rails_best_practices', '~> 1.15.4'
-  gem 'brakeman', '~> 3.0.2'
+  gem 'brakeman', '~> 3.0.3'
   gem 'rubocop', '~> 0.30.0'
   gem 'pippi', '~> 0.0.14'
 end
@@ -96,5 +96,5 @@ group :test, :development do
   gem 'rspec-expectations', '~> 3.2.1'
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks', '~> 3.2.1'
-  gem 'stripe-ruby-mock', '~> 2.1.0'
+  gem 'stripe-ruby-mock', '~> 2.1.1'
 end

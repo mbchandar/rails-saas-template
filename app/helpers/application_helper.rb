@@ -49,6 +49,13 @@ module ApplicationHelper
     "#{amount} / #{period}"
   end
 
+  # Render alerts for missing ENV variables
+  def missing_env_notice(var)
+    if ENV[var].nil?
+      "<div class=\"alert alert-danger\"><strong>#{var}</strong> environment variable is not set</div>".html_safe
+    end
+  end
+
   # Render the errors for the model
   def render_errors(model)
     html = ''

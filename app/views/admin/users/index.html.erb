@@ -24,7 +24,7 @@ content_for(:page_heading, 'Users')
 		<tr>
 			<td><%= link_to_if can?(:show, user), user.first_name, admin_user_path(user) %></td>
 			<td><%= link_to_if can?(:show, user), user.last_name, admin_user_path(user) %></td>
-			<td><%= user.email %> <a href="mailto:<%= user.email %>"><%= fa_icon 'envelope %></a></td>
+			<td><%= user.email %> <a href="mailto:<%= user.email %>"><%= fa_icon 'envelope' %></a></td>
 			<td>
                           <% unless user.active %><span class="label label-danger">Inactive</span><% end %>
                           <% if user.super_admin %><span class="label label-success">Super</span><% end %>
