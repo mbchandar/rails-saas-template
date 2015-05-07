@@ -47,6 +47,9 @@ class Ability
       permissions = nil
     end
 
+    # Don't set any permissions if the user doesn't have any for this account
+    return if permissions.nil? && ! user.super_admin?
+
     # Don't set any permissions if you're not a super or account admin in the settings section
     return if section == :settings && !(user.super_admin? || (permissions && permissions.account_admin?))
 
