@@ -80,7 +80,7 @@ group :development do
   gem 'bullet', '~> 4.14.0'
   gem 'rails_best_practices', '~> 1.15.4'
   gem 'brakeman', '~> 3.0.3'
-  gem 'rubocop', '~> 0.30.0'
+  gem 'rubocop', '~> 0.31.0'
   gem 'pippi', '~> 0.0.14'
 end
 
