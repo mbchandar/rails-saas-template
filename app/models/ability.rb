@@ -63,8 +63,8 @@ class Ability
     can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserPermission, user_id: user.id
     can :manage, User, id: user.id
-    can :index, :settings_dashboard
-    can :index, :dashboard if permissions
+    can :index, :settings_dashboard if user.super_admin? || permissions.account_admin?
+    can :index, :dashboard
 
     # Prevent the user from deleting themselves
     cannot :destroy, User, id: user.id
