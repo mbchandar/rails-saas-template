@@ -40,6 +40,12 @@ class Ability
     # Don't set any premissions if you're not a super admin in the admin section
     return if section == :admin && !user.super_admin?
 
+    # Users can always manage themselves but cannot destroy themselves or remove permissions
+    # These need to happen here as user stuff is outside of any particular account
+    can :manage, User, id: user.id
+    cannot :destroy, User, id: user.id
+    cannot :destroy, UserPermission, user_id: user.id unless user.super_admin
+
     # Find the permissions for the user/account
     if account
       permissions = user.user_permissions.find_by account: account
@@ -62,15 +68,8 @@ class Ability
     can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserPermission, user_id: user.id
-    can :manage, User, id: user.id
     can :index, :settings_dashboard if user.super_admin? || permissions.account_admin?
     can :index, :dashboard
-
-    # Prevent the user from deleting themselves
-    cannot :destroy, User, id: user.id
-
-    # Prevent non-super admins from removing permissions involving themselves
-    cannot :destroy, UserPermission, user_id: user.id unless user.super_admin
 
     # Enforce plan restrictions against everyone (including Super Admin's)
     cannot :pause, Account, plan: { paused_plan: nil }
