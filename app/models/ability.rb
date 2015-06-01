@@ -40,11 +40,13 @@ class Ability
     # Don't set any premissions if you're not a super admin in the admin section
     return if section == :admin && !user.super_admin?
 
+    # Super Admin's can do anything
+    can :manage, :all if user.super_admin?
+
     # Users can always manage themselves but cannot destroy themselves or remove permissions
     # These need to happen here as user stuff is outside of any particular account
     can :manage, User, id: user.id
     cannot :destroy, User, id: user.id
-    cannot :destroy, UserPermission, user_id: user.id unless user.super_admin
 
     # Find the permissions for the user/account
     if account
@@ -59,15 +61,13 @@ class Ability
     # Don't set any permissions if you're not a super or account admin in the settings section
     return if section == :settings && !(user.super_admin? || (permissions && permissions.account_admin?))
 
-    # Super Admin's can do anything
-    can :manage, :all if user.super_admin?
-
     # Set the basic permissions
     can :manage, Account, user_permissions: { user_id: user.id, account_admin: true }
     can :manage, Invoice, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserInvitation, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserPermission, account: { user_permissions: { user_id: user.id, account_admin: true } }
     can :manage, UserPermission, user_id: user.id
+    cannot :destroy, UserPermission, user_id: user.id unless user.super_admin
     can :index, :settings_dashboard if user.super_admin? || permissions.account_admin?
     can :index, :dashboard
 
