@@ -86,6 +86,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     return unless params[:invite_code]
 
     @invite_code = params[:invite_code]
-    @user_invitation = UserInvitation.where(invite_code: @invite_code).first
+    @user_invitation = UserInvitation.find_by(invite_code: @invite_code)
   end
 end

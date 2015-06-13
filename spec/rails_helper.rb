@@ -43,9 +43,7 @@ if ENV['CODE_QUALITY'].present?
   end
 
   # Check with Brakemane unless SKIP_BRAKEMAN=true
-  unless ENV['SKIP_BRAKEMAN'].present?
-    sh "brakeman -q -z"
-  end
+  sh 'brakeman -q -z' unless ENV['SKIP_BRAKEMAN'].present?
 
   # Check with Rails Best Practices SKIP_RAILS_BEST_PRACTICES=true
   unless ENV['SKIP_RAILS_BEST_PRACTICES'].present?
@@ -56,7 +54,7 @@ if ENV['CODE_QUALITY'].present?
   # Check with Pippi unless SKIP_PIPPI=true
   unless ENV['SKIP_PIPPI'].present?
     require 'pippi'
-    Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
+    Pippi::AutoRunner.new(checkset: ENV['PIPPI_CHECKSET'] || 'basic')
   end
 end
 

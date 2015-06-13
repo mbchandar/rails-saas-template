@@ -129,13 +129,13 @@ RSpec.describe Admin::PlansController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        delete :destroy, id: @plan.id
+        delete :destroy, id: @plan.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
 
       it 'does not remove a plan' do
-        expect { delete :destroy, id: @plan.id }.to change { Plan.count }.by(0)
+        expect { delete :destroy, id: @plan.to_param }.to change { Plan.count }.by(0)
       end
     end
 
@@ -146,18 +146,18 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        delete :destroy, id: @plan.id
+        delete :destroy, id: @plan.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        delete :destroy, id: @plan.id
+        delete :destroy, id: @plan.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
 
       it 'does not remove a plan' do
-        expect { delete :destroy, id: @plan.id }.to change { Plan.count }.by(0)
+        expect { delete :destroy, id: @plan.to_param }.to change { Plan.count }.by(0)
       end
     end
 
@@ -168,18 +168,18 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'it redirects to users' do
-        delete :destroy, id: @plan.id
+        delete :destroy, id: @plan.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(admin_plans_path)
       end
 
       it 'sets a notice' do
-        delete :destroy, id: @plan.id
+        delete :destroy, id: @plan.to_param
         expect(request.flash[:notice]).to eq 'Plan was successfully removed.'
       end
 
       it 'removes a plan' do
-        expect { delete :destroy, id: @plan.id }.to change { Plan.count }.by(-1)
+        expect { delete :destroy, id: @plan.to_param }.to change { Plan.count }.by(-1)
       end
     end
   end
@@ -191,7 +191,7 @@ RSpec.describe Admin::PlansController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -204,12 +204,12 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -222,18 +222,18 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to plans' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the accounts template' do
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         expect(response).to render_template('accounts')
         expect(response).to render_template('layouts/application')
       end
@@ -242,7 +242,7 @@ RSpec.describe Admin::PlansController, type: :controller do
         account1 = FactoryGirl.create(:account, plan: @plan)
         account2 = FactoryGirl.create(:account, paused_plan: @plan)
 
-        get :accounts, plan_id: @plan.id
+        get :accounts, plan_id: @plan.to_param
         accounts = assigns(:accounts)
         expect(accounts).to_not be_nil
         expect(accounts.count).to eq 2
@@ -259,7 +259,7 @@ RSpec.describe Admin::PlansController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -272,12 +272,12 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -290,24 +290,24 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to plans' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the edit template' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         expect(response).to render_template('edit')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit plan' do
-        get :edit, id: @plan.id
+        get :edit, id: @plan.to_param
         p = assigns(:plan)
         expect(p).to_not be_nil
         expect(p.id).to eq @plan.id
@@ -445,7 +445,7 @@ RSpec.describe Admin::PlansController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -458,12 +458,12 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -476,24 +476,24 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to plans' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(assigns(:sidebar_item)).to eq :plans
       end
 
       it 'renders the show template' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         expect(response).to render_template('show')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show plan' do
-        get :show, id: @plan.id
+        get :show, id: @plan.to_param
         p = assigns(:plan)
         expect(p).to_not be_nil
         expect(p.id).to eq @plan.id
@@ -508,7 +508,7 @@ RSpec.describe Admin::PlansController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+        patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -521,12 +521,12 @@ RSpec.describe Admin::PlansController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+        patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+        patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -540,37 +540,37 @@ RSpec.describe Admin::PlansController, type: :controller do
 
       context 'with valid attributes' do
         it 'sets the sidebar_item to plans' do
-          patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+          patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
           expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it redirects to plan' do
-          patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+          patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
           plan = assigns(:plan)
           expect(response).to be_redirect
           expect(response).to redirect_to(admin_plan_path(plan))
         end
 
         it 'sets a notice' do
-          post :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+          post :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
           expect(request.flash[:notice]).to eq 'Plan was successfully updated.'
         end
       end
 
       context 'with invalid attributes' do
         it 'sets the sidebar_item to plans' do
-          patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan)
+          patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan)
           expect(assigns(:sidebar_item)).to eq :plans
         end
 
         it 'it renders the new template' do
-          patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan, name: '')
+          patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan, name: '')
           expect(response).to render_template('edit')
           expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new plan' do
-          patch :update, id: @plan.id, plan: FactoryGirl.attributes_for(:plan, name: '')
+          patch :update, id: @plan.to_param, plan: FactoryGirl.attributes_for(:plan, name: '')
           plan = assigns(:plan)
           expect(plan).to_not be_nil
           expect(plan).to_not be_new_record

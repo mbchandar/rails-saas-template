@@ -39,7 +39,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
   describe 'GET #index' do
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -51,12 +51,12 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -70,18 +70,18 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to invoices' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the index template' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to render_template('index')
         expect(response).to render_template('layouts/application')
       end
@@ -90,7 +90,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
         invoice = FactoryGirl.create(:invoice, account: @account)
         invoice2 = FactoryGirl.create(:invoice, account: @account)
 
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         invoices = assigns(:invoices)
         expect(invoices).to_not be_nil
         expect(invoices.count).to eq 2
@@ -106,18 +106,18 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to invoices' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the index template' do
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         expect(response).to render_template('index')
         expect(response).to render_template('layouts/application')
       end
@@ -126,7 +126,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
         invoice = FactoryGirl.create(:invoice, account: @account)
         invoice2 = FactoryGirl.create(:invoice, account: @account)
 
-        get :index, path: @account.id
+        get :index, path: @account.to_param
         invoices = assigns(:invoices)
         expect(invoices).to_not be_nil
         expect(invoices.count).to eq 2
@@ -143,7 +143,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, path: @account.id, id: @invoice.id
+        get :show, path: @account.to_param, id: @invoice.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -156,12 +156,12 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, path: @account.id, id: @invoice.id
+        get :show, path: @account.to_param, id: @invoice.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, path: @account.id, id: @invoice.id
+        get :show, path: @account.to_param, id: @invoice.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -175,7 +175,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'redirects to the download URL' do
-        get :show, path: @account.id, id: @invoice.id
+        get :show, path: @account.to_param, id: @invoice.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(@invoice.download_url)
       end
@@ -188,7 +188,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
       end
 
       it 'redirects to the download URL' do
-        get :show, path: @account.id, id: @invoice.id
+        get :show, path: @account.to_param, id: @invoice.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(@invoice.download_url)
       end

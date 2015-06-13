@@ -122,7 +122,9 @@ class ApplicationController < ActionController::Base
       @sidebar_menu = {
         dashboard: { title: 'Dashboard', url: tenant_root_path, icon: 'tachometer' }
       }
-      @sidebar_menu[:settings] = { title: 'Settings', url: settings_root_path, icon: 'cogs' } if can? :index, :settings_dashboard
+      if can? :index, :settings_dashboard
+        @sidebar_menu[:settings] = { title: 'Settings', url: settings_root_path, icon: 'cogs' }
+      end
     else
       @sidebar_menu = {}
     end

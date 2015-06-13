@@ -33,7 +33,8 @@ class StripeAccountUpdateJob < ActiveJob::Base
   queue_as :default
 
   def perform(id)
-    account = Account.find(id)
+    # Don't use Account.find(id) as it assumes id is the obsificated ID
+    account = Account.find_by(id: id)
 
     customer = Stripe::Customer.retrieve(account.stripe_customer_id)
     customer.card = account.card_token if account.card_token? && account.card_token != 'dummy'

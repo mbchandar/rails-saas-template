@@ -131,7 +131,7 @@ RSpec.describe MarketingController, type: :controller do
     context 'valid plan_id' do
       before :each do
         plan = FactoryGirl.create(:plan, currency: 'USD')
-        get :signup, plan_id: plan.id
+        get :signup, plan_id: plan.to_param
       end
 
       it 'responds successfully with an HTTP 200 status code' do
@@ -421,7 +421,7 @@ RSpec.describe MarketingController, type: :controller do
 
         it 'makes the user an account admin' do
           post :register, account: @attrs
-          account = Account.find(assigns(:account).id)
+          account = Account.find_by(id: assigns(:account).id)
           expect(account.user_permissions.count).to be >= 1
           account.user_permissions.each do |up|
             expect(up.account_admin).to eq true

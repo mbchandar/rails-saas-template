@@ -26,12 +26,12 @@
 		</div>
 	    <div class="panel-footer">
 <% if action == :register %>
-		<%= link_to "Sign Up", signup_path({plan_id: plan.id}), class: "btn btn-lg btn-block btn-success" %>
+		<%= link_to "Sign Up", signup_path(plan), class: "btn btn-lg btn-block btn-success" %>
 <% else %>
 <% if account.plan.id == plan.id %>
-		<%= link_to "Current Plan", edit_settings_plan_path({id: plan.id}), class: "btn btn-lg btn-block btn-default disabled" %>
+		<%= link_to "Current Plan", edit_settings_plan_path(plan), class: "btn btn-lg btn-block btn-default disabled" %>
 <% else %>
-		<%= link_to "Select", edit_settings_plan_path({id: plan.id}), class: "btn btn-lg btn-block btn-success" %>
+		<%= link_to "Select", edit_settings_plan_path(plan), class: "btn btn-lg btn-block btn-success" %>
 <% end %>
 <% end %>
 		</div>

@@ -30,6 +30,8 @@
 
 # Account model
 class Account < ActiveRecord::Base
+  obfuscate_id
+
   belongs_to :plan
   belongs_to :paused_plan, class_name: 'Plan'
   belongs_to :cancellation_category
@@ -147,8 +149,9 @@ class Account < ActiveRecord::Base
   end
 
   def self.find_by_path(path)
-    if path.to_i.to_s == path.to_s
-      Account.find_by active: true, id: path
+    if path.match(/\A[0-9]+\Z/)
+      path = Account.deobfuscate_id(path.to_i) unless path.nil?
+      Account.joins(:plan).find_by active: true, id: path
     else
       Account.joins(:plan).find_by plans: { allow_custom_path: true }, active: true, custom_path: path
     end

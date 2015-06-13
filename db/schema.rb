@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119083851) do
+ActiveRecord::Schema.define(version: 20150611043050) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "company_name",             limit: 255,                null: false
@@ -162,7 +162,6 @@ ActiveRecord::Schema.define(version: 20150119083851) do
   add_index "user_invitations", ["invite_code"], name: "index_user_invitations_on_invite_code", unique: true, using: :btree
 
   create_table "user_permissions", force: :cascade do |t|
-    t.integer  "rec_num",       limit: 4,                 null: false
     t.integer  "user_id",       limit: 4,                 null: false
     t.integer  "account_id",    limit: 4,                 null: false
     t.boolean  "account_admin", limit: 1, default: false, null: false
@@ -170,7 +169,6 @@ ActiveRecord::Schema.define(version: 20150119083851) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "user_permissions", ["account_id", "rec_num"], name: "index_user_permissions_on_account_id_and_rec_num", unique: true, using: :btree
   add_index "user_permissions", ["account_id"], name: "index_user_permissions_on_account_id", using: :btree
   add_index "user_permissions", ["user_id", "account_id"], name: "index_user_permissions_on_user_id_and_account_id", unique: true, using: :btree
   add_index "user_permissions", ["user_id"], name: "index_user_permissions_on_user_id", using: :btree

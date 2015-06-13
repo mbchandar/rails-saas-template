@@ -145,7 +145,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -158,12 +158,12 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -176,24 +176,24 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to cancellation_categories' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the edit template' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         expect(response).to render_template('edit')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit cancellation_category' do
-        get :edit, id: @cancellation_category.id
+        get :edit, id: @cancellation_category.to_param
         p = assigns(:cancellation_category)
         expect(p).to_not be_nil
         expect(p.id).to eq @cancellation_category.id
@@ -331,7 +331,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -344,12 +344,12 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -362,24 +362,24 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to cancellation_categories' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(assigns(:sidebar_item)).to eq :cancellation_categories
       end
 
       it 'renders the show template' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         expect(response).to render_template('show')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show cancellation_category' do
-        get :show, id: @cancellation_category.id
+        get :show, id: @cancellation_category.to_param
         p = assigns(:cancellation_category)
         expect(p).to_not be_nil
         expect(p.id).to eq @cancellation_category.id
@@ -395,7 +395,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
     context 'as anonymous user' do
       it 'redirects to login page' do
         patch :update,
-              id: @cancellation_category.id,
+              id: @cancellation_category.to_param,
               cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
@@ -410,14 +410,14 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
 
       it 'responds with forbidden' do
         patch :update,
-              id: @cancellation_category.id,
+              id: @cancellation_category.to_param,
               cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
         patch :update,
-              id: @cancellation_category.id,
+              id: @cancellation_category.to_param,
               cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
@@ -433,14 +433,14 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       context 'with valid attributes' do
         it 'sets the sidebar_item to cancellation_categories' do
           patch :update,
-                id: @cancellation_category.id,
+                id: @cancellation_category.to_param,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
           expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it redirects to cancellation_category' do
           patch :update,
-                id: @cancellation_category.id,
+                id: @cancellation_category.to_param,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
           cancellation_category = assigns(:cancellation_category)
           expect(response).to be_redirect
@@ -449,7 +449,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
 
         it 'sets a notice' do
           post :update,
-               id: @cancellation_category.id,
+               id: @cancellation_category.to_param,
                cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
           expect(request.flash[:notice]).to eq 'Cancellation category was successfully updated.'
         end
@@ -458,14 +458,14 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to cancellation_categories' do
           patch :update,
-                id: @cancellation_category.id,
+                id: @cancellation_category.to_param,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category)
           expect(assigns(:sidebar_item)).to eq :cancellation_categories
         end
 
         it 'it renders the new template' do
           patch :update,
-                id: @cancellation_category.id,
+                id: @cancellation_category.to_param,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
           expect(response).to render_template('edit')
           expect(response).to render_template('layouts/application')
@@ -473,7 +473,7 @@ RSpec.describe Admin::CancellationCategoriesController, type: :controller do
 
         it 'it pass a new cancellation_category' do
           patch :update,
-                id: @cancellation_category.id,
+                id: @cancellation_category.to_param,
                 cancellation_category: FactoryGirl.attributes_for(:cancellation_category, name: '')
           cancellation_category = assigns(:cancellation_category)
           expect(cancellation_category).to_not be_nil

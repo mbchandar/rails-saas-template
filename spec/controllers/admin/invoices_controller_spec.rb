@@ -102,7 +102,7 @@ RSpec.describe Admin::InvoicesController, type: :controller do
   describe 'GET #index with account_id' do
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -114,12 +114,12 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -132,18 +132,18 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to invoices' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the index template' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to render_template('index')
         expect(response).to render_template('layouts/application')
       end
@@ -152,7 +152,7 @@ RSpec.describe Admin::InvoicesController, type: :controller do
         invoice = FactoryGirl.create(:invoice, account: @account)
         invoice2 = FactoryGirl.create(:invoice, account: @account)
 
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         invoices = assigns(:invoices)
         expect(invoices).to_not be_nil
         expect(invoices.count).to eq 2
@@ -169,7 +169,7 @@ RSpec.describe Admin::InvoicesController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -182,12 +182,12 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -200,24 +200,24 @@ RSpec.describe Admin::InvoicesController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to users' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(assigns(:sidebar_item)).to eq :invoices
       end
 
       it 'renders the show template' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         expect(response).to render_template('show')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user invitation' do
-        get :show, id: @invoice.id
+        get :show, id: @invoice.to_param
         inv = assigns(:invoice)
         expect(inv).to_not be_nil
         expect(inv.id).to eq @invoice.id

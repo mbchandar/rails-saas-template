@@ -28,39 +28,14 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# View helpers common across the entire application
-module ApplicationHelper
-  def currency_list
-    require 'money'
-
-    Money::Currency.all.map { |c| ["#{c.iso_code}: #{c.name}", "#{c.iso_code}"] }
+# Migration to remove rec_num from user_persmissions table
+class RemoveRecNumFromUserPermission < ActiveRecord::Migration
+  def up
+    remove_index :user_permissions, [:account_id, :rec_num]
+    remove_column :user_permissions, :rec_num
   end
 
-  # Render the plan price formatted nicely
-  def formatted_plan_price(plan, free_text = nil)
-    return free_text if plan.amount == 0 && !free_text.nil?
-
-    period = ''
-    period = number_with_precision(plan.interval_count, precision: 0) + ' ' if plan.interval_count > 1
-    period += plan.interval
-
-    amount = Money.new(plan.amount, plan.currency).format
-
-    "#{amount} / #{period}"
-  end
-
-  # Render alerts for missing ENV variables
-  def missing_env_notice(var)
-    return unless ENV[var].nil?
-    "<div class=\"alert alert-danger\"><strong>#{var}</strong> environment variable is not set</div>".html_safe
-  end
-
-  # Render the errors for the model
-  def render_errors(model)
-    html = ''
-    model.errors.full_messages.each do |message|
-      html = html + '<div class="alert alert-danger">' + html_escape(message) + '</div>'
-    end
-    html.html_safe
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

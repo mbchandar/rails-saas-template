@@ -33,7 +33,8 @@ class StripeAccountCancelJob < ActiveJob::Base
   queue_as :default
 
   def perform(id)
-    account = Account.find(id)
+    # Don't use Account.find(id) as it assumes id is the obsificated ID
+    account = Account.find_by(id: id)
 
     customer = Stripe::Customer.retrieve(account.stripe_customer_id)
     subscription = customer.subscriptions.retrieve(account.stripe_subscription_id)

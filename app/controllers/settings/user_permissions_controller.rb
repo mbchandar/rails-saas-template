@@ -77,12 +77,8 @@ class Settings::UserPermissionsController < Settings::ApplicationController
   private
 
   def find_user_permission
-    if params[:user_permission_id]
-      id = param[:user_permission_id]
-    else
-      id = params[:id]
-    end
-    @user_permission = current_account.user_permissions.includes(:user).where(rec_num: id).first!
+    id = UserPermission.deobfuscate_id(params[:user_permission_id] || params[:id]).to_i
+    @user_permission = current_account.user_permissions.includes(:user).find(id)
     @user = @user_permission.user
     add_breadcrumb @user, settings_user_permission_path(@user_permission)
   end

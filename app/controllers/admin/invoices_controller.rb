@@ -62,11 +62,7 @@ class Admin::InvoicesController < Admin::ApplicationController
   end
 
   def find_invoice
-    if params[:invoice_id]
-      @invoice = Invoice.find(params[:invoice_id])
-    else
-      @invoice = Invoice.find(params[:id])
-    end
+    @invoice = Invoice.find(params[:invoice_id] || params[:id])
     add_breadcrumb @invoice, admin_invoice_path(@invoice)
   end
 

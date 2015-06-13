@@ -108,11 +108,7 @@ class Admin::UsersController < Admin::ApplicationController
   private
 
   def find_user
-    if params[:user_id]
-      @user = User.find(params[:user_id])
-    else
-      @user = User.find(params[:id])
-    end
+    @user = User.find(params[:user_id] || params[:id])
     add_breadcrumb @user, admin_user_path(@user)
   end
 

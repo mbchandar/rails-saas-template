@@ -39,7 +39,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
   describe 'POST #create' do
     context 'as anonymous user' do
       it 'redirects to login page' do
-        post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+        post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -48,7 +48,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
-               account_id: @account.id,
+               account_id: @account.to_param,
                user_invitation: FactoryGirl.attributes_for(:user_invitation)
         }.to change { UserInvitation.count }.by(0)
         # rubocop:enable Style/BlockDelimiters
@@ -62,12 +62,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+        post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+        post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -76,7 +76,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         # rubocop:disable Style/BlockDelimiters
         expect {
           post :create,
-               account_id: @account.id,
+               account_id: @account.to_param,
                user_invitation: FactoryGirl.attributes_for(:user_invitation)
         }.to change { UserInvitation.count }.by(0)
         # rubocop:enable Style/BlockDelimiters
@@ -97,19 +97,19 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         end
 
         it 'sets the sidebar_item to users' do
-          post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+          post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to user_invitation' do
-          post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+          post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
           user_invitation = assigns(:user_invitation)
           expect(response).to be_redirect
           expect(response).to redirect_to(admin_account_user_invitation_path(user_invitation.account, user_invitation))
         end
 
         it 'sets a notice' do
-          post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+          post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(request.flash[:notice]).to eq 'User invitation was successfully created.'
         end
 
@@ -117,7 +117,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
           # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
-                 account_id: @account.id,
+                 account_id: @account.to_param,
                  user_invitation: FactoryGirl.attributes_for(:user_invitation)
           }.to change { UserInvitation.count }.by(1)
           # rubocop:enable Style/BlockDelimiters
@@ -126,13 +126,13 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'sets the sidebar_item to users' do
-          post :create, account_id: @account.id, user_invitation: FactoryGirl.attributes_for(:user_invitation)
+          post :create, account_id: @account.to_param, user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it renders the new template' do
           post :create,
-               account_id: @account.id,
+               account_id: @account.to_param,
                user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(response).to render_template('new')
           expect(response).to render_template('layouts/application')
@@ -140,7 +140,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
         it 'it pass a new user invitation' do
           post :create,
-               account_id: @account.id,
+               account_id: @account.to_param,
                user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           user_invitation = assigns(:user_invitation)
           expect(user_invitation).to_not be_nil
@@ -151,7 +151,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
           # rubocop:disable Style/BlockDelimiters
           expect {
             post :create,
-                 account_id: @account.id,
+                 account_id: @account.to_param,
                  user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           }.to change { UserInvitation.count }.by(0)
           # rubocop:enable Style/BlockDelimiters
@@ -167,7 +167,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        delete :destroy, account_id: @account.id, id: @user_invitation.id
+        delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -175,7 +175,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       it 'does not delete a user invitation' do
         # rubocop:disable Style/BlockDelimiters
         expect {
-          delete :destroy, account_id: @account.id, id: @user_invitation.id
+          delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         }.to change { UserInvitation.count }.by(0)
         # rubocop:enable Style/BlockDelimiters
       end
@@ -188,12 +188,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        delete :destroy, account_id: @account.id, id: @user_invitation.id
+        delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        delete :destroy, account_id: @account.id, id: @user_invitation.id
+        delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -201,7 +201,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       it 'does not delete a user invitation' do
         # rubocop:disable Style/BlockDelimiters
         expect {
-          delete :destroy, account_id: @account.id, id: @user_invitation.id
+          delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         }.to change { UserInvitation.count }.by(0)
         # rubocop:enable Style/BlockDelimiters
       end
@@ -214,20 +214,20 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'it redirects to users' do
-        delete :destroy, account_id: @account.id, id: @user_invitation.id
+        delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(admin_account_user_invitations_path(@account))
       end
 
       it 'sets a notice' do
-        delete :destroy, account_id: @account.id, id: @user_invitation.id
+        delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         expect(request.flash[:notice]).to eq 'User invitation was successfully removed.'
       end
 
       it 'deletes a user' do
         # rubocop:disable Style/BlockDelimiters
         expect {
-          delete :destroy, account_id: @account.id, id: @user_invitation.id
+          delete :destroy, account_id: @account.to_param, id: @user_invitation.to_param
         }.to change { UserInvitation.count }.by(-1)
         # rubocop:enable Style/BlockDelimiters
       end
@@ -241,7 +241,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -254,12 +254,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -272,24 +272,24 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to users' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the edit template' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to render_template('edit')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user invitation' do
-        get :edit, account_id: @account.id, id: @user_invitation.id
+        get :edit, account_id: @account.to_param, id: @user_invitation.to_param
         ui = assigns(:user_invitation)
         expect(ui).to_not be_nil
         expect(ui.id).to eq @user_invitation.id
@@ -363,7 +363,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
   describe 'GET #index with account_id' do
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -375,12 +375,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -393,18 +393,18 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to accounts' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the index template' do
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         expect(response).to render_template('index')
         expect(response).to render_template('layouts/application')
       end
@@ -413,7 +413,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
         user_invitation = FactoryGirl.create(:user_invitation, account: @account)
         user_invitation2 = FactoryGirl.create(:user_invitation, account: @account, email: 'john-2@example.com')
 
-        get :index, account_id: @account.id
+        get :index, account_id: @account.to_param
         user_invitations = assigns(:user_invitations)
         expect(user_invitations).to_not be_nil
         expect(user_invitations.count).to eq 2
@@ -426,7 +426,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
   describe 'GET #new' do
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -439,12 +439,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -457,24 +457,24 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to users' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the new template' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         expect(response).to render_template('new')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a new user' do
-        get :new, account_id: @account.id
+        get :new, account_id: @account.to_param
         user_invitation = assigns(:user_invitation)
         expect(user_invitation).to_not be_nil
         expect(user_invitation).to be_new_record
@@ -489,7 +489,7 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -502,12 +502,12 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -520,24 +520,24 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to users' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(assigns(:sidebar_item)).to eq :accounts
       end
 
       it 'renders the show template' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         expect(response).to render_template('show')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user invitation' do
-        get :show, account_id: @account.id, id: @user_invitation.id
+        get :show, account_id: @account.to_param, id: @user_invitation.to_param
         ui = assigns(:user_invitation)
         expect(ui).to_not be_nil
         expect(ui.id).to eq @user_invitation.id
@@ -553,8 +553,8 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
     context 'as anonymous user' do
       it 'redirects to login page' do
         patch :update,
-              account_id: @account.id,
-              id: @user_invitation.id,
+              account_id: @account.to_param,
+              id: @user_invitation.to_param,
               user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
@@ -569,16 +569,16 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
       it 'responds with forbidden' do
         patch :update,
-              account_id: @account.id,
-              id: @user_invitation.id,
+              account_id: @account.to_param,
+              id: @user_invitation.to_param,
               user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
         patch :update,
-              account_id: @account.id,
-              id: @user_invitation.id,
+              account_id: @account.to_param,
+              id: @user_invitation.to_param,
               user_invitation: FactoryGirl.attributes_for(:user_invitation)
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
@@ -600,16 +600,16 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
         it 'sets the sidebar_item to users' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it redirects to user' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(response).to be_redirect
           # rubocop:disable Metrics/LineLength
@@ -619,8 +619,8 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
         it 'sets a notice' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation)
           expect(request.flash[:notice]).to eq 'User invitation was successfully updated.'
         end
@@ -629,16 +629,16 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to users' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(assigns(:sidebar_item)).to eq :accounts
         end
 
         it 'it renders the new template' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           expect(response).to render_template('edit')
           expect(response).to render_template('layouts/application')
@@ -646,8 +646,8 @@ RSpec.describe Admin::UserInvitationsController, type: :controller do
 
         it 'it pass a new user invite' do
           patch :update,
-                account_id: @account.id,
-                id: @user_invitation.id,
+                account_id: @account.to_param,
+                id: @user_invitation.to_param,
                 user_invitation: FactoryGirl.attributes_for(:user_invitation, email: '')
           user_invitation = assigns(:user_invitation)
           expect(user_invitation).to_not be_nil

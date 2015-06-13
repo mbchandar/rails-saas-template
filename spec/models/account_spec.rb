@@ -44,7 +44,7 @@ RSpec.describe Account, type: :model do
       expect(permission0.account_admin).to eq false
       expect(permission1.account_admin).to eq false
       account.admin_all_users
-      account = Account.find(account.id)
+      account = Account.find_by(id: account.id)
       account.user_permissions.each do |up|
         expect(up.account_admin).to eq true
       end
@@ -498,7 +498,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path(account.id)
+        a = Account.find_by_path(account.to_param)
         expect(a).to eq account
       end
 
@@ -506,7 +506,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path(account.id)
+        a = Account.find_by_path(account.to_param)
         expect(a).to be_nil
       end
 
@@ -534,7 +534,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path(account.id)
+        a = Account.find_by_path(account.to_param)
         expect(a).to eq account
       end
 
@@ -542,7 +542,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path(account.id)
+        a = Account.find_by_path(account.to_param)
         expect(a).to be_nil
       end
 
@@ -572,7 +572,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path!(account.id)
+        a = Account.find_by_path!(account.to_param)
         expect(a).to eq account
       end
 
@@ -580,7 +580,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
-        expect { Account.find_by_path!(account.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { Account.find_by_path!(account.to_param) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'finds active accounts by custom path' do
@@ -606,7 +606,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: true, plan: plan)
         expect(account).to be_valid
 
-        a = Account.find_by_path!(account.id)
+        a = Account.find_by_path!(account.to_param)
         expect(a).to eq account
       end
 
@@ -614,7 +614,7 @@ RSpec.describe Account, type: :model do
         account = FactoryGirl.create(:account, active: false, plan: plan)
         expect(account).to be_valid
 
-        expect { Account.find_by_path!(account.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { Account.find_by_path!(account.to_param) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'does not find active accounts by custom path' do

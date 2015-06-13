@@ -30,6 +30,8 @@
 
 # User Permission model
 class UserPermission < ActiveRecord::Base
+  obfuscate_id
+
   belongs_to :user
   belongs_to :account
 
@@ -37,24 +39,5 @@ class UserPermission < ActiveRecord::Base
 
   validates :account_admin, inclusion: { in: [true, false] }, presence: false, allow_blank: false
   validates :account_id, presence: true
-  validates :rec_num,
-            numericality: { greater_than: 0, integer_only: true },
-            uniqueness: { scope: :account_id },
-            presence: true
   validates :user_id, uniqueness: { scope: :account_id }, presence: true
-
-  before_validation(on: :create) do
-    unless rec_num
-      max_rec_num = UserPermission.where(account_id: account_id).maximum(:rec_num)
-      if max_rec_num
-        self.rec_num = max_rec_num + 1
-      else
-        self.rec_num = 1
-      end
-    end
-  end
-
-  def to_param
-    rec_num
-  end
 end

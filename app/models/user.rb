@@ -30,6 +30,8 @@
 
 # User model
 class User < ActiveRecord::Base
+  obfuscate_id
+
   has_many :app_events
   has_many :user_permissions, dependent: :destroy
   has_many :accounts, through: :user_permissions

@@ -41,7 +41,7 @@ RSpec.describe DashboardController, type: :controller do
 
       context 'as anonymous user' do
         it 'redirect to login page' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to redirect_to(new_user_session_path)
         end
       end
@@ -53,12 +53,12 @@ RSpec.describe DashboardController, type: :controller do
         end
 
         it 'responds with forbidden' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to be_forbidden
         end
 
         it 'renders the forbidden' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to render_template('errors/forbidden')
           expect(response).to render_template('layouts/errors')
         end
@@ -71,13 +71,13 @@ RSpec.describe DashboardController, type: :controller do
         end
 
         it 'responds successfully with an HTTP 200 status code' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to be_success
           expect(response).to have_http_status(200)
         end
 
         it 'renders the index template' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to render_template('index')
           expect(response).to render_template('layouts/application')
         end
@@ -91,7 +91,7 @@ RSpec.describe DashboardController, type: :controller do
 
       context 'as anonymous user' do
         it 'redirect to login page' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to redirect_to(new_user_session_path)
         end
       end
@@ -103,13 +103,13 @@ RSpec.describe DashboardController, type: :controller do
         end
 
         it 'responds with not found' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to_not be_success
           expect(response).to have_http_status(:not_found)
         end
 
         it 'renders not found' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to render_template('errors')
           expect(response).to render_template('errors/not_found')
         end
@@ -122,13 +122,13 @@ RSpec.describe DashboardController, type: :controller do
         end
 
         it 'responds with not found' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to_not be_success
           expect(response).to have_http_status(:not_found)
         end
 
         it 'renders not found' do
-          get :index, path: @account.id
+          get :index, path: @account.to_param
           expect(response).to render_template('errors')
           expect(response).to render_template('errors/not_found')
         end

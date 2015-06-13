@@ -122,11 +122,7 @@ class Admin::UserInvitationsController < Admin::ApplicationController
   end
 
   def find_user_invitation
-    if params[:user_invitation_id]
-      @user_invitation = UserInvitation.find(params[:user_invitation_id])
-    else
-      @user_invitation = UserInvitation.find(params[:id])
-    end
+    @user_invitation = UserInvitation.find(params[:user_invitation_id] || params[:id])
     add_breadcrumb @user_invitation, admin_account_user_invitation_path(@account, @user_invitation)
   end
 

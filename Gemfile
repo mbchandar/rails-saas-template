@@ -18,7 +18,7 @@ gem 'jquery-rails', '~> 4.0.2'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 2.5.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.2.6'
+gem 'jbuilder', '~> 2.2.13'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1',          group: :doc
 
@@ -37,6 +37,9 @@ gem 'sdoc', '~> 0.4.1',          group: :doc
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', '~> 1.2014.10', platforms: [:mingw, :mswin]
 
+# Hide some of our ID's
+gem 'obfuscate_id', '~> 0.2.0'
+
 # Add bootstrap-sass for a theme
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'bootstrap-switch-rails', '~> 3.3.0'
@@ -54,13 +57,13 @@ gem 'breadcrumbs_on_rails', '~> 2.3.0'
 gem 'flutie', '~> 2.0.0'
 
 # Add devise for user authentication
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5.1'
 
 # Add cancancan for authorization
 gem 'cancancan', '~> 1.10.1'
 
 # Add country_select to provide a list of countries
-gem 'countries', '~> 0.11.0'
+gem 'countries', '~> 0.11.4'
 gem 'country_select', '~> 2.2.0'
 
 # Add support for currencies
@@ -86,7 +89,7 @@ end
 
 # Testing tools
 group :test, :development do
-  gem 'byebug', '~> 4.0.5'
+  gem 'byebug', '~> 5.0.0'
   gem 'web-console', '~> 2.0'
   gem 'faker', '~> 1.4.3'
   gem 'factory_girl_rails', '~> 4.5.0'

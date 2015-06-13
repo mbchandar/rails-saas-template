@@ -57,7 +57,7 @@ class MarketingController < ApplicationController
   end
 
   def register
-    @plan = Plan.available.where(id: params[:account][:plan_id]).first
+    @plan = Plan.available.find_by(id: params[:account][:plan_id])
 
     if @plan.nil?
       logger.debug "Select plan is not available #{params[:account][:plan_id]}"
@@ -78,7 +78,7 @@ class MarketingController < ApplicationController
   end
 
   def signup
-    @plan = Plan.available.where(id: params[:plan_id]).first
+    @plan = Plan.available.find_by(id: params[:plan_id])
     if @plan.nil?
       logger.debug { "Plan not found #{params[:plan_id]}" }
       redirect_to pricing_path, alert: 'Invalid plan.'

@@ -135,13 +135,13 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        delete :destroy, id: @user.id
+        delete :destroy, id: @user.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
 
       it 'does not delete a user' do
-        expect { delete :destroy, id: @user.id }.to change { User.count }.by(0)
+        expect { delete :destroy, id: @user.to_param }.to change { User.count }.by(0)
       end
     end
 
@@ -151,18 +151,18 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        delete :destroy, id: @user.id
+        delete :destroy, id: @user.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        delete :destroy, id: @user.id
+        delete :destroy, id: @user.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
 
       it 'does not delete a user' do
-        expect { delete :destroy, id: @user.id }.to change { User.count }.by(0)
+        expect { delete :destroy, id: @user.to_param }.to change { User.count }.by(0)
       end
     end
 
@@ -174,35 +174,35 @@ RSpec.describe Admin::UsersController, type: :controller do
 
       context 'deleting another user' do
         it 'it redirects to users' do
-          delete :destroy, id: @user.id
+          delete :destroy, id: @user.to_param
           expect(response).to be_redirect
           expect(response).to redirect_to(admin_users_path)
         end
 
         it 'sets a notice' do
-          delete :destroy, id: @user.id
+          delete :destroy, id: @user.to_param
           expect(request.flash[:notice]).to eq 'User was successfully removed.'
         end
 
         it 'deletes a user' do
-          expect { delete :destroy, id: @user.id }.to change { User.count }.by(-1)
+          expect { delete :destroy, id: @user.to_param }.to change { User.count }.by(-1)
         end
       end
 
       context 'deleting yourself' do
         it 'responds with forbidden' do
-          delete :destroy, id: @admin.id
+          delete :destroy, id: @admin.to_param
           expect(response).to be_forbidden
         end
 
         it 'renders the forbidden' do
-          delete :destroy, id: @admin.id
+          delete :destroy, id: @admin.to_param
           expect(response).to render_template('errors/forbidden')
           expect(response).to render_template('layouts/errors')
         end
 
         it 'does not delete a user' do
-          expect { delete :destroy, id: @admin.id }.to change { User.count }.by(0)
+          expect { delete :destroy, id: @admin.to_param }.to change { User.count }.by(0)
         end
       end
     end
@@ -216,7 +216,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -228,12 +228,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -246,31 +246,31 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to users' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the accounts template' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         expect(response).to render_template('accounts')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a user' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         u = assigns(:user)
         expect(u).to_not be_nil
         expect(u.id).to eq @user.id
       end
 
       it 'assigns permissions' do
-        get :accounts, user_id: @user.id
+        get :accounts, user_id: @user.to_param
         permissions = assigns(:user_permissions)
         expect(permissions).to_not be_nil
         expect(permissions.count).to eq 1
@@ -286,7 +286,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -298,12 +298,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -316,24 +316,24 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to users' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the edit template' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         expect(response).to render_template('edit')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a edit user' do
-        get :edit, id: @user.id
+        get :edit, id: @user.to_param
         u = assigns(:user)
         expect(u).to_not be_nil
         expect(u.id).to eq @user.id
@@ -413,7 +413,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -425,12 +425,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -443,31 +443,31 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(response).to be_success
         expect(response).to have_http_status(:success)
       end
 
       it 'sets the sidebar_item to users' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the accounts template' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         expect(response).to render_template('user_invitations')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a user' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         u = assigns(:user)
         expect(u).to_not be_nil
         expect(u.id).to eq @user.id
       end
 
       it 'assigns user_invitations' do
-        get :user_invitations, user_id: @user.id
+        get :user_invitations, user_id: @user.to_param
         user_invitations = assigns(:user_invitations)
         expect(user_invitations).to_not be_nil
         expect(user_invitations.count).to eq 1
@@ -542,7 +542,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -554,12 +554,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -572,24 +572,24 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'sets the sidebar_item to users' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(assigns(:sidebar_item)).to eq :users
       end
 
       it 'renders the show template' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         expect(response).to render_template('show')
         expect(response).to render_template('layouts/application')
       end
 
       it 'assigns a show user' do
-        get :show, id: @user.id
+        get :show, id: @user.to_param
         u = assigns(:user)
         expect(u).to_not be_nil
         expect(u.id).to eq @user.id
@@ -604,7 +604,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context 'as anonymous user' do
       it 'redirects to login page' do
-        patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+        patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(response).to be_redirect
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -616,12 +616,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
 
       it 'responds with forbidden' do
-        patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+        patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(response).to be_forbidden
       end
 
       it 'renders the forbidden' do
-        patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+        patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(response).to render_template('errors/forbidden')
         expect(response).to render_template('layouts/errors')
       end
@@ -635,37 +635,37 @@ RSpec.describe Admin::UsersController, type: :controller do
 
       context 'with valid attributes' do
         it 'sets the sidebar_item to users' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
           expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it redirects to user' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
           user = assigns(:user)
           expect(response).to be_redirect
           expect(response).to redirect_to(admin_user_path(user))
         end
 
         it 'sets a notice' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user)
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user)
           expect(request.flash[:notice]).to eq 'User was successfully updated.'
         end
       end
 
       context 'with invalid attributes' do
         it 'sets the sidebar_item to users' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user, email: '')
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user, email: '')
           expect(assigns(:sidebar_item)).to eq :users
         end
 
         it 'it renders the new template' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user, email: '')
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user, email: '')
           expect(response).to render_template('edit')
           expect(response).to render_template('layouts/application')
         end
 
         it 'it pass a new user' do
-          patch :update, id: @user.id, user: FactoryGirl.attributes_for(:user, email: '')
+          patch :update, id: @user.to_param, user: FactoryGirl.attributes_for(:user, email: '')
           user = assigns(:user)
           expect(user).to_not be_nil
           expect(user).to_not be_new_record

@@ -110,11 +110,7 @@ class Admin::PlansController < Admin::ApplicationController
   private
 
   def find_plan
-    if params[:plan_id]
-      @plan = Plan.find(params[:plan_id])
-    else
-      @plan = Plan.find(params[:id])
-    end
+    @plan = Plan.find(params[:plan_id] || params[:id])
     add_breadcrumb @plan, admin_plan_path(@plan)
   end
 

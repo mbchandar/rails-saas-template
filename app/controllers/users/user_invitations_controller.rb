@@ -42,7 +42,7 @@ class Users::UserInvitationsController < ApplicationController
   end
 
   def accept
-    user_invitation = UserInvitation.where(invite_code: params[:invite_code]).first
+    user_invitation = UserInvitation.find_by(invite_code: params[:invite_code])
     if user_invitation
       user_permission = user_invitation.account.user_permissions.build(user: current_user)
       if user_permission.save

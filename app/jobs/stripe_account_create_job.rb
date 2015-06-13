@@ -33,7 +33,8 @@ class StripeAccountCreateJob < ActiveJob::Base
   queue_as :default
 
   def perform(id)
-    account = Account.find(id)
+    # Don't use Account.find(id) as it assumes id is the obsificated ID
+    account = Account.find_by(id: id)
 
     data = {
       description: account.company_name,

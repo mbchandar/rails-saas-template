@@ -138,11 +138,7 @@ class Admin::AccountsController < Admin::ApplicationController
   private
 
   def find_account
-    if params[:account_id]
-      @account = Account.find(params[:account_id])
-    else
-      @account = Account.find(params[:id])
-    end
+    @account = Account.find(params[:account_id] || params[:id])
     add_breadcrumb @account, admin_account_path(@account)
   end
 
