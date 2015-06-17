@@ -77,7 +77,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
 
       it 'sets the sidebar_item to invoices' do
         get :index, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :invoices
+        expect(assigns(:sidebar_item)).to eq :settings_invoices
       end
 
       it 'renders the index template' do
@@ -113,7 +113,7 @@ RSpec.describe Settings::InvoicesController, type: :controller do
 
       it 'sets the sidebar_item to invoices' do
         get :index, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :invoices
+        expect(assigns(:sidebar_item)).to eq :settings_invoices
       end
 
       it 'renders the index template' do

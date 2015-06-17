@@ -78,7 +78,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :edit, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :account
+        expect(assigns(:sidebar_item)).to eq :settings_account
       end
 
       it 'renders the edit template' do
@@ -109,7 +109,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :edit, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :account
+        expect(assigns(:sidebar_item)).to eq :settings_account
       end
 
       it 'renders the edit template' do
@@ -173,7 +173,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :show, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :account
+        expect(assigns(:sidebar_item)).to eq :settings_account
       end
 
       it 'renders the show template' do
@@ -204,7 +204,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :show, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :account
+        expect(assigns(:sidebar_item)).to eq :settings_account
       end
 
       it 'renders the show template' do
@@ -263,7 +263,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
       context 'with valid attributes' do
         it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:sidebar_item)).to eq :account
+          expect(assigns(:sidebar_item)).to eq :settings_account
         end
 
         it 'it redirects to account' do
@@ -281,7 +281,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:sidebar_item)).to eq :account
+          expect(assigns(:sidebar_item)).to eq :settings_account
         end
 
         it 'it renders the edit template' do
@@ -308,7 +308,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
       context 'with valid attributes' do
         it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:sidebar_item)).to eq :account
+          expect(assigns(:sidebar_item)).to eq :settings_account
         end
 
         it 'it redirects to account' do
@@ -326,7 +326,7 @@ RSpec.describe Settings::AccountsController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to accounts' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account)
-          expect(assigns(:sidebar_item)).to eq :account
+          expect(assigns(:sidebar_item)).to eq :settings_account
         end
 
         it 'it renders the edit template' do

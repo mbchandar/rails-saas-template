@@ -55,6 +55,6 @@ class Settings::InvoicesController < Settings::ApplicationController
   end
 
   def set_sidebar_item
-    @sidebar_item = :invoices
+    @sidebar_item = :settings_invoices
   end
 end

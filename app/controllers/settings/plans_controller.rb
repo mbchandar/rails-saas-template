@@ -104,7 +104,7 @@ class Settings::PlansController < Settings::ApplicationController
   private
 
   def set_sidebar_item
-    @sidebar_item = :plan
+    @sidebar_item = :settings_plan
   end
 
   def cancel_params

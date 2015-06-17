@@ -37,15 +37,6 @@ class ApplicationController < ActionController::Base
   # Make sure the user is authenticated by default
   before_action :authenticate_user!
 
-  # Set the navbar left menu items
-  before_action :set_navbar_left_menu
-
-  # Set the navbar right menu items
-  before_action :set_navbar_right_menu
-
-  # Set the current navbar item
-  before_action :set_navbar_item
-
   # Set the sidebar menu items
   before_action :set_sidebar_menu
 
@@ -95,35 +86,22 @@ class ApplicationController < ActionController::Base
     @current_account ||= Account.find_account(params[:path], request.host, request.subdomain.last)
   end
 
-  def set_navbar_left_menu
-    @navbar_left_menu = {}
-  end
-
-  def set_navbar_right_menu
-    if user_signed_in?
-      @navbar_right_menu = {
-        welcome: { title: "Welcome #{current_user}", url: user_path(current_user), icon: 'user' }
-      }
-    else
-      @navbar_right_menu = {
-        home: { title: 'Home', url: root_path },
-        plans: { title: 'Sign Up & Pricing', url: pricing_path },
-        signin: { title: 'Log In', url: new_user_session_path }
-      }
-    end
-  end
-
-  def set_navbar_item
-    @navbar_item = nil
-  end
-
   def set_sidebar_menu
     if params[:path]
       @sidebar_menu = {
         dashboard: { title: 'Dashboard', url: tenant_root_path, icon: 'tachometer' }
       }
+      settings_menu = {
+        settings_dashboard: { title: 'Dashboard', url: settings_root_path },
+        settings_account: { title: 'Details', url: settings_account_path },
+        settings_card: { title: 'Credit Card', url: settings_card_path },
+        settings_invoices: { title: 'Invoices', url: settings_invoices_path },
+        settings_plan: { title: 'Plan', url: settings_plan_path },
+        settings_users: { title: 'Users', url: settings_user_permissions_path },
+        settings_user_invitations: { title: 'User Invitations', url: settings_user_invitations_path }
+      }
       if can? :index, :settings_dashboard
-        @sidebar_menu[:settings] = { title: 'Settings', url: settings_root_path, icon: 'cogs' }
+        @sidebar_menu[:settings] = { title: 'Settings', url: settings_root_path, submenu: settings_menu, icon: 'cogs' }
       end
     else
       @sidebar_menu = {}

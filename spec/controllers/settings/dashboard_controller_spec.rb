@@ -76,7 +76,7 @@ RSpec.describe Settings::DashboardController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :index, path: account.to_param
-        expect(assigns(:sidebar_item)).to eq :dashboard
+        expect(assigns(:sidebar_item)).to eq :settings_dashboard
       end
 
       it 'renders the show template' do
@@ -100,7 +100,7 @@ RSpec.describe Settings::DashboardController, type: :controller do
 
       it 'sets the sidebar_item to accounts' do
         get :index, path: account.to_param
-        expect(assigns(:sidebar_item)).to eq :dashboard
+        expect(assigns(:sidebar_item)).to eq :settings_dashboard
       end
 
       it 'renders the show template' do

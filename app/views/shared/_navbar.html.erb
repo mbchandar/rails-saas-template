@@ -1,38 +1,27 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to "Rails-SaaS-Template", root_path, class: "navbar-brand" %>
-    </div>
+<header class="main-nav">
+    <%= link_to "Rails-SaaS-Template", root_path %>
+    <a href="#" class="visible-xs-inline mobile-nav"><%= fa_icon 'bars' %></a>
+</header>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<% unless navbar_left_menu.nil? %>
-      <ul class="nav navbar-nav navbar-left">
-<% navbar_left_menu.each do |key, menu_item| %>
-        <li<%if navbar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %> <% end %><%= menu_item[:title] %><% end %></li>
-<% end %>
-      </ul>
-<% end %>
-
-      <ul class="nav navbar-nav navbar-right">
-<% navbar_right_menu.each do |key, menu_item| %>
-        <li<%if navbar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %> <% end %><%= menu_item[:title] %><% end %></li>
-<% end %>
-      </ul>
-      <ul id="side-nav" class="nav navbar-nav navbar-right">
+<nav id="left-side-nav" class="hidden-xs">
+   <ul class="side-nav">
 <% sidebar_menu.each do |key, menu_item| %>
-        <li<%if sidebar_item == key %> class="active"<% end %>><%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon] %><% end %><%= menu_item[:title] %><% end %></li>
+      <li<%if sidebar_item == key %> class="active"<% end %>>
+<% if menu_item.has_key?(:submenu) %>
+        <% is_expanded = sidebar_item.to_s.starts_with?(key.to_s) %>
+        <%= link_to "#submenu_#{key}", { data: { toggle: 'collapse', parent: '#left-side-nav' }, aria: { expanded: is_expanded, controls: "submenu_#{key}" }, class: is_expanded ? 'has-submenu' : 'has-submenu collapsed'  } do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon], class: 'hidden-xs' %><% end %><%= menu_item[:title] %><% end %>
+        <ul id="submenu_<%= key %>" class="submenu collapse <%if is_expanded %>in<% end %>">
+<% menu_item[:submenu].each do |k, submenu_item| %>
+          <li<%if sidebar_item == k %> class="active"<% end %>><%= link_to submenu_item[:url] do %><% if submenu_item[:icon] %><%= fa_icon submenu_item[:icon], class: 'hidden-xs' %><% end %><%= submenu_item[:title] %><% end %></li>
+<% end %>
+        </ul>
+<% else %>
+        <%= link_to menu_item[:url] do %><% if menu_item[:icon] %><%= fa_icon menu_item[:icon], class: 'hidden-xs' %><% end %><%= menu_item[:title] %><% end %>
+<% end %>
+      </li>
 <% end %>
 <% if user_signed_in? %>
-        <li><%= link_to destroy_user_session_path, method: :delete do %><%= fa_icon 'sign-out' %>Logout<% end %></li>
+      <li><%= link_to destroy_user_session_path, method: :delete do %><%= fa_icon 'sign-out', class: 'hidden-xs' %>Logout<% end %></li>
 <% end %>
-      </ul>
-    </div>
-  </div>
+    </ul>
 </nav>

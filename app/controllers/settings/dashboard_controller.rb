@@ -37,6 +37,6 @@ class Settings::DashboardController < Settings::ApplicationController
   private
 
   def set_sidebar_item
-    @sidebar_item = :dashboard
+    @sidebar_item = :settings_dashboard
   end
 end
