@@ -27,7 +27,7 @@ Style/SymbolArray:
 Style/ExtraSpacing:
   Description: 'Do not use unnecessary spacing.'
   Enabled: false
-  
+
 Metrics/AbcSize:
   Description: >-
                  A calculated magnitude based on number of assignments,
