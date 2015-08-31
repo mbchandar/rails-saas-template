@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 # Use MySQL as the database for Active Record
 gem 'mysql2', '~> 0.3.17'
 # Use SCSS for stylesheets
@@ -14,11 +14,11 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '~> 4.0.2'
+gem 'jquery-rails', '~> 4.0.4'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 2.5.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.2.13'
+gem 'jbuilder', '~> 2.3.1'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1',          group: :doc
 
@@ -41,8 +41,8 @@ gem 'tzinfo-data', '~> 1.2014.10', platforms: [:mingw, :mswin]
 gem 'obfuscate_id', '~> 0.2.0'
 
 # Add bootstrap-sass for a theme
-gem 'bootstrap-sass', '~> 3.3.3'
-gem 'bootstrap-switch-rails', '~> 3.3.0'
+gem 'bootstrap-sass', '~> 3.3.5.1'
+gem 'bootstrap-switch-rails', '~> 3.3.3'
 
 # Added font-awesome
 gem 'font-awesome-rails', '~> 4.3.0.0'
@@ -60,7 +60,7 @@ gem 'flutie', '~> 2.0.0'
 gem 'devise', '~> 3.5.1'
 
 # Add cancancan for authorization
-gem 'cancancan', '~> 1.10.1'
+gem 'cancancan', '~> 1.12.0'
 
 # Add country_select to provide a list of countries
 gem 'countries', '~> 0.11.4'
@@ -70,34 +70,33 @@ gem 'country_select', '~> 2.2.0'
 gem 'money', '~> 6.5.1'
 
 # Add delayed jobs so we can background tasks that aren't critical
-gem 'daemons', '~> 1.2.1'
+gem 'daemons', '~> 1.2.3'
 gem 'delayed_job', '~> 4.0.6'
 gem 'delayed_job_active_record', '~> 4.0.3'
 
 # Yay Stripe!
-gem 'stripe', '~> 1.20.1'
+gem 'stripe', '~> 1.22'
 gem 'stripe_event', '~> 1.5.0'
 
 # Code quality tools
 group :development do
   gem 'bullet', '~> 4.14.0'
   gem 'rails_best_practices', '~> 1.15.4'
-  gem 'brakeman', '~> 3.0.3'
-  gem 'rubocop', '~> 0.31.0'
+  gem 'brakeman', '~> 3.0.5'
+  gem 'rubocop', '~> 0.32.0'
   gem 'pippi', '~> 0.0.14'
 end
 
 # Testing tools
 group :test, :development do
   gem 'byebug', '~> 5.0.0'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 2.1.3'
   gem 'faker', '~> 1.4.3'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'database_cleaner', '~> 1.4.1'
-  gem 'rspec', '~> 3.2'
-  gem 'rspec-core', '~> 3.2.2'
-  gem 'rspec-expectations', '~> 3.2.1'
-  gem 'rspec-rails', '~> 3.2.1'
-  gem 'rspec-mocks', '~> 3.2.1'
-  gem 'stripe-ruby-mock', '~> 2.1.1'
+  gem 'rspec', '~> 3.3.0'
+  gem 'rspec-core', '~> 3.3.1'
+  gem 'rspec-expectations', '~> 3.3.0'
+  gem 'rspec-rails', '~> 3.3.2'
+  gem 'rspec-mocks', '~> 3.3.1'
 end

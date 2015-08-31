@@ -60,7 +60,7 @@ class Settings::AccountsController < Settings::ApplicationController
   private
 
   def set_sidebar_item
-    @sidebar_item = :account
+    @sidebar_item = :settings_account
   end
 
   def accounts_params

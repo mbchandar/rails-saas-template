@@ -80,7 +80,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :edit, path: @account.to_param, id: @plan1.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the edit template' do
@@ -112,7 +112,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :edit, path: @account.to_param, id: @plan1.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the edit template' do
@@ -181,7 +181,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :show, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the show template' do
@@ -218,7 +218,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :show, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the show template' do
@@ -282,7 +282,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'with valid attributes' do
         it 'sets the sidebar_item to plans' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account, plan_id: @plan1.id)
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to plans' do
@@ -300,7 +300,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to plans' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account, plan_id: nil)
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the errors/not_found template' do
@@ -327,7 +327,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'with valid attributes' do
         it 'sets the sidebar_item to plans' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account, plan_id: @plan1.id)
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to plans' do
@@ -345,7 +345,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'with invalid attributes' do
         it 'sets the sidebar_item to plans' do
           patch :update, path: @account.to_param, account: FactoryGirl.attributes_for(:account, plan_id: nil)
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the errors/not_found template' do
@@ -411,7 +411,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :cancel, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the cancel template' do
@@ -442,7 +442,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
       it 'sets the sidebar_item to plans' do
         get :cancel, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :plan
+        expect(assigns(:sidebar_item)).to eq :settings_plan
       end
 
       it 'renders the cancel template' do
@@ -503,7 +503,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'is pausable' do
         it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.to_param
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to the root path' do
@@ -525,7 +525,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
         it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.to_param
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the errors/cancel template' do
@@ -557,7 +557,7 @@ RSpec.describe Settings::PlansController, type: :controller do
       context 'is pausable' do
         it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.to_param
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to the root path' do
@@ -579,7 +579,7 @@ RSpec.describe Settings::PlansController, type: :controller do
 
         it 'sets the sidebar_item to plans' do
           patch :pause, path: @account.to_param
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the errors/cancel template' do
@@ -655,7 +655,7 @@ RSpec.describe Settings::PlansController, type: :controller do
           delete :destroy, path: @account.to_param, account: { cancellation_category_id: @cancellation_category.id,
                                                                cancellation_message: '',
                                                                cancellation_reason_id: nil }
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to plans' do
@@ -679,7 +679,7 @@ RSpec.describe Settings::PlansController, type: :controller do
           delete :destroy, path: @account.to_param, account: { cancellation_category_id: nil,
                                                                cancellation_message: '',
                                                                cancellation_reason_id: nil }
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the cancel template' do
@@ -719,7 +719,7 @@ RSpec.describe Settings::PlansController, type: :controller do
           delete :destroy, path: @account.to_param, account: { cancellation_category_id: @cancellation_category.id,
                                                                cancellation_message: '',
                                                                cancellation_reason_id: nil }
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it redirects to plans' do
@@ -743,7 +743,7 @@ RSpec.describe Settings::PlansController, type: :controller do
           delete :destroy, path: @account.to_param, account: { cancellation_category_id: nil,
                                                                cancellation_message: '',
                                                                cancellation_reason_id: nil }
-          expect(assigns(:sidebar_item)).to eq :plan
+          expect(assigns(:sidebar_item)).to eq :settings_plan
         end
 
         it 'it renders the cancel template' do

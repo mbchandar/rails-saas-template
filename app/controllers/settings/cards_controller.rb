@@ -64,7 +64,7 @@ class Settings::CardsController < Settings::ApplicationController
   private
 
   def set_sidebar_item
-    @sidebar_item = :card
+    @sidebar_item = :settings_card
   end
 
   def find_account

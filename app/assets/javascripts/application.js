@@ -15,3 +15,9 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+$().ready(function () {
+    $('.mobile-nav').on('click', function() {
+      $('#left-side-nav').toggleClass('hidden-xs');
+    });
+});

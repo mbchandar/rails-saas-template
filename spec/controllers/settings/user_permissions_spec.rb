@@ -214,7 +214,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to users' do
         get :edit, path: @account.to_param, id: @user_permission.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the edit template' do
@@ -245,7 +245,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to users' do
         get :edit, path: @account.to_param, id: @user_permission.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the edit template' do
@@ -304,7 +304,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to user_permissions' do
         get :index, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the index template' do
@@ -340,7 +340,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to user_permissions' do
         get :index, path: @account.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the index template' do
@@ -410,7 +410,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to users' do
         get :show, path: @account.to_param, id: @user_permission.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the show template' do
@@ -441,7 +441,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
 
       it 'sets the sidebar_item to users' do
         get :show, path: @account.to_param, id: @user_permission.to_param
-        expect(assigns(:sidebar_item)).to eq :users
+        expect(assigns(:sidebar_item)).to eq :settings_users
       end
 
       it 'renders the show template' do
@@ -513,7 +513,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 path: @account.to_param,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission)
-          expect(assigns(:sidebar_item)).to eq :users
+          expect(assigns(:sidebar_item)).to eq :settings_users
         end
 
         it 'it redirects to user' do
@@ -540,7 +540,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 path: @account.to_param,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
-          expect(assigns(:sidebar_item)).to eq :users
+          expect(assigns(:sidebar_item)).to eq :settings_users
         end
 
         it 'it renders the new template' do
@@ -576,7 +576,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 path: @account.to_param,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission)
-          expect(assigns(:sidebar_item)).to eq :users
+          expect(assigns(:sidebar_item)).to eq :settings_users
         end
 
         it 'it redirects to user permissions' do
@@ -603,7 +603,7 @@ RSpec.describe Settings::UserPermissionsController, type: :controller do
                 path: @account.to_param,
                 id: @user_permission.to_param,
                 user_permission: FactoryGirl.attributes_for(:user_permission, account_admin: '')
-          expect(assigns(:sidebar_item)).to eq :users
+          expect(assigns(:sidebar_item)).to eq :settings_users
         end
 
         it 'it renders the new template' do

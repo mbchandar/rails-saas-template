@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20150611043050) do
     t.string   "email",                    limit: 255,                null: false
     t.integer  "plan_id",                  limit: 4,                  null: false
     t.integer  "paused_plan_id",           limit: 4
-    t.boolean  "active",                   limit: 1,   default: true, null: false
+    t.boolean  "active",                               default: true, null: false
     t.string   "custom_path",              limit: 60
     t.string   "hostname",                 limit: 255
     t.string   "subdomain",                limit: 64
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(version: 20150611043050) do
 
   create_table "cancellation_categories", force: :cascade do |t|
     t.string   "name",            limit: 120,                 null: false
-    t.boolean  "active",          limit: 1,   default: true,  null: false
-    t.boolean  "allow_message",   limit: 1,   default: false, null: false
-    t.boolean  "require_message", limit: 1,   default: false, null: false
+    t.boolean  "active",                      default: true,  null: false
+    t.boolean  "allow_message",               default: false, null: false
+    t.boolean  "require_message",             default: false, null: false
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
   end
@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(version: 20150611043050) do
   create_table "cancellation_reasons", force: :cascade do |t|
     t.integer  "cancellation_category_id", limit: 4,                   null: false
     t.string   "name",                     limit: 120,                 null: false
-    t.boolean  "active",                   limit: 1,   default: true,  null: false
-    t.boolean  "allow_message",            limit: 1,   default: true,  null: false
-    t.boolean  "require_message",          limit: 1,   default: false, null: false
+    t.boolean  "active",                               default: true,  null: false
+    t.boolean  "allow_message",                        default: true,  null: false
+    t.boolean  "require_message",                      default: false, null: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
   end
@@ -125,8 +125,8 @@ ActiveRecord::Schema.define(version: 20150611043050) do
     t.string   "stripe_id",             limit: 80
     t.string   "name",                  limit: 80,                    null: false
     t.string   "statement_description", limit: 150
-    t.boolean  "active",                limit: 1,   default: true,    null: false
-    t.boolean  "public",                limit: 1,   default: true,    null: false
+    t.boolean  "active",                            default: true,    null: false
+    t.boolean  "public",                            default: true,    null: false
     t.integer  "paused_plan_id",        limit: 4
     t.string   "label",                 limit: 30
     t.string   "currency",              limit: 3,   default: "USD",   null: false
@@ -134,11 +134,11 @@ ActiveRecord::Schema.define(version: 20150611043050) do
     t.string   "interval",              limit: 5,   default: "month", null: false
     t.integer  "amount",                limit: 4,   default: 0,       null: false
     t.integer  "trial_period_days",     limit: 4,   default: 30,      null: false
-    t.boolean  "require_card_upfront",  limit: 1,   default: false,   null: false
+    t.boolean  "require_card_upfront",              default: false,   null: false
     t.integer  "max_users",             limit: 4,   default: 1,       null: false
-    t.boolean  "allow_custom_path",     limit: 1,   default: false,   null: false
-    t.boolean  "allow_hostname",        limit: 1,   default: false,   null: false
-    t.boolean  "allow_subdomain",       limit: 1,   default: false,   null: false
+    t.boolean  "allow_custom_path",                 default: false,   null: false
+    t.boolean  "allow_hostname",                    default: false,   null: false
+    t.boolean  "allow_subdomain",                   default: false,   null: false
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
   end
@@ -164,7 +164,7 @@ ActiveRecord::Schema.define(version: 20150611043050) do
   create_table "user_permissions", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,                 null: false
     t.integer  "account_id",    limit: 4,                 null: false
-    t.boolean  "account_admin", limit: 1, default: false, null: false
+    t.boolean  "account_admin",           default: false, null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
   end
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20150611043050) do
     t.string   "first_name",             limit: 60
     t.string   "last_name",              limit: 60
     t.string   "email",                  limit: 255, default: "",    null: false
-    t.boolean  "active",                 limit: 1,   default: true,  null: false
+    t.boolean  "active",                             default: true,  null: false
     t.string   "encrypted_password",     limit: 255, default: "",    null: false
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
@@ -190,7 +190,7 @@ ActiveRecord::Schema.define(version: 20150611043050) do
     t.integer  "failed_attempts",        limit: 4,   default: 0,     null: false
     t.string   "unlock_token",           limit: 255
     t.datetime "locked_at"
-    t.boolean  "super_admin",            limit: 1,   default: false, null: false
+    t.boolean  "super_admin",                        default: false, null: false
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
   end

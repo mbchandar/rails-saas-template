@@ -88,6 +88,6 @@ class Settings::UserPermissionsController < Settings::ApplicationController
   end
 
   def set_sidebar_item
-    @sidebar_item = :users
+    @sidebar_item = :settings_users
   end
 end
